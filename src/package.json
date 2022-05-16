@@ -1,9 +1,11 @@
 {
   "name": "bazaar",
   "version": "1.0.0",
+  "private": true,
   "description": "",
-  "main": "index.js",
   "author": "SolidLah",
   "license": "ISC",
-  "private": true
+  "workspaces": [
+    "packages/*"
+  ]
 }
