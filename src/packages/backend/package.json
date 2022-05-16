@@ -1,12 +1,13 @@
 {
   "name": "@bazaar/backend",
   "version": "1.0.0",
+  "author": "SolidLah",
+  "license": "ISC",
   "private": true,
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "SolidLah",
-  "license": "ISC"
+  }
 }
