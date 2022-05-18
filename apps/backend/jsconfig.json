@@ -1,22 +1,11 @@
 {
   "compilerOptions": {
     "checkJs": false,
-    "resolveJsonModule": true,
-    "moduleResolution": "node",
-    "target": "es2020",
-    "module": "es2015",
+    "target": "ES6",
+    "module": "CommonJS",
     "baseUrl": "."
   },
-  "exclude": [
-    "dist",
-    "node_modules",
-    "build",
-    ".vscode",
-    ".next",
-    "coverage",
-    ".npm",
-    ".yarn"
-  ],
+  "exclude": ["node_modules"],
   "typeAcquisition": {
     "enable": true
   }
