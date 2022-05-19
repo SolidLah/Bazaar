@@ -1,4 +1,5 @@
 import { Button, Flex, Heading, Input } from "@chakra-ui/react"
+import Link from "next/link"
 import BaseLayout from "src/components/layouts/BaseLayout"
 
 const Signup = () => {
@@ -25,9 +26,11 @@ const Signup = () => {
           <Button colorScheme="teal" mb={6}>
             Sign Up
           </Button>
-          <Button variant="link" size="sm">
-            Log In
-          </Button>
+          <Link href="/login" passHref>
+            <Button variant="link" size="sm">
+              Log In
+            </Button>
+          </Link>
         </Flex>
       </Flex>
     </BaseLayout>
