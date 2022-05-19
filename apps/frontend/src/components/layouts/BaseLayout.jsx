@@ -1,5 +1,5 @@
 import { Flex } from "@chakra-ui/react"
-import Header from "../sections/Header"
+import Header from "../ui/Header"
 
 const BaseLayout = (props) => {
   return (
