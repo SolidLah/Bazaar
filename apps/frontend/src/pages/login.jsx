@@ -1,5 +1,4 @@
 import { Flex, Heading, Input, Button } from "@chakra-ui/react"
-import BaseLayout from "src/components/layouts/BaseLayout"
 import Link from "next/link"
 
 const Login = () => {

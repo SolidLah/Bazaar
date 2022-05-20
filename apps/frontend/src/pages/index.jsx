@@ -1,5 +1,4 @@
-import { Center, Heading } from "@chakra-ui/react"
-import BaseLayout from "src/components/layouts/BaseLayout"
+import { Center } from "@chakra-ui/react"
 import { useState } from "react"
 import ConnectWalletButton from "src/components/ui/ConnectWalletButton"
 
