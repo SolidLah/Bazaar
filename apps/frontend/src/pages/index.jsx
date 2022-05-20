@@ -7,14 +7,12 @@ const Home = () => {
   const [currentAddress, setAddress] = useState("")
 
   return (
-    <BaseLayout>
-      <Center h="100vh" flexDirection="column">
-        <ConnectWalletButton
-          currentAddress={currentAddress}
-          setAddress={setAddress}
-        />
-      </Center>
-    </BaseLayout>
+    <Center h="100vh" flexDirection="column">
+      <ConnectWalletButton
+        currentAddress={currentAddress}
+        setAddress={setAddress}
+      />
+    </Center>
   )
 }
 
