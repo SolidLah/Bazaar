@@ -28,9 +28,11 @@ const Header = () => {
         <Button colorScheme="blackAlpha" variant="ghost" color="white">
           Trending
         </Button>
-        <Button colorScheme="blackAlpha" variant="ghost" color="white">
-          Creators
-        </Button>
+        <Link href="/creators" passHref>
+          <Button colorScheme="blackAlpha" variant="ghost" color="white">
+            Creators
+          </Button>
+        </Link>
         <Button colorScheme="blackAlpha" variant="ghost" color="white">
           Albums
         </Button>
