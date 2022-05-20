@@ -7,16 +7,24 @@ import "hardhat/console.sol";
 
 contract NFT is ERC721URIStorage {
     using Counters for Counters.Counter;
-    Counters.Counter private _tokenId;
+    Counters.Counter public idCounter;
 
-    constructor(string memory _name, string memory _symbol) ERC721(_name, _symbol) {}
+    event Minted (
+        string name,
+        string symbol,
+        uint indexed tokenId,
+        string tokenURI
+    );
 
-    function mint(string memory _tokenURI) public returns (uint256) {
-        uint256 newItemId = _tokenId.current();
-        _safeMint(msg.sender, newItemId);
-        _setTokenURI(newItemId, _tokenURI);
+    constructor(string memory name, string memory symbol) ERC721(name, symbol) {}
 
-        _tokenId.increment();
-        return newItemId;
+    function mint(string memory tokenURI) public {
+        uint256 newTokenId = idCounter.current();
+        _safeMint(msg.sender, newTokenId);
+        _setTokenURI(newTokenId, tokenURI);
+
+        emit Minted(this.name(), this.symbol(), newTokenId, tokenURI);
+
+        idCounter.increment();
     }
 }
