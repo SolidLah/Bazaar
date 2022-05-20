@@ -1,8 +1,10 @@
 import { Button } from "@chakra-ui/react"
 import { useState, useEffect } from "react"
 import { ethers } from "ethers"
+import { useWeb3Context } from "../../contexts/Web3Context"
 
-const ConnectWalletButton = ({ currentAddress, setAddress }) => {
+const ConnectWalletButton = () => {
+  const { currentAddress, setAddress } = useWeb3Context().accounts
   const [buttonText, updateButtonText] = useState("Connect Wallet")
 
   useEffect(() => {

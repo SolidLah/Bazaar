@@ -2,9 +2,10 @@ import { Button, Heading, Flex, Input, Text } from "@chakra-ui/react"
 import { CONTRACT_ADDRESS, ABI } from "../web3/index"
 import { ethers } from "ethers"
 import { useState, useEffect } from "react"
+import { useWeb3Context } from "../contexts/Web3Context"
 
 const Creators = () => {
-  const [nftContract, setNftContract] = useState()
+  const { nftContract, setNftContract } = useWeb3Context().contracts.nft
   const [name, setName] = useState("")
   const [symbol, setSymbol] = useState("")
 
@@ -32,7 +33,7 @@ const Creators = () => {
     }
 
     connectWallet()
-  }, [])
+  }, [setNftContract])
 
   const updateData = async () => {
     if (nftContract) {

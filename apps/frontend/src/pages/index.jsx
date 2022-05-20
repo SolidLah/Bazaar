@@ -7,10 +7,7 @@ const Home = () => {
 
   return (
     <Center h="100vh" flexDirection="column">
-      <ConnectWalletButton
-        currentAddress={currentAddress}
-        setAddress={setAddress}
-      />
+      <ConnectWalletButton />
     </Center>
   )
 }
