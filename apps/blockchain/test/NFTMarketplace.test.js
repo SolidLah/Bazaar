@@ -36,8 +36,10 @@ describe("NFTMarketplace", function () {
   })
 
   describe("Minting", async function () {
-    it("check tokenURI and balance", async function () {
-      await nft.connect(addr1).mint(URI + " 1")
+    it("Check event emission, tokenURI and balance", async function () {
+      expect(await nft.connect(addr1).mint(URI + " 1"))
+        .to.emit(nft, "Minted")
+        .withArgs(NAME, SYMBOL, 0, URI)
       expect(await nft.balanceOf(addr1.address)).to.equal(1)
       expect(await nft.tokenURI(0)).to.equal(URI + " 1")
 
