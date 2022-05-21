@@ -1,9 +1,9 @@
 import { Button } from "@chakra-ui/react"
 import { useState, useEffect } from "react"
-import { ethers } from "ethers"
 import { useWeb3Context } from "../../contexts/Web3Context"
 
 const ConnectWalletButton = () => {
+  const { withMetamaskConnection } = useWeb3Context().functions
   const { currentAddress, setAddress } = useWeb3Context().accounts
   const [buttonText, updateButtonText] = useState("Connect Wallet")
 
@@ -13,14 +13,11 @@ const ConnectWalletButton = () => {
     }
   }, [currentAddress])
 
-  const connectWallet = async () => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum)
-    await provider.send("eth_requestAccounts", [])
-    const signer = provider.getSigner()
+  const connectWallet = withMetamaskConnection(async (provider, signer) => {
     const add = await signer.getAddress()
 
     setAddress(add)
-  }
+  })
 
   return (
     <Button onClick={connectWallet}>
