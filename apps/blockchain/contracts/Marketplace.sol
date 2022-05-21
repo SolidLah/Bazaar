@@ -13,7 +13,6 @@ contract Marketplace is ReentrancyGuard, IERC721Receiver {
         uint tokenId;
         uint price;
         address payable seller;
-        address payable owner;
         bool sold;
     }
 
