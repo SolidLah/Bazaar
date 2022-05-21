@@ -24,6 +24,14 @@ contract Marketplace is ReentrancyGuard, IERC721Receiver {
     Counters.Counter private idCounter;
     mapping(uint => MarketItem) private marketItemsMapping;
 
+    event MarketItemCreated (
+        uint indexed itemId,
+        address indexed nftAddress,
+        uint indexed tokenId,
+        uint price,
+        address seller
+    );
+
     constructor(uint _feePercent) {
         deployer = payable(msg.sender);
         feePercent = _feePercent;
@@ -53,6 +61,14 @@ contract Marketplace is ReentrancyGuard, IERC721Receiver {
             payable(msg.sender),
             payable(msg.sender),
             false
+        );
+
+        emit MarketItemCreated(
+            newItemId,
+            _nftAddress,
+            _tokenId,
+            _price,
+            msg.sender
         );
 
         idCounter.increment();
