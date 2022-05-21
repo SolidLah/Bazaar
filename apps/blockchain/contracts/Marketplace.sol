@@ -21,8 +21,8 @@ contract Marketplace is ReentrancyGuard, IERC721Receiver {
 
     address payable public immutable deployer;
     uint public immutable feePercent;
-    Counters.Counter public idCounter;
-    mapping(uint => MarketItem) public marketItemsMapping;
+    Counters.Counter private idCounter;
+    mapping(uint => MarketItem) private marketItemsMapping;
 
     constructor(uint _feePercent) {
         deployer = payable(msg.sender);
