@@ -5,48 +5,32 @@ import { useState, useEffect } from "react"
 import { useWeb3Context } from "../contexts/Web3Context"
 
 const Creators = () => {
+  const { withMetamaskConnection } = useWeb3Context().functions
   const { nftContract, setNftContract } = useWeb3Context().contracts.nft
+  let boolNftContract = Boolean(nftContract)
   const [name, setName] = useState("")
   const [symbol, setSymbol] = useState("")
 
   useEffect(() => {
-    if (!window.ethereum) {
-      console.log("No metamask")
-      return
-    }
+    const main = withMetamaskConnection((provider, signer) => {
+      const read = new ethers.Contract(CONTRACT_ADDRESS, ABI, provider)
 
-    const connectWallet = async () => {
-      try {
-        const provider = new ethers.providers.Web3Provider(window.ethereum)
-        await provider.send("eth_requestAccounts", [])
+      setNftContract(read)
+    })
 
-        const read = new ethers.Contract(CONTRACT_ADDRESS, ABI, provider)
-
-        console.log("connectWallet function called")
-
-        setNftContract(read)
-        return
-      } catch (error) {
-        console.log(error)
-        return
-      }
-    }
-
-    connectWallet()
-  }, [setNftContract])
+    main()
+  }, [boolNftContract])
 
   const updateData = async () => {
-    if (nftContract) {
-      const name = await nftContract.name()
-      const symbol = await nftContract.symbol()
-
-      setName(name)
-      setSymbol(symbol)
-
-      console.log("updateData function called")
-    } else {
+    if (!nftContract) {
       console.log("read function not ready")
     }
+
+    const name = await nftContract.name()
+    const symbol = await nftContract.symbol()
+
+    setName(name)
+    setSymbol(symbol)
   }
 
   return (
