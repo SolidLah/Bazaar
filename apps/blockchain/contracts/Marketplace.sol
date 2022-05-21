@@ -45,7 +45,15 @@ contract Marketplace is ReentrancyGuard, IERC721Receiver {
         return IERC721Receiver.onERC721Received.selector;
     }
 
-    function createMarketItem(IERC721 _nft, uint _tokenId, uint _price) public nonReentrant {
+    function getMarketItem(uint256 itemId) public view returns (MarketItem memory) {
+        return marketItemsMapping[itemId];
+    }
+
+    function createMarketItem(
+        address _nftAddress,
+        uint _tokenId,
+        uint _price
+    ) public nonReentrant {
         require(_price > 0, "Price must be greater than zero");
 
         _nft.safeTransferFrom(msg.sender, address(this), _tokenId);
