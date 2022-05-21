@@ -56,7 +56,7 @@ contract Marketplace is ReentrancyGuard, IERC721Receiver {
     ) public nonReentrant {
         require(_price > 0, "Price must be greater than zero");
 
-        _nft.safeTransferFrom(msg.sender, address(this), _tokenId);
+        IERC721(_nftAddress).safeTransferFrom(msg.sender, address(this), _tokenId);
 
         uint256 newItemId = idCounter.current();
 
@@ -65,7 +65,6 @@ contract Marketplace is ReentrancyGuard, IERC721Receiver {
             _nftAddress,
             _tokenId,
             _price,
-            payable(msg.sender),
             payable(msg.sender),
             false
         );
