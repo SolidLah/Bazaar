@@ -13,6 +13,7 @@ contract Marketplace is ReentrancyGuard, IERC721Receiver {
         uint tokenId;
         uint price;
         address payable seller;
+        address payable owner;
         bool sold;
     }
 
@@ -49,6 +50,7 @@ contract Marketplace is ReentrancyGuard, IERC721Receiver {
             _nft,
             _tokenId,
             _price,
+            payable(msg.sender),
             payable(msg.sender),
             false
         );
