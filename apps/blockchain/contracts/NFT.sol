@@ -7,7 +7,9 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 
 contract NFT is ERC721URIStorage {
     using Counters for Counters.Counter;
-    Counters.Counter public idCounter;
+
+    Counters.Counter private idCounter;
+    address private immutable contractAddress;
 
     event Minted (
         string name,
@@ -16,12 +18,16 @@ contract NFT is ERC721URIStorage {
         string tokenURI
     );
 
-    constructor(string memory name, string memory symbol) ERC721(name, symbol) {}
+    constructor(string memory name, string memory symbol, address _contractAddress) ERC721(name, symbol) {
+        contractAddress = _contractAddress;
+    }
 
     function mint(string memory tokenURI) public {
         uint256 newTokenId = idCounter.current();
         _safeMint(msg.sender, newTokenId);
         _setTokenURI(newTokenId, tokenURI);
+
+        setApprovalForAll(contractAddress, true);
 
         emit Minted(this.name(), this.symbol(), newTokenId, tokenURI);
 
