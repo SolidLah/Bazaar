@@ -9,7 +9,7 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 contract Marketplace is ReentrancyGuard, IERC721Receiver {
     struct MarketItem {
         uint itemId;
-        IERC721 nft;
+        address nftAddress;
         uint tokenId;
         uint price;
         address payable seller;
@@ -47,7 +47,7 @@ contract Marketplace is ReentrancyGuard, IERC721Receiver {
 
         marketItemsMapping[newItemId] = MarketItem(
             newItemId,
-            _nft,
+            _nftAddress,
             _tokenId,
             _price,
             payable(msg.sender),
