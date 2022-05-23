@@ -8,8 +8,8 @@ const Creators = () => {
   const web3Context = useWeb3Context()
   const { nftContract, setNftContract } = web3Context.contracts.nft
   const { signer } = web3Context.interface
-  const [name, setName] = useState("")
-  const [symbol, setSymbol] = useState("")
+
+  const [bal, setBal] = useState("")
   const [uri, setUri] = useState("")
 
   const mint = async () => {
@@ -30,6 +30,7 @@ const Creators = () => {
             NFTContractData.abi,
             signer
           )
+
           setNftContract(tmpContract)
         }
 
@@ -44,30 +45,15 @@ const Creators = () => {
     }
   }
 
-  useEffect(() => {
-    const updateData = async () => {
-      if (nftContract) {
-        try {
-          const name = await nftContract.name()
-          const symbol = await nftContract.symbol()
-
-          setName(name)
-          setSymbol(symbol)
-        } catch (error) {
-          console.log("Error: " + error.name)
-        }
-      }
-    }
-
-    updateData()
-  }, [nftContract])
-
-  const handleUri = (event) => {
-    setUri(event.target.value)
-  }
-
   return (
-    <Flex h="100vh" w="100vw" align="center" justify="center">
+    <Flex
+      h="100vh"
+      w="100vw"
+      align="center"
+      justify="center"
+      direction="column"
+    >
+      <ConnectWalletButton />
       <Flex direction="column" bg="gray.100" p={12} rounded="md">
         <Heading mb={6} align="center">
           Mint NFT
@@ -76,7 +62,7 @@ const Creators = () => {
         <Input placeholder="Collection Symbol" variant="filled" mb={6} />
         <Input
           value={uri}
-          onChange={handleUri}
+          onChange={(e) => setUri(e.target.value)}
           placeholder="URI"
           variant="flushed"
           mb={6}
@@ -84,8 +70,8 @@ const Creators = () => {
         <Button onClick={mint} colorScheme="teal" mb={6}>
           Mint!
         </Button>
-        <Text>{"name: " + name}</Text>
-        <Text>{"symbol: " + symbol}</Text>
+        <Text>{"NFT balance: " + bal}</Text>
+        <Text>{"NFT message: " + msg}</Text>
       </Flex>
     </Flex>
   )
