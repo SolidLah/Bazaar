@@ -1,38 +1,31 @@
-import { ethers } from "ethers"
 import { createContext, useContext, useState } from "react"
 
-const web3Context = createContext()
+const web3Context = createContext({
+  contracts: {
+    nft: {
+      nftContract: null,
+      setNftContract: null,
+    },
+  },
+  accounts: {
+    currentAddress: null,
+    setAddress: null,
+  },
+  interface: {
+    provider: null,
+    setProvider: null,
+    signer: null,
+    setSigner: null,
+  },
+})
 
 const Web3ContextProvider = ({ children }) => {
+  const [provider, setProvider] = useState(null)
+  const [signer, setSigner] = useState(null)
   const [currentAddress, setAddress] = useState("")
-  const [nftContract, setNftContract] = useState()
-
-  const withMetamaskConnection = (next) => {
-    return async () => {
-      if (!window.ethereum) {
-        console.log("Metamask not installed!")
-        return
-      }
-
-      try {
-        const provider = new ethers.providers.Web3Provider(window.ethereum)
-        await provider.send("eth_requestAccounts", [])
-        const signer = provider.getSigner()
-
-        await next(provider, signer)
-
-        return
-      } catch (error) {
-        console.log(error)
-        return
-      }
-    }
-  }
+  const [nftContract, setNftContract] = useState(null)
 
   const values = {
-    functions: {
-      withMetamaskConnection: withMetamaskConnection,
-    },
     contracts: {
       nft: {
         nftContract: nftContract,
@@ -42,6 +35,12 @@ const Web3ContextProvider = ({ children }) => {
     accounts: {
       currentAddress: currentAddress,
       setAddress: setAddress,
+    },
+    interface: {
+      provider: provider,
+      setProvider: setProvider,
+      signer: signer,
+      setSigner: setSigner,
     },
   }
 
