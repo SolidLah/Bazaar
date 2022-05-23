@@ -1,5 +1,6 @@
 import { ethers } from "ethers"
 import { createContext, useContext, useState } from "react"
+import { NFTContractData } from "../contractData"
 
 const web3Context = createContext({
   functions: {
@@ -16,6 +17,7 @@ const web3Context = createContext({
     setAddress: null,
   },
   interface: {
+    ethersInitialised: null,
     provider: null,
     setProvider: null,
     signer: null,
@@ -28,6 +30,7 @@ const Web3ContextProvider = ({ children }) => {
   const [signer, setSigner] = useState(null)
   const [currentAddress, setAddress] = useState("")
   const [nftContract, setNftContract] = useState(null)
+  const [initialised, setInitialised] = useState(false)
 
   const initialiseEthers = async () => {
     if (typeof window.ethereum.isMetaMask === undefined) {
@@ -39,6 +42,7 @@ const Web3ContextProvider = ({ children }) => {
       let tmpProvider = provider
 
       if (!tmpProvider) {
+        // ethers globals
         tmpProvider = new ethers.providers.Web3Provider(window.ethereum)
         setProvider(tmpProvider)
 
@@ -49,7 +53,17 @@ const Web3ContextProvider = ({ children }) => {
 
         const tmpAddress = await tmpSigner.getAddress()
         setAddress(tmpAddress)
+
+        // initialise contracts
+        const tmpContract = new ethers.Contract(
+          NFTContractData.address,
+          NFTContractData.abi,
+          tmpSigner
+        )
+        setNftContract(tmpContract)
       }
+
+      setInitialised(true)
     } catch (error) {
       console.log(error)
       return
@@ -71,6 +85,7 @@ const Web3ContextProvider = ({ children }) => {
       setAddress: setAddress,
     },
     interface: {
+      ethersInitialised: initialised,
       provider: provider,
       setProvider: setProvider,
       signer: signer,

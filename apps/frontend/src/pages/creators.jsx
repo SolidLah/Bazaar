@@ -1,68 +1,45 @@
 import { Button, Heading, Flex, Input, Text } from "@chakra-ui/react"
-import { NFTContractData } from "../contractData"
-import { ethers } from "ethers"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { useWeb3Context } from "../contexts/Web3Context"
 import ConnectWalletButton from "src/components/ui/ConnectWalletButton"
 
 const Creators = () => {
   const web3Context = useWeb3Context()
-  const { nftContract, setNftContract } = web3Context.contracts.nft
-  const { signer } = web3Context.interface
+  const { nftContract } = web3Context.contracts.nft
+  const { ethersInitialised } = web3Context.interface
 
   const [bal, setBal] = useState("")
   const [uri, setUri] = useState("")
   const [msg, setMsg] = useState("")
 
-  // tmpContract.on("Minted", (name, symbol, tokenId, tokenURI) => {
-  //   console.log({
-  //     name: name,
-  //     symbol: symbol,
-  //     tokenId: tokenId,
-  //     tokenURI: tokenURI,
-  //   })
-
-  //   const main = async () => {
-  //     console.log("main called")
-  //     const currBal = await tmpContract.balanceOf(currentAddress)
-  //     const currMsg = tokenURI
-
-  //     setNftContract(tmpContract)
-  //     setBal(currBal.toString())
-  //     setMsg(currMsg)
+  // if (typeof window !== undefined ) {
+  //   if (ethersInitialised && typeof window.ethereum.isMetaMask !== undefined) {
+  //     nftContract.on("Minted", (name, symbol, tokenId, tokenURI) => {
+  //       console.log({
+  //         name: name,
+  //         symbol: symbol,
+  //         tokenId: tokenId,
+  //         tokenURI: tokenURI,
+  //       })
+  //     })
   //   }
-
-  //   main()
-  // })
+  // }
 
   const mint = async () => {
-    if (typeof window.ethereum.isMetaMask !== undefined) {
-      if (!signer) {
-        alert("Please connect to metamask")
-        return
-      }
+    if (typeof window.ethereum.isMetaMask === undefined) {
+      alert("MetaMask not detected")
+      return
+    }
 
-      try {
-        let tmpContract
+    if (!ethersInitialised) {
+      alert("MetaMask not connected")
+      return
+    }
 
-        if (nftContract) {
-          tmpContract = nftContract
-        } else {
-          tmpContract = new ethers.Contract(
-            NFTContractData.address,
-            NFTContractData.abi,
-            signer
-          )
-
-          setNftContract(tmpContract)
-        }
-
-        await tmpContract.mint(uri)
-      } catch (error) {
-        console.log(error)
-      }
-    } else {
-      console.log("MetaMask not detected")
+    try {
+      await nftContract.mint(uri)
+    } catch (error) {
+      console.log(error)
     }
   }
 
