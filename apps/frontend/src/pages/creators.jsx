@@ -13,7 +13,7 @@ const Creators = () => {
   const [uri, setUri] = useState("")
 
   const mint = async () => {
-    if (window.ethereum.isMetaMask !== undefined) {
+    if (typeof window.ethereum.isMetaMask !== undefined) {
       if (!signer) {
         alert("Please connect to metamask")
         return

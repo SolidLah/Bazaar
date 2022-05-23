@@ -8,7 +8,7 @@ const ConnectWalletButton = () => {
   const { provider, setProvider, signer, setSigner } = web3Context.interface
 
   const connectWallet = async () => {
-    if (window.ethereum.isMetaMask !== undefined) {
+    if (typeof window.ethereum.isMetaMask !== undefined) {
       const tmpProvider = provider
         ? provider
         : new ethers.providers.Web3Provider(window.ethereum)
