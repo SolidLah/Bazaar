@@ -65,7 +65,7 @@ const Web3ContextProvider = ({ children }) => {
 
       setInitialised(true)
     } catch (error) {
-      console.log(error)
+      console.log("Ethers initialisation error: " + error)
       return
     }
   }
