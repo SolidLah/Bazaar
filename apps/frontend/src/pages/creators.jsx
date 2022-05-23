@@ -37,7 +37,7 @@ const Creators = () => {
     }
 
     try {
-      await nftContract.mint(uri)
+      await (await nftContract.mint(uri)).wait()
     } catch (error) {
       console.log("NFT minting error: " + error)
     }
