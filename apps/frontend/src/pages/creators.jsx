@@ -1,5 +1,5 @@
 import { Button, Heading, Flex, Input, Text } from "@chakra-ui/react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useWeb3Context } from "../contexts/Web3Context"
 import ConnectWalletButton from "src/components/ui/ConnectWalletButton"
 
@@ -8,22 +8,32 @@ const Creators = () => {
   const { nftContract } = web3Context.contracts.nft
   const { ethersInitialised } = web3Context.interface
 
-  const [bal, setBal] = useState("")
   const [uri, setUri] = useState("")
   const [msg, setMsg] = useState("")
 
-  // if (typeof window !== undefined ) {
-  //   if (ethersInitialised && typeof window.ethereum.isMetaMask !== undefined) {
-  //     nftContract.on("Minted", (name, symbol, tokenId, tokenURI) => {
-  //       console.log({
-  //         name: name,
-  //         symbol: symbol,
-  //         tokenId: tokenId,
-  //         tokenURI: tokenURI,
-  //       })
-  //     })
-  //   }
-  // }
+  useEffect(() => {
+    if (!ethersInitialised) {
+      console.log("[event listener] ethers not initialised")
+      return
+    }
+    console.log("[event listener] effect")
+    nftContract.on("Minted", (name, symbol, tokenId, tokenURI) => {
+      console.log("event listener: event picked up", {
+        name: name,
+        symbol: symbol,
+        tokenId: tokenId.toString(),
+        tokenURI: tokenURI,
+      })
+
+      setMsg(tokenURI)
+      setUri("")
+    })
+
+    return () => {
+      console.log("[event listener] cleanup")
+      nftContract.removeAllListeners("Minted")
+    }
+  }, [ethersInitialised])
 
   const mint = async () => {
     if (typeof window.ethereum.isMetaMask === undefined) {
@@ -68,7 +78,6 @@ const Creators = () => {
         <Button onClick={mint} colorScheme="teal" mb={6}>
           Mint!
         </Button>
-        <Text>{"NFT balance: " + bal}</Text>
         <Text>{"NFT message: " + msg}</Text>
       </Flex>
     </Flex>
