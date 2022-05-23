@@ -1,5 +1,5 @@
 import { Button, Heading, Flex, Input, Text } from "@chakra-ui/react"
-import { CONTRACT_ADDRESS, ABI } from "../web3"
+import { CONTRACT_ADDRESS, ABI } from "../contractData"
 import { ethers } from "ethers"
 import { useState, useEffect } from "react"
 import { useWeb3Context } from "../contexts/Web3Context"
