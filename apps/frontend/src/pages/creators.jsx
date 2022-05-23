@@ -34,9 +34,7 @@ const Creators = () => {
           setNftContract(tmpContract)
         }
 
-        const data = await tmpContract.mint(uri)
-
-        console.log(data)
+        await tmpContract.mint(uri)
       } catch (error) {
         console.log(error)
       }
