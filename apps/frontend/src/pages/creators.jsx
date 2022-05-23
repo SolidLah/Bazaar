@@ -11,6 +11,28 @@ const Creators = () => {
 
   const [bal, setBal] = useState("")
   const [uri, setUri] = useState("")
+  const [msg, setMsg] = useState("")
+
+  // tmpContract.on("Minted", (name, symbol, tokenId, tokenURI) => {
+  //   console.log({
+  //     name: name,
+  //     symbol: symbol,
+  //     tokenId: tokenId,
+  //     tokenURI: tokenURI,
+  //   })
+
+  //   const main = async () => {
+  //     console.log("main called")
+  //     const currBal = await tmpContract.balanceOf(currentAddress)
+  //     const currMsg = tokenURI
+
+  //     setNftContract(tmpContract)
+  //     setBal(currBal.toString())
+  //     setMsg(currMsg)
+  //   }
+
+  //   main()
+  // })
 
   const mint = async () => {
     if (typeof window.ethereum.isMetaMask !== undefined) {
