@@ -3,6 +3,7 @@ import { NFTContractData } from "../contractData"
 import { ethers } from "ethers"
 import { useState, useEffect } from "react"
 import { useWeb3Context } from "../contexts/Web3Context"
+import ConnectWalletButton from "src/components/ui/ConnectWalletButton"
 
 const Creators = () => {
   const web3Context = useWeb3Context()
