@@ -1,5 +1,4 @@
 import { Button } from "@chakra-ui/react"
-import { useState, useEffect } from "react"
 import { useWeb3Context } from "../../contexts/Web3Context"
 
 const ConnectWalletButton = () => {
