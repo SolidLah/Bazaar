@@ -10,6 +10,7 @@ const Creators = () => {
   const { signer } = web3Context.interface
   const [name, setName] = useState("")
   const [symbol, setSymbol] = useState("")
+  const [uri, setUri] = useState("")
 
   const mint = async () => {
     if (window.ethereum.isMetaMask !== undefined) {
@@ -24,11 +25,15 @@ const Creators = () => {
         if (nftContract) {
           tmpContract = nftContract
         } else {
-          tmpContract = new ethers.Contract(NFTContractData.address, NFTContractData.abi, signer)
+          tmpContract = new ethers.Contract(
+            NFTContractData.address,
+            NFTContractData.abi,
+            signer
+          )
           setNftContract(tmpContract)
         }
 
-        const data = await tmpContract.mint("Sample URI")
+        const data = await tmpContract.mint(uri)
 
         console.log(data)
       } catch (error) {
@@ -57,6 +62,10 @@ const Creators = () => {
     updateData()
   }, [nftContract])
 
+  const handleUri = (event) => {
+    setUri(event.target.value)
+  }
+
   return (
     <Flex h="100vh" w="100vw" align="center" justify="center">
       <Flex direction="column" bg="gray.100" p={12} rounded="md">
@@ -65,7 +74,13 @@ const Creators = () => {
         </Heading>
         <Input placeholder="Collection name" variant="filled" mb={3} />
         <Input placeholder="Collection Symbol" variant="filled" mb={6} />
-        <Input placeholder="URI" variant="flushed" mb={6} />
+        <Input
+          value={uri}
+          onChange={handleUri}
+          placeholder="URI"
+          variant="flushed"
+          mb={6}
+        />
         <Button onClick={mint} colorScheme="teal" mb={6}>
           Mint!
         </Button>
