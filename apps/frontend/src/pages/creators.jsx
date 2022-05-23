@@ -1,5 +1,5 @@
 import { Button, Heading, Flex, Input, Text } from "@chakra-ui/react"
-import { CONTRACT_ADDRESS, ABI } from "../contractData"
+import { NFTContractData } from "../contractData"
 import { ethers } from "ethers"
 import { useState, useEffect } from "react"
 import { useWeb3Context } from "../contexts/Web3Context"
@@ -24,7 +24,7 @@ const Creators = () => {
         if (nftContract) {
           tmpContract = nftContract
         } else {
-          tmpContract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer)
+          tmpContract = new ethers.Contract(NFTContractData.address, NFTContractData.abi, signer)
           setNftContract(tmpContract)
         }
 

@@ -1,4 +1,25 @@
-const { ethers } = require("hardhat")
+const { ethers, artifacts } = require("hardhat")
+
+function saveToFrontend(contract, name) {
+  const fs = require("fs")
+  const contractsDir = __dirname + "/../../frontend/src/contractData/"
+  console.log(`Writing contract data to: ${contractsDir}`)
+
+  const contractArtifact = artifacts.readArtifactSync(name)
+
+  try {
+    fs.writeFileSync(
+      contractsDir + `${name}.json`,
+      JSON.stringify(
+        { address: contract.address, abi: contractArtifact },
+        undefined,
+        2
+      )
+    )
+  } catch (error) {
+    console.log("Error while writing file")
+  }
+}
 
 async function main() {
   const MARKETPLACE = await ethers.getContractFactory("Marketplace")
@@ -9,6 +30,8 @@ async function main() {
 
   console.log("Marketplace contract address: ", marketplace.address)
   console.log("NFT contract address: ", nft.address)
+
+  saveToFrontend(nft, "NFT")
 }
 
 main()
