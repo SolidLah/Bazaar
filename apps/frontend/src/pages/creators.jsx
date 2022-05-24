@@ -10,15 +10,18 @@ const Creators = () => {
 
   const [uri, setUri] = useState("")
   const [msg, setMsg] = useState("")
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (!ethersInitialised) {
       console.log("[event listener] ethers not initialised")
       return
     }
+
     console.log("[event listener] effect")
+
     nftContract.on("Minted", (name, symbol, tokenId, tokenURI) => {
-      console.log("event listener: event picked up", {
+      console.log("[event listener] event picked up", {
         name: name,
         symbol: symbol,
         tokenId: tokenId.toString(),
@@ -27,6 +30,7 @@ const Creators = () => {
 
       setMsg(tokenURI)
       setUri("")
+      setLoading(false)
     })
 
     return () => {
@@ -47,6 +51,7 @@ const Creators = () => {
     }
 
     try {
+      setLoading(true)
       await (await nftContract.mint(uri)).wait()
     } catch (error) {
       console.log("NFT minting error: " + error)
@@ -75,7 +80,7 @@ const Creators = () => {
           variant="flushed"
           mb={6}
         />
-        <Button onClick={mint} colorScheme="teal" mb={6}>
+        <Button onClick={mint} isLoading={loading} colorScheme="teal" mb={6}>
           Mint!
         </Button>
         <Text>{"NFT message: " + msg}</Text>
