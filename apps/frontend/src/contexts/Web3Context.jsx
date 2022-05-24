@@ -1,16 +1,16 @@
 import { ethers } from "ethers"
 import { createContext, useContext, useState } from "react"
-import { NFTContractData } from "../contractData"
+import { NFTContractData, MarketplaceContractData } from "../contractData"
 
 const web3Context = createContext({
   functions: {
     initialiseEthers: null,
   },
   contracts: {
-    nft: {
-      nftContract: null,
-      setNftContract: null,
-    },
+    nftContract: null,
+    setNftContract: null,
+    marketplaceContract: null,
+    setMarketplaceContract: null,
   },
   accounts: {
     currentAddress: null,
@@ -30,6 +30,7 @@ const Web3ContextProvider = ({ children }) => {
   const [signer, setSigner] = useState(null)
   const [currentAddress, setAddress] = useState("")
   const [nftContract, setNftContract] = useState(null)
+  const [marketplaceContract, setMarketplaceContract] = useState(null)
   const [initialised, setInitialised] = useState(false)
 
   const initialiseEthers = async () => {
@@ -55,17 +56,25 @@ const Web3ContextProvider = ({ children }) => {
         setAddress(tmpAddress)
 
         // initialise contracts
-        const tmpContract = new ethers.Contract(
+        const tmpNftContract = new ethers.Contract(
           NFTContractData.address,
           NFTContractData.abi,
           tmpSigner
         )
-        setNftContract(tmpContract)
+        setNftContract(tmpNftContract)
+
+        const tmpMktContract = new ethers.Contract(
+          MarketplaceContractData.address,
+          MarketplaceContractData.abi,
+          tmpSigner
+        )
+
+        setMarketplaceContract(tmpMktContract)
       }
 
       setInitialised(true)
     } catch (error) {
-      console.log("Ethers initialisation error: " + error)
+      console.log("[Ethers initialisation error]", error)
       return
     }
   }
@@ -75,10 +84,10 @@ const Web3ContextProvider = ({ children }) => {
       initialiseEthers: initialiseEthers,
     },
     contracts: {
-      nft: {
-        nftContract: nftContract,
-        setNftContract: setNftContract,
-      },
+      nftContract: nftContract,
+      setNftContract: setNftContract,
+      marketplaceContract: marketplaceContract,
+      setMarketplaceContract: setMarketplaceContract,
     },
     accounts: {
       currentAddress: currentAddress,

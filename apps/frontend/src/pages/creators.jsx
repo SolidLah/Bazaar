@@ -5,7 +5,7 @@ import ConnectWalletButton from "src/components/ui/ConnectWalletButton"
 
 const Creators = () => {
   const web3Context = useWeb3Context()
-  const { nftContract } = web3Context.contracts.nft
+  const { nftContract } = web3Context.contracts
   const { ethersInitialised } = web3Context.interface
 
   const [uri, setUri] = useState("")
@@ -54,7 +54,7 @@ const Creators = () => {
       setLoading(true)
       await (await nftContract.mint(uri)).wait()
     } catch (error) {
-      console.log("NFT minting error: " + error)
+      console.log("[NFT minting error]", error)
     }
   }
 

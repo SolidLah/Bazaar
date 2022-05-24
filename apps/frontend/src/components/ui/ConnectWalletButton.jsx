@@ -6,12 +6,8 @@ const ConnectWalletButton = () => {
   const { initialiseEthers } = web3Context.functions
   const { currentAddress } = web3Context.accounts
 
-  const connectWallet = async () => {
-    await initialiseEthers()
-  }
-
   return (
-    <Button onClick={connectWallet}>
+    <Button onClick={initialiseEthers}>
       {currentAddress
         ? `${currentAddress.slice(0, 3)}...${currentAddress.slice(38)}`
         : "Connect Wallet"}

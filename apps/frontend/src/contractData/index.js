@@ -1,3 +1,4 @@
 import NFTContractData from "./NFT.json"
+import MarketplaceContractData from "./Marketplace.json"
 
-export { NFTContractData }
+export { NFTContractData, MarketplaceContractData }
