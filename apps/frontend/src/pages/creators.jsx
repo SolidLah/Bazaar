@@ -66,7 +66,9 @@ const Creators = () => {
       justify="center"
       direction="column"
     >
-      <ConnectWalletButton />
+      <Flex mb={3}>
+        <ConnectWalletButton />
+      </Flex>
       <Flex direction="column" bg="gray.100" p={12} rounded="md">
         <Heading mb={6} align="center">
           Mint NFT

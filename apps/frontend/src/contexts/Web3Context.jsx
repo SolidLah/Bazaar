@@ -1,10 +1,12 @@
 import { ethers } from "ethers"
-import { createContext, useContext, useState } from "react"
+import { createContext, useContext, useState, useCallback } from "react"
 import { NFTContractData, MarketplaceContractData } from "../contractData"
 
 const web3Context = createContext({
   functions: {
     initialiseEthers: null,
+    toWei: null,
+    toEthers: null,
   },
   contracts: {
     nftContract: null,
@@ -33,7 +35,7 @@ const Web3ContextProvider = ({ children }) => {
   const [marketplaceContract, setMarketplaceContract] = useState(null)
   const [initialised, setInitialised] = useState(false)
 
-  const initialiseEthers = async () => {
+  const initialiseEthers = useCallback(async () => {
     if (typeof window.ethereum.isMetaMask === undefined) {
       console.log("MetaMask not installed!")
       return
@@ -77,11 +79,16 @@ const Web3ContextProvider = ({ children }) => {
       console.log("[Ethers initialisation error]", error)
       return
     }
-  }
+  }, [provider])
+
+  const toWei = (num) => ethers.utils.parseEther(num.toString())
+  const toEth = (num) => ethers.utils.formatEther(num)
 
   const values = {
     functions: {
       initialiseEthers: initialiseEthers,
+      toWei: toWei,
+      toEth: toEth,
     },
     contracts: {
       nftContract: nftContract,

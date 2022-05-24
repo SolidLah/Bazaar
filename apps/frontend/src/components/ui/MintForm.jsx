@@ -1,70 +1,54 @@
 import { useState, useCallback } from "react"
 import { create as ipfsHttpClient } from "ipfs-http-client"
 import { Button, Flex, Heading, Input } from "@chakra-ui/react"
-
-const INFURA_IPFS_ID = process.env.INFURA_IPFS_ID
-const INFURA_IPFS_SECRET = process.env.INFURA_IPFS_SECRET
-
-const auth = "Basic " + Buffer.from(INFURA_IPFS_ID + ":" + INFURA_IPFS_SECRET).toString("base64")
-
-let client
-
-try {
-  client = ipfsHttpClient({
-    url: "https://ipfs.infura.io:5001/api/v0",
-    headers: { authorization: auth },
-  })
-} catch (error) {
-  console.log("[IPFS connection]", error)
-  client = undefined
-}
+import { useWeb3Context } from "../../contexts/Web3Context"
+import { NFTContractData } from "../../contractData"
 
 const MintForm = () => {
+  const web3Context = useWeb3Context()
+  const { nftContract, marketplaceContract } = web3Context.contracts
+  const { ethersInitialised } = web3Context.interface
+  const { toWei } = web3Context.functions
+
   const [image, setImage] = useState()
   const [price, setPrice] = useState()
   const [name, setName] = useState("")
   const [description, setDescription] = useState("")
+  const [loading, setLoading] = useState(false)
 
-  const uploadImageToIPFS = async (event) => {
-    event.preventDefault()
-
-    const isOnline = await client.isOnline()
-
-    if (isOnline) {
-      console.log("[uploadImageToIPFS] client offline")
+  const mint = useCallback(async () => {
+    if (typeof window.ethereum.isMetaMask === undefined) {
+      alert("MetaMask not detected")
       return
     }
 
-    const file = event.target.files[0]
-
-    if (typeof file !== undefined) {
-      try {
-        const imgRes = await client.add("hi")
-        const imgPath = imgRes.path
-
-        setImage(imgPath)
-      } catch (error) {
-        console.log("[uploadImageToIPFS]", error)
-        return
-      }
-    }
-  }
-
-  const uploadMetaToIPFS = useCallback(async () => {
-    if (!image || !name || !description) {
-      console.log("[uploadMetaToIPFS] missing fields")
+    if (!ethersInitialised) {
+      alert("MetaMask not connected")
+      return
     }
 
-    const metaRes = await client.add(
-      JSON.stringify({ imgPath, name, description })
-    )
-    console.log(metaRes.path)
-  }, [client, image, name, description])
+    try {
+      setLoading(true)
+      await (await nftContract.mint(uri)).wait()
+
+      const tokenId = await nft.getCurrentId()
+
+      await (
+        await marketplaceContract.createMarketItem(
+          NFTContractData.address,
+          tokenId,
+          toWei(price)
+        )
+      ).wait()
+    } catch (error) {
+      console.log("[NFT minting error]", error)
+    }
+  }, [ethersInitialised, nftContract, marketplaceContract, toWei, price])
 
   return (
     <Flex direction="column" bg="gray.100" p={12} rounded="md">
       <Heading align="center">Mint NFT</Heading>
-      <Input type="file" onChange={uploadImageToIPFS} />
+      <Input type="file" />
       <Input
         value={name}
         onChange={(e) => setName(e.target.value)}
@@ -83,8 +67,8 @@ const MintForm = () => {
         placeholder="price"
         variant="filled"
       />
-      <Button onClick={uploadMetaToIPFS} colorScheme="teal">
-        upload
+      <Button onClick={mint} colorScheme="teal">
+        Mint!
       </Button>
     </Flex>
   )
