@@ -8,10 +8,10 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 
 contract Marketplace is ReentrancyGuard, IERC721Receiver {
     struct MarketItem {
-        uint itemId;
+        uint256 itemId;
         address nftAddress;
-        uint tokenId;
-        uint price;
+        uint256 tokenId;
+        uint256 price;
         address payable seller;
         bool sold;
     }
@@ -19,19 +19,28 @@ contract Marketplace is ReentrancyGuard, IERC721Receiver {
     using Counters for Counters.Counter;
 
     address payable public immutable deployer;
-    uint public immutable feePercent;
+    uint256 public immutable feePercent;
     Counters.Counter private idCounter;
-    mapping(uint => MarketItem) private marketItemsMapping;
+    mapping(uint256 => MarketItem) private marketItemsMapping;
 
-    event MarketItemCreated (
-        uint indexed itemId,
-        address indexed nftAddress,
-        uint indexed tokenId,
-        uint price,
+    event MarketItemCreated(
+        uint256 indexed itemId,
+        address nftAddress,
+        uint256 indexed tokenId,
+        uint256 price,
         address seller
     );
 
-    constructor(uint _feePercent) {
+    event MarketItemSold(
+        uint256 indexed itemId,
+        address nftAddress,
+        uint256 indexed tokenId,
+        uint256 price,
+        address seller,
+        address buyer
+    );
+
+    constructor(uint256 _feePercent) {
         deployer = payable(msg.sender);
         feePercent = _feePercent;
     }
@@ -41,27 +50,35 @@ contract Marketplace is ReentrancyGuard, IERC721Receiver {
         address from,
         uint256 tokenId,
         bytes calldata data
-    ) override external pure returns (bytes4) {
+    ) external pure override returns (bytes4) {
         return IERC721Receiver.onERC721Received.selector;
     }
 
-    function getMarketItem(uint256 itemId) public view returns (MarketItem memory) {
-        return marketItemsMapping[itemId];
+    function getMarketItem(uint256 _itemId)
+        public
+        view
+        returns (MarketItem memory)
+    {
+        return marketItemsMapping[_itemId];
     }
 
     function createMarketItem(
         address _nftAddress,
-        uint _tokenId,
-        uint _price
+        uint256 _tokenId,
+        uint256 _price
     ) public nonReentrant {
         require(_price > 0, "Price must be greater than zero");
 
-        IERC721(_nftAddress).safeTransferFrom(msg.sender, address(this), _tokenId);
+        IERC721(_nftAddress).safeTransferFrom(
+            msg.sender,
+            address(this),
+            _tokenId
+        );
 
-        uint256 newItemId = idCounter.current();
+        uint256 _newItemId = idCounter.current();
 
-        marketItemsMapping[newItemId] = MarketItem(
-            newItemId,
+        marketItemsMapping[_newItemId] = MarketItem(
+            _newItemId,
             _nftAddress,
             _tokenId,
             _price,
@@ -70,7 +87,7 @@ contract Marketplace is ReentrancyGuard, IERC721Receiver {
         );
 
         emit MarketItemCreated(
-            newItemId,
+            _newItemId,
             _nftAddress,
             _tokenId,
             _price,
@@ -78,5 +95,53 @@ contract Marketplace is ReentrancyGuard, IERC721Receiver {
         );
 
         idCounter.increment();
+    }
+
+    function getTotalPriceForItem(uint256 _itemId)
+        public
+        view
+        returns (uint256)
+    {
+        return (marketItemsMapping[_itemId].price * (100 + feePercent)) / 100;
+    }
+
+    function purchaseMarketItem(uint256 _soldItemId)
+        public
+        payable
+        nonReentrant
+    {
+        require(
+            _soldItemId >= 0 && _soldItemId <= idCounter.current(),
+            "Market item does not exist"
+        );
+
+        uint256 _totalPrice = getTotalPriceForItem(_soldItemId);
+        MarketItem storage _currMarketItem = marketItemsMapping[_soldItemId];
+
+        require(msg.value >= _totalPrice, "Insufficient funds");
+        require(!_currMarketItem.sold, "Market item already sold");
+
+        address payable _seller = _currMarketItem.seller;
+
+        // pay seller and marketplace
+        _seller.transfer(_currMarketItem.price);
+        deployer.transfer(_totalPrice - _currMarketItem.price);
+
+        // update item
+        _currMarketItem.sold = true;
+        IERC721(_currMarketItem.nftAddress).safeTransferFrom(
+            address(this),
+            msg.sender,
+            _currMarketItem.tokenId
+        );
+
+        emit MarketItemSold(
+            _soldItemId,
+            _currMarketItem.nftAddress,
+            _soldItemId,
+            _currMarketItem.price,
+            _currMarketItem.seller,
+            msg.sender
+        );
     }
 }
