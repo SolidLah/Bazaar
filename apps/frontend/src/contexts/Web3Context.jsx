@@ -1,13 +1,7 @@
-import { ethers } from "ethers"
 import { createContext, useContext, useState, useCallback } from "react"
-import { NFTContractData, MarketplaceContractData } from "../contractData"
+import { getEthersState } from "src/functions"
 
 const web3Context = createContext({
-  functions: {
-    initialiseEthers: null,
-    toWei: null,
-    toEthers: null,
-  },
   contracts: {
     nftContract: null,
     setNftContract: null,
@@ -15,10 +9,11 @@ const web3Context = createContext({
     setMarketplaceContract: null,
   },
   accounts: {
-    currentAddress: null,
+    address: null,
     setAddress: null,
   },
   interface: {
+    initialiseEthers: null,
     ethersInitialised: null,
     provider: null,
     setProvider: null,
@@ -30,13 +25,13 @@ const web3Context = createContext({
 const Web3ContextProvider = ({ children }) => {
   const [provider, setProvider] = useState(null)
   const [signer, setSigner] = useState(null)
-  const [currentAddress, setAddress] = useState("")
+  const [address, setAddress] = useState("")
   const [nftContract, setNftContract] = useState(null)
   const [marketplaceContract, setMarketplaceContract] = useState(null)
   const [initialised, setInitialised] = useState(false)
 
   const initialiseEthers = useCallback(async () => {
-    if (typeof window.ethereum.isMetaMask === undefined) {
+    if (typeof window.ethereum === "undefined") {
       console.log("MetaMask not installed!")
       return
     }
@@ -45,33 +40,19 @@ const Web3ContextProvider = ({ children }) => {
       let tmpProvider = provider
 
       if (!tmpProvider) {
-        // ethers globals
-        tmpProvider = new ethers.providers.Web3Provider(window.ethereum)
-        setProvider(tmpProvider)
+        const {
+          currProvider,
+          currSigner,
+          currAddress,
+          currNftContract,
+          currMktContract,
+        } = await getEthersState()
 
-        await tmpProvider.send("eth_requestAccounts", [])
-
-        const tmpSigner = tmpProvider.getSigner()
-        setSigner(tmpSigner)
-
-        const tmpAddress = await tmpSigner.getAddress()
-        setAddress(tmpAddress)
-
-        // initialise contracts
-        const tmpNftContract = new ethers.Contract(
-          NFTContractData.address,
-          NFTContractData.abi,
-          tmpSigner
-        )
-        setNftContract(tmpNftContract)
-
-        const tmpMktContract = new ethers.Contract(
-          MarketplaceContractData.address,
-          MarketplaceContractData.abi,
-          tmpSigner
-        )
-
-        setMarketplaceContract(tmpMktContract)
+        setProvider(currProvider)
+        setSigner(currSigner)
+        setAddress(currAddress)
+        setNftContract(currNftContract)
+        setMarketplaceContract(currMktContract)
       }
 
       setInitialised(true)
@@ -81,15 +62,7 @@ const Web3ContextProvider = ({ children }) => {
     }
   }, [provider])
 
-  const toWei = (num) => ethers.utils.parseEther(num.toString())
-  const toEth = (num) => ethers.utils.formatEther(num)
-
   const values = {
-    functions: {
-      initialiseEthers: initialiseEthers,
-      toWei: toWei,
-      toEth: toEth,
-    },
     contracts: {
       nftContract: nftContract,
       setNftContract: setNftContract,
@@ -97,10 +70,11 @@ const Web3ContextProvider = ({ children }) => {
       setMarketplaceContract: setMarketplaceContract,
     },
     accounts: {
-      currentAddress: currentAddress,
+      address: address,
       setAddress: setAddress,
     },
     interface: {
+      initialiseEthers: initialiseEthers,
       ethersInitialised: initialised,
       provider: provider,
       setProvider: setProvider,

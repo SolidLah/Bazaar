@@ -40,8 +40,8 @@ const Creators = () => {
   }, [ethersInitialised])
 
   const mint = async () => {
-    if (typeof window.ethereum.isMetaMask === undefined) {
-      alert("MetaMask not detected")
+    if (typeof window.ethereum === "undefined") {
+      alert("MetaMask not installed!")
       return
     }
 
