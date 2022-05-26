@@ -1,9 +1,8 @@
-import { useState, useEffect, useCallback, useMemo } from "react"
+import { useState, useCallback, useMemo } from "react"
 // import { create as ipfsHttpClient } from "ipfs-http-client"
 import { Button, Flex, Heading, Input } from "@chakra-ui/react"
 import { useWeb3Context } from "../../contexts/Web3Context"
-import { NFTContractData } from "../../contractData"
-import { toWei } from "../../functions"
+import { mintNFT, listNFT } from "../../functions"
 
 const MintForm = () => {
   const web3Context = useWeb3Context()
@@ -24,94 +23,57 @@ const MintForm = () => {
     }
   }, [name, description, image])
 
-  const mintAndList = useCallback(
-    async (uri) => {
-      if (typeof window.ethereum === "undefined") {
-        alert("MetaMask not installed!")
-        return
-      }
+  const buttonCallback = useCallback(async () => {
+    if (typeof window.ethereum === "undefined") {
+      alert("MetaMask not installed!")
+      return
+    }
 
-      if (!ethersInitialised) {
-        alert("MetaMask not connected")
-        return
-      }
+    if (!ethersInitialised) {
+      alert("MetaMask not connected")
+      return
+    }
 
-      try {
-        setLoading(true)
+    if (price <= 0) {
+      alert("Price must be greater than zero")
+      return
+    }
 
-        nftContract.on("Minted", (name, symbol, tokenId, tokenURI) => {
-          console.log("[event listener] Minted", {
-            name,
-            symbol,
-            tokenId: tokenId.toNumber(),
-            tokenURI,
-          })
-        })
-
-        marketplaceContract.on(
-          "MarketItemCreated",
-          (itemId, nftAddress, tokenId, price, seller) => {
-            console.log("[event listener] MarketItemCreated", {
-              itemId: itemId.toString(),
-              nftAddress,
-              tokenId: tokenId.toString(),
-              price,
-              seller,
-            })
-          }
-        )
-
-        await (await nftContract.mint(uri)).wait()
-
-        const currTokenId = await nftContract.getCurrentId()
-        console.log("currTokenId: " + currTokenId)
-
-        await (
-          await marketplaceContract.createMarketItem(
-            NFTContractData.address,
-            currTokenId,
-            toWei(1)
-          )
-        ).wait()
-
-        nftContract.removeAllListeners("Minted")
-        marketplaceContract.removeAllListeners("MarketItemCreated")
-
-        setLoading(false)
-      } catch (error) {
-        console.log("[NFT minting error]", error)
-      }
-    },
-    [ethersInitialised, nftContract, marketplaceContract]
-  )
+    setLoading(true)
+    const tokenId = await mintNFT({ nftContract, uri: "Sample URI" })
+    await listNFT({ marketplaceContract, tokenId, price })
+    setLoading(false)
+    setPrice("")
+  }, [ethersInitialised, price, nftContract, marketplaceContract])
 
   return (
     <Flex direction="column" bg="gray.100" p={12} rounded="md">
-      <Heading align="center">Mint NFT</Heading>
-      <Input type="file" />
+      <Heading align="center" mb={6}>
+        Mint NFT
+      </Heading>
+      <Input type="file" mb={3} />
       <Input
         value={name}
         onChange={(e) => setName(e.target.value)}
         placeholder="name"
         variant="filled"
+        mb={3}
       />
       <Input
         value={description}
         onChange={(e) => setDescription(e.target.value)}
         placeholder="description"
         variant="filled"
+        mb={3}
       />
       <Input
         value={price}
         onChange={(e) => setPrice(e.target.value)}
         placeholder="price"
         variant="filled"
+        mb={6}
       />
-      <Button
-        onClick={() => mintAndList("Sample URI")}
-        isLoading={loading}
-        colorScheme="teal"
-      >
+      <Button onClick={buttonCallback} isLoading={loading} colorScheme="teal">
         Mint!
       </Button>
     </Flex>

@@ -36,4 +36,57 @@ const getEthersState = async () => {
   }
 }
 
-export { getEthersState, toWei, toEth }
+const mintNFT = async ({ nftContract, uri }) => {
+  try {
+    nftContract.on("Minted", (name, symbol, tokenId, tokenURI) => {
+      console.log("[event listener] Minted", {
+        name,
+        symbol,
+        tokenId: tokenId.toNumber(),
+        tokenURI,
+      })
+    })
+
+    await (await nftContract.mint(uri)).wait()
+
+    const currTokenId = await nftContract.getCurrentId()
+    console.log("currTokenId: " + currTokenId)
+
+    nftContract.removeAllListeners("Minted")
+
+    return currTokenId
+  } catch (error) {
+    console.log("[NFT minting error]", error)
+  }
+}
+
+const listNFT = async ({ marketplaceContract, tokenId, price }) => {
+  try {
+    marketplaceContract.on(
+      "MarketItemCreated",
+      (itemId, nftAddress, tokenId, price, seller) => {
+        console.log("[event listener] MarketItemCreated", {
+          itemId: itemId.toString(),
+          nftAddress,
+          tokenId: tokenId.toString(),
+          price,
+          seller,
+        })
+      }
+    )
+
+    await (
+      await marketplaceContract.createMarketItem(
+        NFTContractData.address,
+        tokenId,
+        toWei(Number(price))
+      )
+    ).wait()
+
+    marketplaceContract.removeAllListeners("MarketItemCreated")
+  } catch (error) {
+    console.log("[NFT listing error]", error)
+  }
+}
+
+export { getEthersState, toWei, toEth, mintNFT, listNFT }
