@@ -31,14 +31,14 @@ contract NFT is ERC721URIStorage {
     }
 
     function mint(string memory tokenURI) public {
+        idCounter.increment();
         uint256 newTokenId = idCounter.current();
+
         _safeMint(msg.sender, newTokenId);
         _setTokenURI(newTokenId, tokenURI);
 
         setApprovalForAll(contractAddress, true);
 
         emit Minted(this.name(), this.symbol(), newTokenId, tokenURI);
-
-        idCounter.increment();
     }
 }

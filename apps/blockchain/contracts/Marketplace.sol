@@ -75,6 +75,7 @@ contract Marketplace is ReentrancyGuard, IERC721Receiver {
             _tokenId
         );
 
+        idCounter.increment();
         uint256 _newItemId = idCounter.current();
 
         marketItemsMapping[_newItemId] = MarketItem(
@@ -93,8 +94,6 @@ contract Marketplace is ReentrancyGuard, IERC721Receiver {
             _price,
             msg.sender
         );
-
-        idCounter.increment();
     }
 
     function getTotalPriceForItem(uint256 _itemId)
