@@ -8,7 +8,7 @@ const Login = () => {
         <Heading mb={6} align="center">
           Log In
         </Heading>
-        <Input placeholder="username" variant="filled" mb={3} />
+        <Input placeholder="email" variant="filled" mb={3} />
         <Input placeholder="password" variant="filled" mb={6} type="password" />
         <Button colorScheme="teal" mb={6}>
           Log In
