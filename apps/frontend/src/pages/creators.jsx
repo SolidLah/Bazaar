@@ -1,73 +1,74 @@
 import { Button, Heading, Flex, Input, Text } from "@chakra-ui/react"
-import { NFTContractData } from "../contractData"
-import { ethers } from "ethers"
 import { useState, useEffect } from "react"
 import { useWeb3Context } from "../contexts/Web3Context"
+import ConnectWalletButton from "src/components/ui/ConnectWalletButton"
 
 const Creators = () => {
   const web3Context = useWeb3Context()
-  const { nftContract, setNftContract } = web3Context.contracts.nft
-  const { signer } = web3Context.interface
-  const [name, setName] = useState("")
-  const [symbol, setSymbol] = useState("")
+  const { nftContract } = web3Context.contracts
+  const { ethersInitialised } = web3Context.interface
+
   const [uri, setUri] = useState("")
-
-  const mint = async () => {
-    if (window.ethereum.isMetaMask !== undefined) {
-      if (!signer) {
-        alert("Please connect to metamask")
-        return
-      }
-
-      try {
-        let tmpContract
-
-        if (nftContract) {
-          tmpContract = nftContract
-        } else {
-          tmpContract = new ethers.Contract(
-            NFTContractData.address,
-            NFTContractData.abi,
-            signer
-          )
-          setNftContract(tmpContract)
-        }
-
-        const data = await tmpContract.mint(uri)
-
-        console.log(data)
-      } catch (error) {
-        console.log(error)
-      }
-    } else {
-      console.log("MetaMask not detected")
-    }
-  }
+  const [msg, setMsg] = useState("")
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    const updateData = async () => {
-      if (nftContract) {
-        try {
-          const name = await nftContract.name()
-          const symbol = await nftContract.symbol()
-
-          setName(name)
-          setSymbol(symbol)
-        } catch (error) {
-          console.log("Error: " + error.name)
-        }
-      }
+    if (!ethersInitialised) {
+      console.log("[event listener] ethers not initialised")
+      return
     }
 
-    updateData()
-  }, [nftContract])
+    console.log("[event listener] effect")
 
-  const handleUri = (event) => {
-    setUri(event.target.value)
+    nftContract.on("Minted", (name, symbol, tokenId, tokenURI) => {
+      console.log("[event listener] event picked up", {
+        name: name,
+        symbol: symbol,
+        tokenId: tokenId.toString(),
+        tokenURI: tokenURI,
+      })
+
+      setMsg(tokenURI)
+      setUri("")
+      setLoading(false)
+    })
+
+    return () => {
+      console.log("[event listener] cleanup")
+      nftContract.removeAllListeners("Minted")
+    }
+  }, [ethersInitialised])
+
+  const mint = async () => {
+    if (typeof window.ethereum === "undefined") {
+      alert("MetaMask not installed!")
+      return
+    }
+
+    if (!ethersInitialised) {
+      alert("MetaMask not connected")
+      return
+    }
+
+    try {
+      setLoading(true)
+      await (await nftContract.mint(uri)).wait()
+    } catch (error) {
+      console.log("[NFT minting error]", error)
+    }
   }
 
   return (
-    <Flex h="100vh" w="100vw" align="center" justify="center">
+    <Flex
+      h="100vh"
+      w="100vw"
+      align="center"
+      justify="center"
+      direction="column"
+    >
+      <Flex mb={3}>
+        <ConnectWalletButton />
+      </Flex>
       <Flex direction="column" bg="gray.100" p={12} rounded="md">
         <Heading mb={6} align="center">
           Mint NFT
@@ -76,16 +77,15 @@ const Creators = () => {
         <Input placeholder="Collection Symbol" variant="filled" mb={6} />
         <Input
           value={uri}
-          onChange={handleUri}
+          onChange={(e) => setUri(e.target.value)}
           placeholder="URI"
           variant="flushed"
           mb={6}
         />
-        <Button onClick={mint} colorScheme="teal" mb={6}>
+        <Button onClick={mint} isLoading={loading} colorScheme="teal" mb={6}>
           Mint!
         </Button>
-        <Text>{"name: " + name}</Text>
-        <Text>{"symbol: " + symbol}</Text>
+        <Text>{"NFT message: " + msg}</Text>
       </Flex>
     </Flex>
   )

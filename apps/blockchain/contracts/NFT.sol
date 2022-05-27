@@ -11,26 +11,34 @@ contract NFT is ERC721URIStorage {
     Counters.Counter private idCounter;
     address private immutable contractAddress;
 
-    event Minted (
+    event Minted(
         string name,
         string symbol,
-        uint indexed tokenId,
+        uint256 indexed tokenId,
         string tokenURI
     );
 
-    constructor(string memory name, string memory symbol, address _contractAddress) ERC721(name, symbol) {
+    constructor(
+        string memory name,
+        string memory symbol,
+        address _contractAddress
+    ) ERC721(name, symbol) {
         contractAddress = _contractAddress;
     }
 
+    function getCurrentId() public view returns (uint256) {
+        return idCounter.current();
+    }
+
     function mint(string memory tokenURI) public {
+        idCounter.increment();
         uint256 newTokenId = idCounter.current();
+
         _safeMint(msg.sender, newTokenId);
         _setTokenURI(newTokenId, tokenURI);
 
         setApprovalForAll(contractAddress, true);
 
         emit Minted(this.name(), this.symbol(), newTokenId, tokenURI);
-
-        idCounter.increment();
     }
 }

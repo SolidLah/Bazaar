@@ -1,17 +1,20 @@
-import { createContext, useContext, useState } from "react"
+import { createContext, useContext, useState, useCallback } from "react"
+import { getEthersState } from "src/functions"
 
 const web3Context = createContext({
   contracts: {
-    nft: {
-      nftContract: null,
-      setNftContract: null,
-    },
+    nftContract: null,
+    setNftContract: null,
+    marketplaceContract: null,
+    setMarketplaceContract: null,
   },
   accounts: {
-    currentAddress: null,
+    address: null,
     setAddress: null,
   },
   interface: {
+    initialiseEthers: null,
+    ethersInitialised: null,
     provider: null,
     setProvider: null,
     signer: null,
@@ -22,21 +25,57 @@ const web3Context = createContext({
 const Web3ContextProvider = ({ children }) => {
   const [provider, setProvider] = useState(null)
   const [signer, setSigner] = useState(null)
-  const [currentAddress, setAddress] = useState("")
+  const [address, setAddress] = useState("")
   const [nftContract, setNftContract] = useState(null)
+  const [marketplaceContract, setMarketplaceContract] = useState(null)
+  const [initialised, setInitialised] = useState(false)
+
+  const initialiseEthers = useCallback(async () => {
+    if (typeof window.ethereum === "undefined") {
+      console.log("MetaMask not installed!")
+      return
+    }
+
+    try {
+      let tmpProvider = provider
+
+      if (!tmpProvider) {
+        const {
+          currProvider,
+          currSigner,
+          currAddress,
+          currNftContract,
+          currMktContract,
+        } = await getEthersState()
+
+        setProvider(currProvider)
+        setSigner(currSigner)
+        setAddress(currAddress)
+        setNftContract(currNftContract)
+        setMarketplaceContract(currMktContract)
+      }
+
+      setInitialised(true)
+    } catch (error) {
+      console.log("[Ethers initialisation error]", error)
+      return
+    }
+  }, [provider])
 
   const values = {
     contracts: {
-      nft: {
-        nftContract: nftContract,
-        setNftContract: setNftContract,
-      },
+      nftContract: nftContract,
+      setNftContract: setNftContract,
+      marketplaceContract: marketplaceContract,
+      setMarketplaceContract: setMarketplaceContract,
     },
     accounts: {
-      currentAddress: currentAddress,
+      address: address,
       setAddress: setAddress,
     },
     interface: {
+      initialiseEthers: initialiseEthers,
+      ethersInitialised: initialised,
       provider: provider,
       setProvider: setProvider,
       signer: signer,

@@ -22,9 +22,11 @@ const Header = () => {
         </HStack>
       </Link>
       <HStack justify="space-evenly" spacing={3}>
-        <Button colorScheme="blackAlpha" variant="ghost" color="white">
-          Marketplace
-        </Button>
+        <Link href="/marketplace" passHref>
+          <Button colorScheme="blackAlpha" variant="ghost" color="white">
+            Marketplace
+          </Button>
+        </Link>
         <Button colorScheme="blackAlpha" variant="ghost" color="white">
           Trending
         </Button>

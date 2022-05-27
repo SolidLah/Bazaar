@@ -31,6 +31,7 @@ async function main() {
   console.log("Marketplace contract address: ", marketplace.address)
   console.log("NFT contract address: ", nft.address)
 
+  saveToFrontend(marketplace, "Marketplace")
   saveToFrontend(nft, "NFT")
 }
 
