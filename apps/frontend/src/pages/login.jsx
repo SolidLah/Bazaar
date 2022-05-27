@@ -8,14 +8,13 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [user, loading, error] = useAuthState(auth);
-  const navigate = useNavigate();
   useEffect(() => {
     if (loading) {
       // loading screen
       return;
     }
-    if (user) navigate("/marketplace");
-  }, [user, loading, navigate]);
+    if (user) alert("Congrats you have logged in!");
+  }, [user,loading]);
 
   return (
     <Flex h="100vh" w="100vw" align="center" justify="center">
@@ -49,5 +48,3 @@ const Login = () => {
 
 
 export default Login
-
-
