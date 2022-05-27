@@ -1,19 +1,24 @@
 import { Flex, Heading, Input, Button } from "@chakra-ui/react"
 import Link from "next/link"
-import React, { useEffect, useState } from "react"
-import { auth, signInWithEmailAndPassword } from "../firebase"
+import { useEffect, useState } from "react"
+import { auth, logInWithEmailAndPassword } from "../firebase"
 import { useAuthState } from "react-firebase-hooks/auth"
 
 const Login = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [user, loading, error] = useAuthState(auth)
+
   useEffect(() => {
     if (loading) {
       // loading screen
       return
     }
-    if (user) alert("Congrats you have logged in!")
+
+    if (user) {
+      console.log(user)
+      alert("Congrats you have logged in!")
+    }
   }, [user, loading])
 
   return (
@@ -40,19 +45,19 @@ const Login = () => {
         <Button
           colorScheme="teal"
           mb={6}
-          onClick={() => signInWithEmailAndPassword(email, password)}
+          onClick={async () => await logInWithEmailAndPassword(email, password)}
         >
           Log In
         </Button>
 
         <Link href="/reset" passHref>
-          <Button variant="link" size="sm" href="/signup">
+          <Button variant="link" size="sm" mb={3}>
             Forgot Password
           </Button>
         </Link>
 
         <Link href="/signup" passHref>
-          <Button variant="link" size="sm" href="/signup">
+          <Button variant="link" size="sm">
             Sign Up
           </Button>
         </Link>

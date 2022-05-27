@@ -1,6 +1,6 @@
 import { Button, Flex, Heading, Input } from "@chakra-ui/react"
 import Link from "next/link"
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { auth, registerWithEmailAndPassword } from "../firebase"
 
@@ -11,16 +11,28 @@ const Signup = () => {
   const [name, setName] = useState("")
   const [user, loading, error] = useAuthState(auth)
 
-  const register = () => {
-    if (!name) alert("Please enter name")
-    if (password != confirmPassword) alert("Passwords are not similar")
-    registerWithEmailAndPassword(name, email, password)
-  }
   useEffect(() => {
-    if (loading) return
-    if (user) alert("Congratulations you have signed in!")
+    if (loading) {
+      return
+    }
+
+    if (user) {
+      console.log(user)
+      alert("Congratulations you have signed in!")
+    }
   }, [user, loading])
 
+  const register = async () => {
+    if (!name) {
+      alert("Please enter name")
+    }
+
+    if (password !== confirmPassword) {
+      alert("Passwords are not similar")
+    }
+
+    await registerWithEmailAndPassword(name, email, password)
+  }
   return (
     <Flex h="100vh" w="100vw" align="center" justify="center">
       <Flex direction="column" bg="gray.100" p={12} rounded="md">
@@ -53,7 +65,7 @@ const Signup = () => {
           placeholder="confirm password"
           variant="filled"
           mb={6}
-          type="confirm password"
+          type="password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
