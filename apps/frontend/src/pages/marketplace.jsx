@@ -3,7 +3,7 @@ import MintForm from "src/components/ui/MintForm"
 
 const Marketplace = () => {
   return (
-    <Center >
+    <Center h="100vh" w="100vw">
       <MintForm />
     </Center>
   )

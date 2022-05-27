@@ -61,6 +61,11 @@ const mintNFT = async ({ nftContract, uri }) => {
 }
 
 const listNFT = async ({ marketplaceContract, tokenId, price }) => {
+  if (price <= 0) {
+    alert("Price must be greater than zero")
+    return
+  }
+
   try {
     marketplaceContract.on(
       "MarketItemCreated",

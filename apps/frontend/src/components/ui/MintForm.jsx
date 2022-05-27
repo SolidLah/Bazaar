@@ -34,14 +34,11 @@ const MintForm = () => {
       return
     }
 
-    if (price <= 0) {
-      alert("Price must be greater than zero")
-      return
-    }
-
     setLoading(true)
+
     const tokenId = await mintNFT({ nftContract, uri: "Sample URI" })
     await listNFT({ marketplaceContract, tokenId, price })
+
     setLoading(false)
     setPrice("")
   }, [ethersInitialised, price, nftContract, marketplaceContract])
@@ -74,7 +71,7 @@ const MintForm = () => {
         mb={6}
       />
       <Button onClick={buttonCallback} isLoading={loading} colorScheme="teal">
-        Mint!
+        Mint
       </Button>
     </Flex>
   )
