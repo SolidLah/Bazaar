@@ -1,9 +1,20 @@
 import { Heading, HStack, Button, Avatar } from "@chakra-ui/react"
 import Image from "next/image"
+import { useRouter } from "next/router"
 import Link from "next/link"
 import bazaar_icon_alpha from "../../../public/bazaar_icon_alpha.png"
+import { useAuthState } from "react-firebase-hooks/auth"
+import { auth, logInWithEmailAndPassword, logout } from "../../firebase"
 
 const Header = () => {
+  const router = useRouter()
+  const [user, loading, error] = useAuthState(auth)
+
+  const logoutCallback = async () => {
+    await logout()
+    router.push("/login")
+  }
+
   return (
     <HStack
       w="100%"
@@ -38,12 +49,25 @@ const Header = () => {
         <Button colorScheme="blackAlpha" variant="ghost" color="white">
           Albums
         </Button>
-        <Link href="/login" passHref>
-          <Button colorScheme="blackAlpha" variant="ghost" color="white">
-            Login
+        {user ? (
+          <Button
+            onClick={logoutCallback}
+            colorScheme="blackAlpha"
+            variant="ghost"
+            color="white"
+          >
+            Logout
           </Button>
+        ) : (
+          <Link href="/login" passHref>
+            <Button colorScheme="blackAlpha" variant="ghost" color="white">
+              Login
+            </Button>
+          </Link>
+        )}
+        <Link href="/me" passHref>
+          <Avatar cursor="pointer" />
         </Link>
-        <Avatar />
       </HStack>
     </HStack>
   )

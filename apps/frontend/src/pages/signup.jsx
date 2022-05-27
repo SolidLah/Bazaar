@@ -3,6 +3,7 @@ import Link from "next/link"
 import { useEffect, useState } from "react"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { auth, registerWithEmailAndPassword } from "../firebase"
+import {useRouter} from "next/router"
 
 const Signup = () => {
   const [email, setEmail] = useState("")
@@ -10,6 +11,7 @@ const Signup = () => {
   const [confirmPassword, setConfirmPassword] = useState("")
   const [name, setName] = useState("")
   const [user, loading, error] = useAuthState(auth)
+  const router = useRouter()
 
   useEffect(() => {
     if (loading) {
@@ -17,18 +19,19 @@ const Signup = () => {
     }
 
     if (user) {
-      console.log(user)
-      alert("Congratulations you have signed in!")
+      router.push("/me")
     }
   }, [user, loading])
 
   const register = async () => {
     if (!name) {
       alert("Please enter name")
+      return
     }
 
     if (password !== confirmPassword) {
       alert("Passwords are not similar")
+      return
     }
 
     await registerWithEmailAndPassword(name, email, password)

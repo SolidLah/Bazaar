@@ -3,11 +3,13 @@ import Link from "next/link"
 import { useEffect, useState } from "react"
 import { auth, logInWithEmailAndPassword } from "../firebase"
 import { useAuthState } from "react-firebase-hooks/auth"
+import {useRouter} from "next/router"
 
 const Login = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [user, loading, error] = useAuthState(auth)
+  const router = useRouter()
 
   useEffect(() => {
     if (loading) {
@@ -16,8 +18,7 @@ const Login = () => {
     }
 
     if (user) {
-      console.log(user)
-      alert("Congrats you have logged in!")
+      router.push("/me")
     }
   }, [user, loading])
 
