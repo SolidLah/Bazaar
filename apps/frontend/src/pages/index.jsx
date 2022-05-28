@@ -1,14 +1,41 @@
-import { Center } from "@chakra-ui/react"
-import { useState } from "react"
+import { Flex, Heading, OrderedList, ListItem, Link } from "@chakra-ui/react"
 import ConnectWalletButton from "src/components/ui/ConnectWalletButton"
+import NextLink from "next/link"
 
 const Home = () => {
-  const [currentAddress, setAddress] = useState("")
-
   return (
-    <Center h="100vh" flexDirection="column">
-      <ConnectWalletButton />
-    </Center>
+    <Flex h="100vh" direction="column">
+      <Flex p={10} direction="column">
+        <Heading mb={3}>How to use</Heading>
+        <OrderedList mb={10}>
+          <ListItem>
+            Install{" "}
+            <Link href="https://metamask.io" isExternal color="teal">
+              metamask extension
+            </Link>{" "}
+            in your browser
+          </ListItem>
+          <ListItem>
+            Add{" "}
+            <Link href="https://mumbai.polygonscan.com" isExternal color="teal">
+              polygon mumbai testnet
+            </Link>{" "}
+            to metamask
+          </ListItem>
+          <ListItem>Connect your wallet to the site</ListItem>
+          <ListItem>
+            Go to the{" "}
+            <NextLink href="/marketplace" passHref>
+              <Link color="teal">marketplace</Link>
+            </NextLink>{" "}
+            and mint your NFT!
+          </ListItem>
+        </OrderedList>
+      </Flex>
+      <Flex p={10} justify="center">
+        <ConnectWalletButton />
+      </Flex>
+    </Flex>
   )
 }
 
