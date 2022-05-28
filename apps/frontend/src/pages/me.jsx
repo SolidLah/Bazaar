@@ -1,4 +1,4 @@
-import { Spinner, Text } from "@chakra-ui/react"
+import { Center, Spinner, Text } from "@chakra-ui/react"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { collection, query, where, getDocs } from "firebase/firestore"
 import { useRouter } from "next/router"
@@ -42,7 +42,11 @@ const Me = () => {
   }, [user, hasAccess])
 
   if (!hasAccess) {
-    return <Spinner />
+    return (
+      <Center h="100vh" w="100vw">
+        <Spinner size="xl" />
+      </Center>
+    )
   }
 
   return (
