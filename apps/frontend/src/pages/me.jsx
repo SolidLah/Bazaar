@@ -45,7 +45,11 @@ const Me = () => {
     return <Spinner />
   }
 
-  return <Text>{`Hey there ${userObj ? userObj.name : ""}!`}</Text>
+  return (
+    <Text>
+      {userObj ? JSON.stringify(userObj, undefined, 2) : "no user found"}
+    </Text>
+  )
 }
 
 export default Me
