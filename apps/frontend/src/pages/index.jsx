@@ -22,6 +22,12 @@ const Home = () => {
             </Link>{" "}
             to metamask
           </ListItem>
+          <ListItem>
+            Get MATIC from a{" "}
+            <Link href="https://mumbaifaucet.com" isExternal color="teal">
+              faucet
+            </Link>
+          </ListItem>
           <ListItem>Connect your wallet to the site</ListItem>
           <ListItem>
             Go to the{" "}
