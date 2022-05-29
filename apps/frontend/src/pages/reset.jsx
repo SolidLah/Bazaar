@@ -1,4 +1,4 @@
-import { auth, sendPasswordReset } from "../firebase";
+import { auth, sendPasswordResetEmail } from "../../../backend/firebase";
 import { Button, Flex, Heading, Input } from "@chakra-ui/react"
 import Link from "next/link"
 import React, { useEffect, useState } from "react";
@@ -24,7 +24,7 @@ return (
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <Button colorScheme="teal" mb={6} onClick = {() => sendPasswordReset(email)}>
+        <Button colorScheme="teal" mb={6} onClick = {() => sendPasswordResetEmail(email)}>
           Send Reset Link to Email
         </Button>
         <Link href="/login" passHref>
