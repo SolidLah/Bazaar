@@ -177,6 +177,26 @@ describe("NFTMarketplace", function () {
           initialSellerBalance.add(priceInWei)
         )
       })
+
+      it("Revert if MarketItem does not exist", async function () {
+        await expect(
+          marketplace
+            .connect(addr2)
+            .purchaseMarketItem(0, { value: totalPriceInWei })
+        ).to.be.revertedWith("Market item does not exist")
+      })
+
+      it("Revert if MarketItem already sold", async function () {
+        marketplace
+          .connect(addr2)
+          .purchaseMarketItem(1, { value: totalPriceInWei })
+
+        await expect(
+          marketplace
+            .connect(addr2)
+            .purchaseMarketItem(1, { value: totalPriceInWei })
+        ).to.be.revertedWith("Market item already sold")
+      })
     })
   })
 })

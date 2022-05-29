@@ -110,7 +110,7 @@ contract Marketplace is ReentrancyGuard, IERC721Receiver {
         nonReentrant
     {
         require(
-            _soldItemId >= 0 && _soldItemId <= idCounter.current(),
+            _soldItemId > 0 && _soldItemId <= idCounter.current(),
             "Market item does not exist"
         );
 
