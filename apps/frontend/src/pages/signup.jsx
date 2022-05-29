@@ -3,7 +3,7 @@ import Link from "next/link"
 import { useEffect, useState } from "react"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { auth, registerWithEmailAndPassword } from "../firebase"
-import {useRouter} from "next/router"
+import { useRouter } from "next/router"
 
 const Signup = () => {
   const [email, setEmail] = useState("")
