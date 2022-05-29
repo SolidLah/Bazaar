@@ -26,17 +26,9 @@ const Reset = () => {
         >
           Send Reset Link to Email
         </Button>
-        <Link href="/login" passHref>
-          <Button variant="link" size="sm">
-            Log In
-          </Button>
-        </Link>
         <Link href="/signup" passHref>
           <Button variant="link" size="sm">
-            {
-              // eslint-disable-next-line react/no-unescaped-entities
-            }{" "}
-            Don't have an account? Sign up with us now!
+            Sign Up
           </Button>
         </Link>
       </Flex>
