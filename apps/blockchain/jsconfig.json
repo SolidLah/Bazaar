@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "checkJs": false,
+    "target": "ES6",
+    "module": "CommonJS",
+    "baseUrl": "."
+  },
+  "exclude": ["node_modules"],
+  "typeAcquisition": {
+    "enable": true,
+    "include": ["mocha", "ethers"]
+  }
+}
