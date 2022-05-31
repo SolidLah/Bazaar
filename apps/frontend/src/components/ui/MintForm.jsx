@@ -1,13 +1,11 @@
 import { useState, useCallback, useMemo } from "react"
-// import { create as ipfsHttpClient } from "ipfs-http-client"
 import { Button, Flex, Heading, Input } from "@chakra-ui/react"
 import { useWeb3Context } from "../../contexts/Web3Context"
 import { mintNFT, listNFT } from "../../functions"
 
 const MintForm = () => {
-  const web3Context = useWeb3Context()
-  const { nftContract, marketplaceContract } = web3Context.contracts
-  const { ethersInitialised } = web3Context.interface
+  const { state } = useWeb3Context()
+  const { nftContract, mktContract, ethersInitialised } = state
 
   const [image, setImage] = useState()
   const [price, setPrice] = useState("")
@@ -24,6 +22,13 @@ const MintForm = () => {
   }, [name, description, image])
 
   const buttonCallback = useCallback(async () => {
+    const numPrice = Number(price)
+
+    if (!numPrice || !name || !description) {
+      alert("Missing fields")
+      return
+    }
+
     if (typeof window.ethereum === "undefined") {
       alert("MetaMask not installed!")
       return
@@ -37,11 +42,13 @@ const MintForm = () => {
     setLoading(true)
 
     const tokenId = await mintNFT({ nftContract, uri: "Sample URI" })
-    await listNFT({ marketplaceContract, tokenId, price })
+    await listNFT({ mktContract, tokenId, price: numPrice })
 
     setLoading(false)
     setPrice("")
-  }, [ethersInitialised, price, nftContract, marketplaceContract])
+    setName("")
+    setDescription("")
+  }, [ethersInitialised, price, name, description, nftContract, mktContract])
 
   return (
     <Flex direction="column" bg="gray.100" p={12} rounded="md">
