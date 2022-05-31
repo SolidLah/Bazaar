@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo } from "react"
 import { Button, Flex, Heading, Input } from "@chakra-ui/react"
 import { useWeb3Context } from "../../contexts/Web3Context"
-import { mintNFT, listNFT } from "../../functions"
+import { mintNFT, listNFT } from "../../functions/web3"
 
 const MintForm = () => {
   const { state } = useWeb3Context()

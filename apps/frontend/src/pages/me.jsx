@@ -2,7 +2,7 @@ import { Center, Spinner, Text } from "@chakra-ui/react"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { collection, query, where, getDocs } from "firebase/firestore"
 import { useRouter } from "next/router"
-import { auth, db } from "../firebase"
+import { auth, db } from "../functions/firebase"
 import { useEffect, useState } from "react"
 
 const Me = () => {

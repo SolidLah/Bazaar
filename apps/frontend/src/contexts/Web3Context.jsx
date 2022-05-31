@@ -1,5 +1,5 @@
 import { createContext, useContext, useReducer } from "react"
-import { web3Reducer, getEthersState } from "src/functions"
+import { web3Reducer, getEthersState } from "../functions/web3"
 
 const initialState = {
   nftContract: null,
