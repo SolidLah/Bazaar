@@ -28,31 +28,40 @@ const getEthersState = async () => {
   )
 
   return {
-    currProvider,
-    currSigner,
-    currAddress,
     currNftContract,
     currMktContract,
+    currAddress,
+    currProvider,
+    currSigner,
+  }
+}
+
+const web3Reducer = (state, action) => {
+  const {
+    currNftContract,
+    currMktContract,
+    currAddress,
+    currProvider,
+    currSigner,
+  } = action
+
+  return {
+    ...state,
+    nftContract: currNftContract,
+    mktContract: currMktContract,
+    address: currAddress,
+    ethersInitialised: true,
+    provider: currProvider,
+    signer: currSigner,
   }
 }
 
 const mintNFT = async ({ nftContract, uri }) => {
   try {
-    nftContract.on("Minted", (name, symbol, tokenId, tokenURI) => {
-      console.log("[event listener] Minted", {
-        name,
-        symbol,
-        tokenId: tokenId.toNumber(),
-        tokenURI,
-      })
-    })
-
     await (await nftContract.mint(uri)).wait()
 
     const currTokenId = await nftContract.getCurrentId()
     console.log("currTokenId: " + currTokenId)
-
-    nftContract.removeAllListeners("Minted")
 
     return currTokenId
   } catch (error) {
@@ -60,38 +69,18 @@ const mintNFT = async ({ nftContract, uri }) => {
   }
 }
 
-const listNFT = async ({ marketplaceContract, tokenId, price }) => {
-  if (price <= 0) {
-    alert("Price must be greater than zero")
-    return
-  }
-
+const listNFT = async ({ mktContract, tokenId, price }) => {
   try {
-    marketplaceContract.on(
-      "MarketItemCreated",
-      (itemId, nftAddress, tokenId, price, seller) => {
-        console.log("[event listener] MarketItemCreated", {
-          itemId: itemId.toString(),
-          nftAddress,
-          tokenId: tokenId.toString(),
-          price,
-          seller,
-        })
-      }
-    )
-
     await (
-      await marketplaceContract.createMarketItem(
+      await mktContract.createMarketItem(
         NFTContractData.address,
         tokenId,
-        toWei(Number(price))
+        toWei(price)
       )
     ).wait()
-
-    marketplaceContract.removeAllListeners("MarketItemCreated")
   } catch (error) {
     console.log("[NFT listing error]", error)
   }
 }
 
-export { getEthersState, toWei, toEth, mintNFT, listNFT }
+export { getEthersState, web3Reducer, toWei, toEth, mintNFT, listNFT }

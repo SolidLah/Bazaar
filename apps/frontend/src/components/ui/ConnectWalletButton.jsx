@@ -3,8 +3,8 @@ import { useWeb3Context } from "../../contexts/Web3Context"
 
 const ConnectWalletButton = () => {
   const web3Context = useWeb3Context()
-  const { initialiseEthers } = web3Context.interface
-  const { address } = web3Context.accounts
+  const { state, initialiseEthers } = web3Context
+  const { address } = state
 
   return (
     <Button onClick={initialiseEthers}>
