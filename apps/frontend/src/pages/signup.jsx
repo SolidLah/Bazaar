@@ -2,7 +2,7 @@ import { Button, Flex, Heading, Input } from "@chakra-ui/react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { useAuthState } from "react-firebase-hooks/auth"
-import { auth, registerWithEmailAndPassword } from "../firebase"
+import { auth, registerWithEmailAndPassword } from "../functions/firebase"
 import { useRouter } from "next/router"
 
 const Signup = () => {
