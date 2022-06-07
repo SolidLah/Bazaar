@@ -1,12 +1,12 @@
 import { Center } from "@chakra-ui/react"
 import MintForm from "src/components/ui/MintForm"
 
-const Marketplace = () => {
+const Mint = () => {
   return (
-    <Center h="100vh" w="100vw">
+    <Center h="%100" w="%100" p={10}>
       <MintForm />
     </Center>
   )
 }
 
-export default Marketplace
+export default Mint
