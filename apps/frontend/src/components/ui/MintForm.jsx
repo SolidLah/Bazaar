@@ -69,13 +69,27 @@ const MintForm = () => {
     setLoading("uploading image")
 
     // upload image then NFT to IPFS
-    const nftURI = await uploadNFT()
+    let nftURI
+
+    try {
+      nftURI = await uploadNFT()
+    } catch (error) {
+      console.log(error)
+      setLoading("")
+      return
+    }
 
     setLoading("minting NFT")
 
     // mint and list NFT
-    const tokenId = await mintNFT({ nftContract, uri: nftURI })
-    await listNFT({ mktContract, tokenId, price: numPrice })
+    try {
+      const tokenId = await mintNFT({ nftContract, uri: nftURI })
+      await listNFT({ mktContract, tokenId, price: numPrice })
+    } catch (error) {
+      console.log(error)
+      setLoading("")
+      return
+    }
 
     setLoading("")
     setName("")
