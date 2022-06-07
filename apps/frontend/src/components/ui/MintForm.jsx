@@ -1,5 +1,13 @@
 import { useState, useCallback } from "react"
-import { Button, Flex, Heading, Input, Text } from "@chakra-ui/react"
+import {
+  Button,
+  Flex,
+  Heading,
+  Input,
+  InputGroup,
+  InputRightAddon,
+  useToast,
+} from "@chakra-ui/react"
 import { useWeb3Context } from "../../contexts/Web3Context"
 import { mintNFT, listNFT } from "../../functions/web3"
 import axios from "axios"
@@ -14,6 +22,8 @@ const MintForm = () => {
   const [description, setDescription] = useState("")
   const [loading, setLoading] = useState("")
 
+  const toast = useToast()
+
   const getImage = (event) => {
     event.preventDefault()
     setImage(event.target.files[0])
@@ -26,7 +36,6 @@ const MintForm = () => {
     imageData.append("image", image)
 
     const imageUploadRes = await axios.post("/api/image", imageData)
-    console.log(imageUploadRes)
     const imageCID = imageUploadRes.data.msg.IpfsHash
     const imageURI = "https://gateway.pinata.cloud/ipfs/" + imageCID
 
@@ -66,7 +75,7 @@ const MintForm = () => {
       return
     }
 
-    setLoading("uploading image")
+    setLoading("Uploading Image")
 
     // upload image then NFT to IPFS
     let nftURI
@@ -74,19 +83,31 @@ const MintForm = () => {
     try {
       nftURI = await uploadNFT()
     } catch (error) {
-      console.log(error)
+      toast({
+        title: "Minting status",
+        description: "Error occured",
+        status: "error",
+        isClosable: true,
+        position: "bottom-right",
+      })
       setLoading("")
       return
     }
 
-    setLoading("minting NFT")
+    setLoading("Minting NFT")
 
     // mint and list NFT
     try {
       const tokenId = await mintNFT({ nftContract, uri: nftURI })
       await listNFT({ mktContract, tokenId, price: numPrice })
     } catch (error) {
-      console.log(error)
+      toast({
+        title: "Minting status",
+        description: "Error occured",
+        status: "error",
+        isClosable: true,
+        position: "bottom-right",
+      })
       setLoading("")
       return
     }
@@ -95,6 +116,14 @@ const MintForm = () => {
     setName("")
     setDescription("")
     setPrice("")
+
+    toast({
+      title: "Minting status",
+      description: "Minting success!",
+      status: "success",
+      isClosable: true,
+      position: "bottom-right",
+    })
   }, [
     ethersInitialised,
     image,
@@ -126,21 +155,24 @@ const MintForm = () => {
         variant="filled"
         mb={3}
       />
-      <Input
-        value={price}
-        onChange={(e) => setPrice(e.target.value)}
-        placeholder="price"
-        variant="filled"
-        mb={6}
-      />
+      <InputGroup>
+        <Input
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+          placeholder="price"
+          variant="filled"
+          mb={6}
+        />
+        <InputRightAddon color="gray.500" bg="gray.200" children="MATIC" />
+      </InputGroup>
       <Button
         onClick={buttonCallback}
         isLoading={loading !== ""}
+        loadingText={loading}
         colorScheme="teal"
       >
         Mint
       </Button>
-      <Text>{loading}</Text>
     </Flex>
   )
 }

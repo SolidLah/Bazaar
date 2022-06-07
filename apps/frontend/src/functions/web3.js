@@ -57,30 +57,22 @@ const web3Reducer = (state, action) => {
 }
 
 const mintNFT = async ({ nftContract, uri }) => {
-  try {
-    await (await nftContract.mint(uri)).wait()
+  await (await nftContract.mint(uri)).wait()
 
-    const currTokenId = await nftContract.getCurrentId()
-    console.log("currTokenId: " + currTokenId)
+  const currTokenId = await nftContract.getCurrentId()
+  console.log("currTokenId: " + currTokenId)
 
-    return currTokenId
-  } catch (error) {
-    console.log("[NFT minting error]", error)
-  }
+  return currTokenId
 }
 
 const listNFT = async ({ mktContract, tokenId, price }) => {
-  try {
-    await (
-      await mktContract.createMarketItem(
-        NFTContractData.address,
-        tokenId,
-        toWei(price)
-      )
-    ).wait()
-  } catch (error) {
-    console.log("[NFT listing error]", error)
-  }
+  await (
+    await mktContract.createMarketItem(
+      NFTContractData.address,
+      tokenId,
+      toWei(price)
+    )
+  ).wait()
 }
 
 export { getEthersState, web3Reducer, toWei, toEth, mintNFT, listNFT }
