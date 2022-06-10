@@ -7,9 +7,10 @@ import {
   InputGroup,
   InputRightAddon,
   useToast,
+  Center,
 } from "@chakra-ui/react"
-import { useWeb3Context } from "../../contexts/Web3Context"
-import { mintNFT, listNFT } from "../../functions/web3"
+import { useWeb3Context } from "src/contexts/Web3Context"
+import { mintNFT, listNFT } from "src/functions/web3"
 import axios from "axios"
 
 const MintForm = () => {
@@ -61,17 +62,35 @@ const MintForm = () => {
     const numPrice = Number(price)
 
     if (!image || !numPrice || !name || !description) {
-      alert("Missing fields")
+      toast({
+        title: "Form",
+        description: "Missing fields",
+        status: "error",
+        isClosable: true,
+        position: "bottom-right",
+      })
       return
     }
 
     if (typeof window.ethereum === "undefined") {
-      alert("MetaMask not installed!")
+      toast({
+        title: "Metamask",
+        description: "Metamask is not installed!",
+        status: "error",
+        isClosable: true,
+        position: "bottom-right",
+      })
       return
     }
 
     if (!ethersInitialised) {
-      alert("MetaMask not connected")
+      toast({
+        title: "Metamask",
+        description: "Connect a Metamask wallet!",
+        status: "error",
+        isClosable: true,
+        position: "bottom-right",
+      })
       return
     }
 
@@ -136,44 +155,52 @@ const MintForm = () => {
   ])
 
   return (
-    <Flex direction="column" bg="gray.100" p={12} rounded="md">
-      <Heading align="center" mb={6}>
-        Mint NFT
-      </Heading>
-      <Input type="file" onChange={getImage} mb={3} />
-      <Input
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        placeholder="name"
-        variant="filled"
-        mb={3}
-      />
-      <Input
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        placeholder="description"
-        variant="filled"
-        mb={3}
-      />
-      <InputGroup>
+    <Center h="%100" w="%100" p={10}>
+      <Flex direction="column" bg="gray.100" p={12} rounded="md">
+        <Heading align="center" mb={6}>
+          Mint NFT
+        </Heading>
+        <Input type="file" onChange={getImage} mb={3} />
         <Input
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-          placeholder="price"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="name"
           variant="filled"
-          mb={6}
+          mb={3}
         />
-        <InputRightAddon color="gray.500" bg="gray.200" children="MATIC" />
-      </InputGroup>
-      <Button
-        onClick={buttonCallback}
-        isLoading={loading !== ""}
-        loadingText={loading}
-        colorScheme="teal"
-      >
-        Mint
-      </Button>
-    </Flex>
+        <Input
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder="description"
+          variant="filled"
+          mb={3}
+        />
+        <InputGroup>
+          <Input
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            placeholder="price"
+            variant="filled"
+            mb={6}
+          />
+          <InputRightAddon
+            color="gray.500"
+            bg="gray.200"
+            fontSize={13}
+            fontWeight="bold"
+            children="MATIC"
+          />
+        </InputGroup>
+        <Button
+          onClick={buttonCallback}
+          isLoading={loading !== ""}
+          loadingText={loading}
+          colorScheme="teal"
+        >
+          Mint
+        </Button>
+      </Flex>
+    </Center>
   )
 }
 
