@@ -188,8 +188,9 @@ const MintForm = () => {
             bg="gray.200"
             fontSize={13}
             fontWeight="bold"
-            children="MATIC"
-          />
+          >
+            MATIC
+          </InputRightAddon>
         </InputGroup>
         <Button
           onClick={buttonCallback}
