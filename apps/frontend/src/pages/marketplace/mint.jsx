@@ -155,7 +155,7 @@ const MintForm = () => {
   ])
 
   return (
-    <Center h="%100" w="%100" p={10}>
+    <Center h="100%" w="100%" p={10}>
       <Flex direction="column" bg="gray.100" p={12} rounded="md">
         <Heading align="center" mb={6}>
           Mint NFT
