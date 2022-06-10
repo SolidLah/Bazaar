@@ -1,31 +1,53 @@
-import { Square, Flex, Box, Text, Heading } from "@chakra-ui/react"
+import { Square, Flex, Box, Heading, Badge } from "@chakra-ui/react"
 import Image from "next/image"
-import bazaar_icon_alpha from "../../../public/bazaar_icon_alpha.png"
+import Link from "next/link"
+import { motion } from "framer-motion"
 
 const Card = ({ item }) => {
   return (
-    <Square
-      size={60}
-      bg="gray.100"
-      m={3}
-      borderRadius="lg"
-      _hover={{ shadow: "md" }}
-      cursor="pointer"
-    >
-      <Flex
-        w="100%"
-        h="100%"
-        direction="column"
-        align="center"
-        justify="flex-end"
+    <Link href="/marketplace/details/" passHref>
+      <Square
+        as={motion.div}
+        size={60}
+        bg="gray.100"
+        m={3}
+        borderRadius={10}
+        _hover={{ shadow: "outline" }}
+        cursor="pointer"
+        whileHover={{ y: -3, scale: 1.02 }}
       >
-        <Image src={bazaar_icon_alpha} alt="Bazaar Icon" />
-        <Box bg="gray.200" w="100%" p={3} borderBottomRadius="lg">
-          <Heading size="sm">{item.name}</Heading>
-          <Text>{item.description}</Text>
-        </Box>
-      </Flex>
-    </Square>
+        <Flex
+          w="100%"
+          h="100%"
+          direction="column"
+          align="center"
+          justify="flex-end"
+        >
+          <Box w="100%" h="100%" pos="relative">
+            <Image
+              src={item.image}
+              alt="NFT here"
+              layout="fill"
+              objectFit="cover"
+              style={{ borderTopRightRadius: 10, borderTopLeftRadius: 10 }}
+            />
+          </Box>
+          <Flex
+            bg="gray.200"
+            w="100%"
+            p={3}
+            borderBottomRadius={10}
+            direction="row"
+            justify="space-between"
+          >
+            <Heading size="sm">{item.name}</Heading>
+            <Badge colorScheme="green" variant="subtle" fontSize={12}>
+              {item.price} MATIC
+            </Badge>
+          </Flex>
+        </Flex>
+      </Square>
+    </Link>
   )
 }
 

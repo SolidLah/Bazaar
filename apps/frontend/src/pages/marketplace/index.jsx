@@ -1,7 +1,7 @@
-import { Button, Heading, VStack, HStack, ButtonGroup } from "@chakra-ui/react"
+import { Button, Heading, VStack, HStack, ButtonGroup, Flex } from "@chakra-ui/react"
 import Link from "next/link"
-import Carousel from "src/components/ui/Carousel"
-import stub from "../../stub"
+import Card from "src/components/ui/Card"
+import stub from "src/stub"
 
 const Header = () => {
   return (
@@ -19,11 +19,21 @@ const Header = () => {
   )
 }
 
+const AllListings = ({ items }) => {
+  return (
+    <Flex w="100%" h="100%" wrap="wrap" justify="flex-start">
+      {items.map((item) => {
+        return <Card key={item.name} item={item} />
+      })}
+    </Flex>
+  )
+}
+
 const Marketplace = () => {
   return (
     <VStack w="100%" p={10} spacing={20}>
       <Header />
-      <Carousel items={stub} />
+      <AllListings items={stub} />
     </VStack>
   )
 }
