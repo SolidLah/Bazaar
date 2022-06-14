@@ -25,7 +25,7 @@ module.exports = {
   networks: {
     hardhat: {},
     matic: {
-      url: "https://rpc-mumbai.maticvigil.com/v1/1900e10355bd829ef6830f71facdfc058748019a",
+      url: process.env.MATIC_VIGIL_URL,
       accounts: [process.env.PRIVATE_KEY],
     },
   },
