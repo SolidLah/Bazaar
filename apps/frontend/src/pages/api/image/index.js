@@ -47,9 +47,11 @@ export default async function handler(req, res) {
         pinataRes = await pinata.pinJSONToIPFS(nftJSON)
       }
 
-      res.status(200).json({ success: true, msg: pinataRes })
+      res
+        .status(200)
+        .json({ route: "api/image/", success: true, msg: pinataRes })
     } catch (error) {
-      res.status(500).json({ success: false, msg: error })
+      res.status(500).json({ route: "api/image/", success: false, msg: error })
     }
   }
 }
