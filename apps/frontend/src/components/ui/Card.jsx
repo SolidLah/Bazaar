@@ -27,6 +27,7 @@ const Card = ({ item }) => {
             <Image
               src={item.image}
               alt="NFT here"
+              priority="true"
               layout="fill"
               objectFit="cover"
               style={{ borderTopRightRadius: 10, borderTopLeftRadius: 10 }}
