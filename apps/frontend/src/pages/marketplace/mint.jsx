@@ -9,13 +9,15 @@ import {
   useToast,
   Center,
 } from "@chakra-ui/react"
-import { useWeb3Context } from "src/contexts/Web3Context"
 import { mintNFT, listNFT } from "src/functions/web3"
 import axios from "axios"
+import ConnectWalletButton from "src/components/ui/ConnectWalletButton"
+import useEthersStore from "src/stores/ethersStore"
 
 const MintForm = () => {
-  const { state } = useWeb3Context()
-  const { nftContract, mktContract, ethersInitialised } = state
+  const ethersInitialised = useEthersStore((state) => state.ethersInitialised)
+  const nftContract = useEthersStore((state) => state.nftContract)
+  const mktContract = useEthersStore((state) => state.mktContract)
 
   const [image, setImage] = useState(null)
   const [price, setPrice] = useState("")
@@ -155,7 +157,8 @@ const MintForm = () => {
   ])
 
   return (
-    <Center h="100%" w="100%" p={10}>
+    <Center h="100%" w="100%" p={10} flexDirection="column">
+      <ConnectWalletButton />
       <Flex direction="column" bg="gray.100" p={12} rounded="md">
         <Heading align="center" mb={6}>
           Mint NFT

@@ -1,10 +1,9 @@
 import { Button } from "@chakra-ui/react"
-import { useWeb3Context } from "../../contexts/Web3Context"
+import useEthersStore from "src/stores/ethersStore"
 
 const ConnectWalletButton = () => {
-  const web3Context = useWeb3Context()
-  const { state, initialiseEthers } = web3Context
-  const { address } = state
+  const address = useEthersStore((state) => state.address)
+  const initialiseEthers = useEthersStore((state) => state.initialiseEthers)
 
   return (
     <Button onClick={initialiseEthers}>
