@@ -7,11 +7,11 @@ import {
   Flex,
   Spinner,
 } from "@chakra-ui/react"
-import axios from "axios"
 import Link from "next/link"
 import Card from "src/components/ui/Card"
 import stub from "src/stub"
-import { useState, useEffect, useMemo } from "react"
+import { useEffect, useMemo } from "react"
+import useListingsStore from "src/stores/listingsStore"
 
 const Header = () => {
   return (
@@ -40,22 +40,15 @@ const AllListings = ({ items }) => {
 }
 
 const Marketplace = () => {
-  const [loading, setLoading] = useState(true)
-  const [listings, setListings] = useState([])
+  const listings = useListingsStore((state) => state.listings)
+  const setListings = useListingsStore((state) => state.setListings)
 
   useEffect(() => {
     let mounted = true
 
-    const getListings = async () => {
-      const listings = (await axios.get("http://localhost:3000/api/listings"))
-        .data.msg
-
-      setListings(listings)
-      setLoading(false)
-    }
-
     if (mounted) {
-      getListings()
+      console.log("called")
+      setListings(listings)
     }
 
     return () => {
@@ -68,16 +61,13 @@ const Marketplace = () => {
   return (
     <VStack w="100%" p={10} spacing={20}>
       <Header />
-      {loading ? <Spinner size="lg" /> : <AllListings items={newStub} />}
+      {listings.length == 0 ? (
+        <Spinner size="lg" />
+      ) : (
+        <AllListings items={newStub} />
+      )}
     </VStack>
   )
 }
-
-/* export async function getServerSideProps() {
-  const listings = (await axios.get("http://localhost:3000/api/listings")).data
-    .msg
-
-  return { props: { listings } }
-} */
 
 export default Marketplace

@@ -63,17 +63,6 @@ const MintForm = () => {
   const buttonCallback = useCallback(async () => {
     const numPrice = Number(price)
 
-    if (!image || !numPrice || !name || !description) {
-      toast({
-        title: "Form",
-        description: "Missing fields",
-        status: "error",
-        isClosable: true,
-        position: "bottom-right",
-      })
-      return
-    }
-
     if (typeof window.ethereum === "undefined") {
       toast({
         title: "Metamask",
@@ -89,6 +78,17 @@ const MintForm = () => {
       toast({
         title: "Metamask",
         description: "Connect a Metamask wallet!",
+        status: "error",
+        isClosable: true,
+        position: "bottom-right",
+      })
+      return
+    }
+
+    if (!image || !numPrice || !name || !description) {
+      toast({
+        title: "Form",
+        description: "Missing fields",
         status: "error",
         isClosable: true,
         position: "bottom-right",

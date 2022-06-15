@@ -1,5 +1,5 @@
-import { ethers } from "ethers"
 import create from "zustand"
+import { ethers } from "ethers"
 import { NFTContractData, MarketplaceContractData } from "src/contractData"
 
 const useEthersStore = create((set, get) => ({
