@@ -11,11 +11,11 @@ import {
 } from "@chakra-ui/react"
 import Image from "next/image"
 import { useCallback } from "react"
-import { useWeb3Context } from "src/contexts/Web3Context"
+import useEthersStore from "src/stores/ethersStore"
 
 const DetailsBox = () => {
-  const { state } = useWeb3Context()
-  const { ethersInitialised, mktContract } = state
+  const ethersInitialised = useEthersStore((state) => state.ethersInitialised)
+  const mktContract = useEthersStore((state) => state.mktContract)
 
   const toast = useToast()
 
