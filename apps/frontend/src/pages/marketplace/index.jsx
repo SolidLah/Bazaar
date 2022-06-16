@@ -62,7 +62,7 @@ const Marketplace = () => {
     <VStack w="100%" p={10} spacing={20}>
       <Header />
       {listings.length == 0 ? (
-        <Spinner size="lg" />
+        <Spinner size="xl" color="gray" />
       ) : (
         <AllListings items={newStub} />
       )}
