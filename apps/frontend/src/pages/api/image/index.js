@@ -17,14 +17,14 @@ const asyncParse = (req) =>
     })
   })
 
+const pinata = pinataSDK(
+  process.env.PINATA_API_KEY,
+  process.env.PINATA_API_SECRET
+)
+
 export default async function handler(req, res) {
   if (req.method === "POST") {
     try {
-      const pinata = pinataSDK(
-        process.env.PINATA_API_KEY,
-        process.env.PINATA_API_SECRET
-      )
-
       const isAuth = (await pinata.testAuthentication()).authenticated
 
       if (!isAuth) {
@@ -33,23 +33,26 @@ export default async function handler(req, res) {
 
       const formidableRes = await asyncParse(req)
 
-      const type = formidableRes.fields.type
+      // getting data from request
+      const image = fs.createReadStream(formidableRes.files.image.filepath)
+      const name = formidableRes.fields.name
+      const description = formidableRes.fields.description
 
-      let pinataRes
+      // upload image
+      const imageCID = (await pinata.pinFileToIPFS(image)).IpfsHash
+      const imageURI = "https://gateway.pinata.cloud/ipfs/" + imageCID
 
-      if (type === "IMAGE") {
-        const image = fs.createReadStream(formidableRes.files.image.filepath)
-        pinataRes = await pinata.pinFileToIPFS(image)
+      const nftJSON = {
+        image: imageURI,
+        name,
+        description,
       }
 
-      if (type === "NFT") {
-        const nftJSON = JSON.parse(formidableRes.fields.nftJSON)
-        pinataRes = await pinata.pinJSONToIPFS(nftJSON)
-      }
+      // upload NFT
+      const nftCID = (await pinata.pinJSONToIPFS(nftJSON)).IpfsHash
+      const nftURI = "https://gateway.pinata.cloud/ipfs/" + nftCID
 
-      res
-        .status(200)
-        .json({ route: "api/image/", success: true, msg: pinataRes })
+      res.status(200).json({ route: "api/image/", success: true, msg: nftURI })
     } catch (error) {
       res.status(500).json({ route: "api/image/", success: false, msg: error })
     }

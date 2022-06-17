@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react"
+import { useState, useCallback, useRef } from "react"
 import {
   Button,
   Flex,
@@ -19,49 +19,33 @@ const MintForm = () => {
   const nftContract = useEthersStore((state) => state.nftContract)
   const mktContract = useEthersStore((state) => state.mktContract)
 
-  const [image, setImage] = useState(null)
-  const [price, setPrice] = useState("")
-  const [name, setName] = useState("")
-  const [description, setDescription] = useState("")
+  const imageRef = useRef()
+  const nameRef = useRef()
+  const descriptionRef = useRef()
+  const priceRef = useRef()
   const [loading, setLoading] = useState("")
 
   const toast = useToast()
 
-  const getImage = (event) => {
-    event.preventDefault()
-    setImage(event.target.files[0])
-  }
-
-  const uploadNFT = useCallback(async () => {
-    // upload image to IPFS
+  const uploadNFT = async (image, name, description) => {
+    // initialise FormData object
     let imageData = new FormData()
-    imageData.append("type", "IMAGE")
     imageData.append("image", image)
+    imageData.append("name", name)
+    imageData.append("description", description)
 
+    // POST request to API
     const imageUploadRes = await axios.post("/api/image", imageData)
-    const imageCID = imageUploadRes.data.msg.IpfsHash
-    const imageURI = "https://gateway.pinata.cloud/ipfs/" + imageCID
-
-    // upload NFT JSON to IPFS
-    const nftJSON = {
-      image: imageURI,
-      name,
-      description,
-    }
-
-    let nftData = new FormData()
-    nftData.append("type", "NFT")
-    nftData.append("nftJSON", JSON.stringify(nftJSON))
-
-    const nftUploadRes = await axios.post("/api/image", nftData)
-    const nftCID = nftUploadRes.data.msg.IpfsHash
-    const nftURI = "https://gateway.pinata.cloud/ipfs/" + nftCID
+    const nftURI = imageUploadRes.data.msg
 
     return nftURI
-  }, [image, name, description])
+  }
 
   const buttonCallback = useCallback(async () => {
-    const numPrice = Number(price)
+    const image = imageRef.current?.files[0]
+    const name = nameRef.current?.value
+    const description = descriptionRef.current?.value
+    const price = Number(priceRef.current?.value)
 
     if (typeof window.ethereum === "undefined") {
       toast({
@@ -85,7 +69,7 @@ const MintForm = () => {
       return
     }
 
-    if (!image || !numPrice || !name || !description) {
+    if (!image || !price || !name || !description) {
       toast({
         title: "Form",
         description: "Missing fields",
@@ -102,11 +86,11 @@ const MintForm = () => {
     let nftURI
 
     try {
-      nftURI = await uploadNFT()
+      nftURI = await uploadNFT(image, name, description)
     } catch (error) {
       toast({
         title: "Minting status",
-        description: "Error occured",
+        description: "Error occured uploading NFT",
         status: "error",
         isClosable: true,
         position: "bottom-right",
@@ -120,11 +104,11 @@ const MintForm = () => {
     // mint and list NFT
     try {
       const tokenId = await mintNFT({ nftContract, uri: nftURI })
-      await listNFT({ mktContract, tokenId, price: numPrice })
+      await listNFT({ mktContract, tokenId, price })
     } catch (error) {
       toast({
         title: "Minting status",
-        description: "Error occured",
+        description: "Error occured minting NFT",
         status: "error",
         isClosable: true,
         position: "bottom-right",
@@ -133,10 +117,11 @@ const MintForm = () => {
       return
     }
 
+    imageRef.current.value = ""
+    nameRef.current.value = ""
+    descriptionRef.current.value = ""
+    priceRef.current.value = ""
     setLoading("")
-    setName("")
-    setDescription("")
-    setPrice("")
 
     toast({
       title: "Minting status",
@@ -145,16 +130,7 @@ const MintForm = () => {
       isClosable: true,
       position: "bottom-right",
     })
-  }, [
-    ethersInitialised,
-    image,
-    name,
-    description,
-    uploadNFT,
-    price,
-    nftContract,
-    mktContract,
-  ])
+  }, [ethersInitialised, nftContract, mktContract])
 
   return (
     <Center h="100%" w="100%" p={10} flexDirection="column">
@@ -163,29 +139,16 @@ const MintForm = () => {
         <Heading align="center" mb={6}>
           Mint NFT
         </Heading>
-        <Input type="file" onChange={getImage} mb={3} />
+        <Input ref={imageRef} type="file" mb={3} />
+        <Input ref={nameRef} placeholder="name" variant="filled" mb={3} />
         <Input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="name"
-          variant="filled"
-          mb={3}
-        />
-        <Input
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          ref={descriptionRef}
           placeholder="description"
           variant="filled"
           mb={3}
         />
         <InputGroup>
-          <Input
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            placeholder="price"
-            variant="filled"
-            mb={6}
-          />
+          <Input ref={priceRef} placeholder="price" variant="filled" mb={6} />
           <InputRightAddon
             color="gray.500"
             bg="gray.200"
