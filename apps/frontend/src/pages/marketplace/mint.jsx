@@ -9,10 +9,11 @@ import {
   useToast,
   Center,
 } from "@chakra-ui/react"
-import { mintNFT, listNFT } from "src/functions/web3"
 import axios from "axios"
 import ConnectWalletButton from "src/components/ui/ConnectWalletButton"
 import useEthersStore from "src/stores/ethersStore"
+import { ethers } from "ethers"
+import { NFTContractData } from "src/contractData"
 
 const MintForm = () => {
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised)
@@ -26,6 +27,8 @@ const MintForm = () => {
   const [loading, setLoading] = useState("")
 
   const toast = useToast()
+
+  const toWei = (num) => ethers.utils.parseEther(num.toString())
 
   const uploadNFT = async (image, name, description) => {
     // initialise FormData object
@@ -87,6 +90,7 @@ const MintForm = () => {
 
     try {
       nftURI = await uploadNFT(image, name, description)
+      console.log("upload to IPFS: success")
     } catch (error) {
       toast({
         title: "Minting status",
@@ -103,8 +107,23 @@ const MintForm = () => {
 
     // mint and list NFT
     try {
-      const tokenId = await mintNFT({ nftContract, uri: nftURI })
-      await listNFT({ mktContract, tokenId, price })
+      // mint NFT
+      await (await nftContract.mint(nftURI)).wait()
+      console.log("await mintNFT done")
+
+      // get tokenId
+      const tokenId = await nftContract.getCurrentId()
+      console.log(`current tokenId: ${tokenId.toString()}`)
+
+      // list NFT
+      await (
+        await mktContract.createMarketItem(
+          NFTContractData.address,
+          tokenId,
+          toWei(price)
+        )
+      ).wait()
+      console.log("list on marketplace: success")
     } catch (error) {
       toast({
         title: "Minting status",

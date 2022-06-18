@@ -1,6 +1,7 @@
 import { ethers } from "ethers"
 import { NFTContractData, MarketplaceContractData } from "src/contractData"
-import { toEth } from "src/functions/web3"
+
+const toEth = (num) => ethers.utils.formatEther(num)
 
 export default async function handler(req, res) {
   if (req.method === "GET") {
@@ -26,6 +27,12 @@ export default async function handler(req, res) {
       listOfNFTs = await Promise.all(
         listOfNFTs.map(async (nft) => {
           const tokenURI = await nftContractReader.tokenURI(nft[2])
+
+          /* @interface metadata = {
+            image,
+            name,
+            description,
+          } */
           const metadata = await (await fetch(tokenURI)).json()
 
           return {
