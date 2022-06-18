@@ -19,7 +19,7 @@ const DetailsBox = () => {
 
   const toast = useToast()
 
-  const buttonCallback = useCallback(
+  const buyCallback = useCallback(
     async ({ mktContract }) => {
       if (typeof window.ethereum === "undefined") {
         toast({
@@ -44,7 +44,12 @@ const DetailsBox = () => {
       }
 
       // get tokenId and call purchase function
-      await mktContract
+      const item = {}
+      await (
+        await mktContract.purchaseMarketItem(item.itemId, {
+          value: item.totalPrice,
+        })
+      ).wait()
     },
     [ethersInitialised, mktContract]
   )
@@ -64,7 +69,7 @@ const DetailsBox = () => {
       </Flex>
       <Text>NFT Description</Text>
       <Spacer />
-      <Button colorScheme="teal" onClick={buttonCallback}>
+      <Button colorScheme="teal" onClick={buyCallback}>
         Buy
       </Button>
     </VStack>
