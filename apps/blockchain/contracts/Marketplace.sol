@@ -21,11 +21,12 @@ contract Marketplace is ReentrancyGuard, IERC721Receiver {
     address payable public immutable deployer;
     uint256 public immutable feePercent;
     Counters.Counter private idCounter;
+    Counters.Counter private soldCounter;
     mapping(uint256 => MarketItem) private marketItemsMapping;
 
     event MarketItemCreated(
         uint256 indexed itemId,
-        address nftAddress,
+        address indexed nftAddress,
         uint256 indexed tokenId,
         uint256 price,
         address seller
@@ -33,7 +34,7 @@ contract Marketplace is ReentrancyGuard, IERC721Receiver {
 
     event MarketItemSold(
         uint256 indexed itemId,
-        address nftAddress,
+        address indexed nftAddress,
         uint256 indexed tokenId,
         uint256 price,
         address seller,
@@ -134,6 +135,9 @@ contract Marketplace is ReentrancyGuard, IERC721Receiver {
             _currMarketItem.tokenId
         );
 
+        // update sold count
+        soldCounter.increment();
+
         emit MarketItemSold(
             _soldItemId,
             _currMarketItem.nftAddress,
@@ -142,5 +146,24 @@ contract Marketplace is ReentrancyGuard, IERC721Receiver {
             _currMarketItem.seller,
             msg.sender
         );
+    }
+
+    function fetchMarketItems() public view returns (MarketItem[] memory) {
+        uint256 _totalCount = idCounter.current();
+        uint256 _unsoldCount = idCounter.current() - soldCounter.current();
+        uint256 _currIndex = 0;
+
+        MarketItem[] memory _items = new MarketItem[](_unsoldCount);
+
+        for (uint256 i = 1; i < _totalCount + 1; i++) {
+            MarketItem storage _currItem = marketItemsMapping[i];
+
+            if (!_currItem.sold) {
+                _items[_currIndex] = _currItem;
+                _currIndex++;
+            }
+        }
+
+        return _items;
     }
 }
