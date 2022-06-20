@@ -32,11 +32,25 @@ const BuyButton = ({ item }) => {
     }
 
     // get tokenId and call purchase function
-    await (
-      await mktContract.purchaseMarketItem(item.marketData[0], {
-        value: item.marketPrice,
-      })
-    ).wait()
+    try {
+      await (
+        await mktContract.purchaseMarketItem(item.marketData[0], {
+          value: item.marketPrice.biggish,
+        })
+      ).wait()
+    } catch (error) {
+      if (error.code === 4001) {
+        toast({
+          title: "Metamask",
+          description: "Transaction cancelled",
+          status: "error",
+          isClosable: true,
+          position: "bottom-right",
+        })
+      }
+      console.log(error)
+      return
+    }
   }, [ethersInitialised, mktContract, item])
 
   return (

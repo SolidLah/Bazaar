@@ -1,11 +1,11 @@
-import { ethers } from "ethers"
+import { ethers, BigNumber } from "ethers"
 import { NFTContractData, MarketplaceContractData } from "src/contractData"
 
 export default async function handler(req, res) {
   if (req.method === "GET") {
-    try {
-      const { id } = req.query
+    const { id } = req.query
 
+    try {
       const provider = new ethers.providers.JsonRpcProvider(
         process.env.MATIC_VIGIL_URL
       )
@@ -30,15 +30,21 @@ export default async function handler(req, res) {
           address payable seller;
           bool sold;
         } */
-      const marketItem = await mktContractReader.getMarketItem(id)
-      const marketPrice = ethers.utils.formatEther(
-        await mktContractReader.getTotalPriceForItem(id)
+      const idBiggish = BigNumber.from(id)
+      const marketItem = await mktContractReader.getMarketItem(idBiggish)
+      const marketPrice = await mktContractReader.getTotalPriceForItem(
+        idBiggish
       )
+      const marketPriceObj = {
+        display: ethers.utils.formatEther(marketPrice),
+        biggish: marketPrice,
+      }
       const nftURI = await nftContractReader.tokenURI(marketItem[2])
       const nftMetadata = await (await fetch(nftURI)).json()
       const nftRes = {
+        id,
         marketData: marketItem,
-        marketPrice,
+        marketPrice: marketPriceObj,
         nftData: nftMetadata,
       }
 

@@ -1,8 +1,6 @@
 import { ethers } from "ethers"
 import { NFTContractData, MarketplaceContractData } from "src/contractData"
 
-const toEth = (num) => ethers.utils.formatEther(num)
-
 export default async function handler(req, res) {
   if (req.method === "GET") {
     try {
@@ -22,30 +20,33 @@ export default async function handler(req, res) {
         provider
       )
 
-      let listOfNFTs = await mktContractReader.fetchMarketItems()
+      let listOfMarketItems = await mktContractReader.fetchMarketItems()
 
-      listOfNFTs = await Promise.all(
-        listOfNFTs.map(async (nft) => {
-          const tokenURI = await nftContractReader.tokenURI(nft[2])
-
-          /* @interface metadata = {
-            image,
-            name,
-            description,
-          } */
-          const metadata = await (await fetch(tokenURI)).json()
+      listOfMarketItems = await Promise.all(
+        listOfMarketItems.map(async (marketItem) => {
+          const itemId = marketItem[0]
+          const itemIdNumber = itemId.toNumber()
+          const marketPrice = await mktContractReader.getTotalPriceForItem(
+            itemId
+          )
+          const marketPriceObj = {
+            display: ethers.utils.formatEther(marketPrice),
+            biggish: marketPrice,
+          }
+          const nftURI = await nftContractReader.tokenURI(marketItem[2])
+          const nftMetadata = await (await fetch(nftURI)).json()
 
           return {
-            ...metadata,
-            itemId: nft[0].toNumber(),
-            price: Number(toEth(nft[3])),
-            seller: nft[4],
+            id: itemIdNumber,
+            marketData: marketItem,
+            marketPrice: marketPriceObj,
+            nftData: nftMetadata,
           }
         })
       )
       res
         .status(200)
-        .json({ route: "api/listings/", success: true, msg: listOfNFTs })
+        .json({ route: "api/listings/", success: true, msg: listOfMarketItems })
     } catch (error) {
       res
         .status(500)

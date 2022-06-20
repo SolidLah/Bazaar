@@ -1,4 +1,5 @@
 import create from "zustand"
+import { persist } from "zustand/middleware"
 import { ethers } from "ethers"
 import { NFTContractData, MarketplaceContractData } from "src/contractData"
 

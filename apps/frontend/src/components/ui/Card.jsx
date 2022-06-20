@@ -5,7 +5,7 @@ import { motion } from "framer-motion"
 
 const Card = ({ item }) => {
   return (
-    <Link href="/marketplace/details/" passHref>
+    <Link href={`/marketplace/details/${item.id}`} passHref>
       <Square
         as={motion.div}
         size={60}
@@ -25,7 +25,7 @@ const Card = ({ item }) => {
         >
           <Box w="100%" h="100%" pos="relative">
             <Image
-              src={item.image}
+              src={item.nftData.image}
               alt="NFT here"
               priority="true"
               layout="fill"
@@ -41,9 +41,9 @@ const Card = ({ item }) => {
             direction="row"
             justify="space-between"
           >
-            <Heading size="sm">{item.name}</Heading>
+            <Heading size="sm">{item.nftData.name}</Heading>
             <Badge colorScheme="green" variant="subtle" fontSize={12}>
-              {item.price} MATIC
+              {item.marketPrice.display} MATIC
             </Badge>
           </Flex>
         </Flex>

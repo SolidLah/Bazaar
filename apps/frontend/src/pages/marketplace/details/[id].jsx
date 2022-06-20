@@ -7,48 +7,43 @@ import {
   Flex,
   Spacer,
   Spinner,
+  Center,
 } from "@chakra-ui/react"
 import Image from "next/image"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import axios from "axios"
 import BuyButton from "src/components/ui/BuyButton"
+import useSWR from "swr"
 
 const Details = () => {
   const router = useRouter()
   const { id } = router.query
 
+  const { data, error } = useSWR(`/api/listings/${id}`, (url) =>
+    axios.get(url).then((res) => res.data.msg)
+  )
+
   const [item, setItem] = useState()
-  const [loading, setLoading] = useState("")
 
   useEffect(() => {
-    const getItemDetails = async () => {
-      setLoading("loading")
+    setItem(data)
+  }, [data])
 
-      let itemRes
-
-      console.log(id)
-
-      try {
-        itemRes = (await axios.get(`/api/listings/${id}`)).data.msg
-
-        setItem(itemRes)
-        setLoading("")
-      } catch (error) {
-        console.log(error)
-        setLoading("error")
-      }
-    }
-
-    getItemDetails()
-  }, [])
-
-  if (loading === "loading") {
-    return <Spinner size="xl" />
+  if (!item) {
+    return (
+      <Center h="100%" p={10}>
+        <Spinner size="xl" color="gray" />
+      </Center>
+    )
   }
 
-  if (loading === "error") {
-    return <div>Error has occured</div>
+  if (error) {
+    return (
+      <Center h="100%" p={10}>
+        <div>Error has occured</div>
+      </Center>
+    )
   }
 
   return (
