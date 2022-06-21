@@ -11,6 +11,7 @@ const Me = () => {
   const router = useRouter()
   const [userObj, setUserObj] = useState(null)
   const [hasAccess, setHasAccess] = useState(false)
+  const [firstName, setName] = useState("")
 
   useEffect(() => {
     if (loading) {
@@ -34,12 +35,13 @@ const Me = () => {
 
       
       res.forEach((doc) => {
-        console.log(doc.id, " => ", doc.data());
+        // console.log(doc.id, " => ", doc.data());
         tmpObj = doc.data()
+        setName(doc.get("name"))
       })
 
       
-
+      
       setUserObj(tmpObj)
       setHasAccess(true)
     }
@@ -62,12 +64,12 @@ const Me = () => {
     </Text>
     <Flex p={10} justify="center">
       <Heading> 
-        First name: {user.displayName}
+        First name: {firstName}
       </Heading>
       <Heading>
         Email: {user.email}
       </Heading>
-        <ConnectWalletToAccountButton />
+        <ConnectWalletToAccountButton uID = {user.uid}/>
     </Flex>
     </>
   )
