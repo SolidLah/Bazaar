@@ -30,31 +30,16 @@ export default async function handler(req, res) {
           address payable seller;
           bool sold;
         } */
-      const idBiggish = BigNumber.from(id)
-      const marketItem = await mktContractReader.getMarketItem(idBiggish)
-      const marketPrice = await mktContractReader.getTotalPriceForItem(
-        idBiggish
-      )
-      const marketPriceObj = {
-        display: ethers.utils.formatEther(marketPrice),
-        biggish: marketPrice,
-      }
-      const nftURI = await nftContractReader.tokenURI(marketItem[2])
-      const nftMetadata = await (await fetch(nftURI)).json()
-      const nftRes = {
-        id,
-        marketData: marketItem,
-        marketPrice: marketPriceObj,
-        nftData: nftMetadata,
-      }
 
-      res
-        .status(200)
-        .json({ route: `api/listings/${id}`, success: true, msg: nftRes })
+      res.status(200).json({
+        route: `api/listings/user/${id}`,
+        success: true,
+        msg: userCollection,
+      })
     } catch (error) {
       res
         .status(500)
-        .json({ route: `api/listings/${id}`, success: false, msg: error })
+        .json({ route: `api/listings/user/${id}`, success: false, msg: error })
     }
   }
 }
