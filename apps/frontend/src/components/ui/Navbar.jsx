@@ -6,7 +6,7 @@ import bazaar_icon_alpha from "../../../public/bazaar_icon_alpha.png"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { auth, logout } from "../../functions/firebase"
 
-const Header = () => {
+const Navbar = () => {
   const router = useRouter()
   const [user, loading, error] = useAuthState(auth)
 
@@ -73,4 +73,4 @@ const Header = () => {
   )
 }
 
-export default Header
+export default Navbar

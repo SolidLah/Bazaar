@@ -1,9 +1,9 @@
-import Header from "../ui/Header"
+import Navbar from "../ui/Navbar"
 
 const BaseLayout = (props) => {
   return (
     <>
-      <Header />
+      <Navbar />
       {props.children}
     </>
   )
