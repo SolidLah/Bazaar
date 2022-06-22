@@ -63,6 +63,11 @@ describe("NFTMarketplace", function () {
       await nft.connect(addr1).mint(URI)
       expect(await nft.tokenURI(1)).to.equal(URI)
     })
+
+    it("Check fetch function", async function () {
+      await nft.connect(addr1).mint(URI)
+      expect(await nft.fetchUserNFTs(addr1.address)).to.deep.equal([URI])
+    })
   })
 
   describe("Marketplace contract testing", async function () {
@@ -215,6 +220,28 @@ describe("NFTMarketplace", function () {
           .createMarketItem(nft.address, 1, priceInWei)
 
         const marketItemsArray = await marketplace.fetchMarketItems()
+
+        expect(marketItemsArray.length).to.equal(1)
+        expect(marketItemsArray[0].itemId).to.equal(1)
+        expect(marketItemsArray[0].nftAddress).to.equal(nft.address)
+        expect(marketItemsArray[0].tokenId).to.equal(1)
+        expect(marketItemsArray[0].price).to.equal(toWei(1))
+        expect(marketItemsArray[0].seller).to.equal(addr1.address)
+        expect(marketItemsArray[0].sold).to.equal(false)
+      })
+    })
+
+    describe("Fetch user market items", async function () {
+      const priceInEth = 1
+      const priceInWei = toWei(priceInEth)
+
+      it("Check data fetched", async function () {
+        await nft.connect(addr1).mint(URI)
+        await marketplace
+          .connect(addr1)
+          .createMarketItem(nft.address, 1, priceInWei)
+
+        const marketItemsArray = await marketplace.fetchUserItems(addr1.address)
 
         expect(marketItemsArray.length).to.equal(1)
         expect(marketItemsArray[0].itemId).to.equal(1)
