@@ -6,14 +6,13 @@ import { doc, collection, where, update } from "firebase/firestore"
 const ConnectWalletToAccountButton = (props) => {
   const address = useEthersStore((state) => state.address)
   const initialiseEthers = useEthersStore((state) => state.initialiseEthers)
-  const connectWallet = () => {
-    initialiseEthers;
+  const connectAddresstoAccount = () => {
     const uID = props.uID
-    db.collection("users").where("uid", "==", uID).update({walletAddress: address})
+    db.collection("users").doc("user").where("uid", "==", uID).update({walletAddress: address})
   }
 
   return (
-    <Button onClick={connectWallet} {...props}>
+    <Button onClick={connectAddresstoAccount} {...props}>
       {address
         ? `${address.slice(0, 3)}...${address.slice(38)}`
         : "Connect your wallet to your account!"}

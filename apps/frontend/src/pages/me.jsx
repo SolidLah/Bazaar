@@ -1,4 +1,4 @@
-import { Center, Spinner, Text, Flex, Heading } from "@chakra-ui/react"
+import { Center, Spinner, Text, Flex, Heading, VStack } from "@chakra-ui/react"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { collection, query, where, getDocs } from "firebase/firestore"
 import { useRouter } from "next/router"
@@ -57,21 +57,32 @@ const Me = () => {
     )
   }
 
+  function capitalise(str) {
+    const lower = str.toLowerCase()
+    return str.charAt(0).toUpperCase() + lower.slice(1)
+  }
+
   return (
-    <>
+    <VStack w="100%" justify="space-between">
     <Text>
       {userObj ? "User Details: " + JSON.stringify(userObj, undefined, 2) : "no user found"}
     </Text>
     <Flex p={10} justify="center">
       <Heading> 
-        First name: {firstName}
+        First name: 
       </Heading>
+      <Text>
+        {capitalise(firstName) + "\n"}  
+      </Text>
       <Heading>
-        Email: {user.email}
+        Email: 
       </Heading>
-        <ConnectWalletToAccountButton uID = {user.uid}/>
+      <Text>
+        {user.email}
+      </Text>
+        <ConnectWalletToAccountButton uID = {user.uid} />
     </Flex>
-    </>
+    </VStack>
   )
 }
 
