@@ -2,9 +2,9 @@ import { ethers, BigNumber } from "ethers"
 import { NFTContractData, MarketplaceContractData } from "src/contractData"
 
 export default async function handler(req, res) {
-  const { id } = req.query
-
   if (req.method === "GET") {
+    const { id } = req.query
+
     try {
       const provider = new ethers.providers.JsonRpcProvider(
         process.env.MATIC_VIGIL_URL
