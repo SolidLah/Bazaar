@@ -4,7 +4,7 @@ import { useRouter } from "next/router"
 import Link from "next/link"
 import bazaar_icon_alpha from "../../../public/bazaar_icon_alpha.png"
 import { useAuthState } from "react-firebase-hooks/auth"
-import { auth, logout } from "../../functions/firebase"
+import { auth, logout } from "src/firebase"
 
 const Navbar = () => {
   const router = useRouter()

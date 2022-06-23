@@ -1,76 +1,101 @@
-import { Button, Flex, Heading, Input } from "@chakra-ui/react"
+import {
+  Button,
+  Center,
+  Flex,
+  Heading,
+  Input,
+  useToast,
+  Spinner,
+  Text,
+} from "@chakra-ui/react"
 import Link from "next/link"
-import { useEffect, useState } from "react"
+import { useEffect, useRef } from "react"
 import { useAuthState } from "react-firebase-hooks/auth"
-import { auth, registerWithEmailAndPassword } from "../functions/firebase"
+import { auth, registerWithEmailAndPassword } from "src/firebase"
 import { useRouter } from "next/router"
 
 const Signup = () => {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [confirmPassword, setConfirmPassword] = useState("")
-  const [name, setName] = useState("")
+  const emailRef = useRef()
+  const nameRef = useRef()
+  const passwordRef = useRef()
+  const confirmPasswordRef = useRef()
   const [user, loading, error] = useAuthState(auth)
   const router = useRouter()
+  const toast = useToast()
 
   useEffect(() => {
-    if (loading) {
-      return
-    }
-
     if (user) {
       router.push("/me")
     }
-  }, [user, loading])
+  }, [user])
+
+  if (loading) {
+    return (
+      <Center p={10}>
+        <Spinner size="xl" />
+      </Center>
+    )
+  }
+
+  if (error) {
+    return (
+      <Center p={10}>
+        <Text>Error has occurred...</Text>
+      </Center>
+    )
+  }
 
   const register = async () => {
-    if (!name) {
-      alert("Please enter name")
+    const name = nameRef.current?.value
+    const email = emailRef.current?.value
+    const password = passwordRef.current?.value
+    const confirmPassword = confirmPasswordRef.current?.value
+
+    if (!name || !email || !password || !confirmPassword) {
+      toast({
+        title: "Sign Up",
+        description: "Missing fields",
+        status: "error",
+        isClosable: true,
+        position: "bottom-right",
+      })
       return
     }
 
     if (password !== confirmPassword) {
-      alert("Passwords are not similar")
+      toast({
+        title: "Sign Up",
+        description: "Passwords do not match",
+        status: "error",
+        isClosable: true,
+        position: "bottom-right",
+      })
       return
     }
 
     await registerWithEmailAndPassword(name, email, password)
   }
   return (
-    <Flex h="100vh" w="100vw" align="center" justify="center">
+    <Center mt={20}>
       <Flex direction="column" bg="gray.100" p={12} rounded="md">
         <Heading mb={6} align="center">
           Sign Up
         </Heading>
+        <Input ref={nameRef} placeholder="name" variant="filled" mb={3} />
+        <Input ref={emailRef} placeholder="email" variant="filled" mb={3} />
         <Input
-          placeholder="name"
-          variant="filled"
-          mb={3}
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <Input
-          placeholder="email"
-          variant="filled"
-          mb={3}
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <Input
+          ref={passwordRef}
           placeholder="password"
           variant="filled"
           mb={3}
           type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
         />
         <Input
+          ref={confirmPasswordRef}
           placeholder="confirm password"
           variant="filled"
           mb={6}
           type="password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
         />
         <Button colorScheme="teal" mb={6} onClick={register}>
           Sign Up
@@ -81,7 +106,7 @@ const Signup = () => {
           </Button>
         </Link>
       </Flex>
-    </Flex>
+    </Center>
   )
 }
 

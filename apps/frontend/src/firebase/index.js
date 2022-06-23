@@ -8,7 +8,7 @@ import {
   updateProfile,
 } from "firebase/auth"
 
-import { getFirestore, collection, addDoc } from "firebase/firestore"
+import { getFirestore } from "firebase/firestore"
 
 const firebaseConfig = {
   apiKey: "AIzaSyAKEv3N-20uVAHgk5sYb2tV9GNuUDsI7I4",
@@ -29,7 +29,6 @@ const logInWithEmailAndPassword = async (email, password) => {
     await signInWithEmailAndPassword(auth, email, password)
   } catch (err) {
     console.error(err)
-    alert(err.message)
   }
 }
 
@@ -39,7 +38,6 @@ const registerWithEmailAndPassword = async (name, email, password) => {
     await updateProfile(res.user, { displayName: name })
   } catch (err) {
     console.error(err)
-    alert(err.message)
   }
 }
 
@@ -49,7 +47,6 @@ const sendPasswordReset = async (email) => {
     alert("Password reset link sent!")
   } catch (err) {
     console.error(err)
-    alert(err.message)
   }
 }
 
