@@ -8,6 +8,7 @@ import {
   Spacer,
   Spinner,
   Center,
+  Badge,
 } from "@chakra-ui/react"
 import Image from "next/image"
 import { useEffect, useState } from "react"
@@ -57,17 +58,19 @@ const Details = () => {
             objectFit="contain"
           />
         </Box>
-        <VStack w="md" h="100%" direction="column" alignItems="start" bg="red">
-          <Flex
-            w="md"
-            direction="column"
-            bg="gray.100"
-            borderRadius="0.5rem"
-            p="0.7rem"
-          >
-            <Heading>{item.nftData.name}</Heading>
-            <Text>NFT collection</Text>
-            <Text>NFT minter</Text>
+        <VStack w="md" h="100%" direction="column" alignItems="start">
+          <Flex w="md" bg="gray.100" borderRadius="0.5rem" p="0.7rem">
+            <Flex w="100%" direction="column">
+              <Heading>{item.nftData.name}</Heading>
+              <Text>NFT collection</Text>
+              <Text>NFT minter</Text>
+            </Flex>
+            <Badge
+              alignSelf="start"
+              colorScheme="green"
+              variant="subtle"
+              fontSize={17}
+            >{`${item.marketPrice.display} MATIC`}</Badge>
           </Flex>
           <Text>{item.nftData.description}</Text>
           <Spacer />
