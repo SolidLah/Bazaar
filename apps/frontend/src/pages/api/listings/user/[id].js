@@ -1,5 +1,6 @@
 import { ethers } from "ethers"
 import { NFTContractData, MarketplaceContractData } from "src/contractData"
+import axios from "axios"
 
 export default async function handler(req, res) {
   if (req.method === "GET") {
@@ -23,7 +24,11 @@ export default async function handler(req, res) {
       )
 
       const userItems = await mktContractReader.fetchUserItems(id)
-      const userNFTs = await nftContractReader.fetchUserNFTs(id)
+      let userNFTs = await nftContractReader.fetchUserNFTs(id)
+      userNFTs = await Promise.all(
+        userNFTs.map(async (url) => (await axios.get(url)).data)
+      )
+
       const userCollection = { userItems, userNFTs }
 
       res.status(200).json({
