@@ -1,7 +1,7 @@
 import { sendPasswordReset } from "src/firebase"
 import { Button, Flex, Heading, Input } from "@chakra-ui/react"
 import Link from "next/link"
-import React, { useState } from "react"
+import { useState } from "react"
 
 const Reset = () => {
   const [email, setEmail] = useState("")
@@ -26,7 +26,7 @@ const Reset = () => {
         >
           Send Reset Link to Email
         </Button>
-        <Link href="/signup" passHref>
+        <Link href="/user/signup" passHref>
           <Button variant="link" size="sm">
             Sign Up
           </Button>

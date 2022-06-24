@@ -21,7 +21,7 @@ const Login = () => {
 
   useEffect(() => {
     if (user) {
-      router.push("/me")
+      router.push("/user/me")
     }
   }, [user])
 
@@ -71,13 +71,13 @@ const Login = () => {
           Log In
         </Button>
 
-        <Link href="/reset" passHref>
+        <Link href="/user/reset" passHref>
           <Button variant="link" size="sm" mb={3}>
             Forgot Password
           </Button>
         </Link>
 
-        <Link href="/signup" passHref>
+        <Link href="/user/signup" passHref>
           <Button variant="link" size="sm">
             Sign Up
           </Button>
