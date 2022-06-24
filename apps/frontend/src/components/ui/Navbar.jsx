@@ -12,7 +12,7 @@ const Navbar = () => {
 
   const logoutCallback = async () => {
     await logout()
-    router.push("/login")
+    router.push("/user/login")
   }
 
   return (
@@ -59,13 +59,13 @@ const Navbar = () => {
             Logout
           </Button>
         ) : (
-          <Link href="/login" passHref>
+          <Link href="/user/login" passHref>
             <Button colorScheme="blackAlpha" variant="ghost" color="white">
               Login
             </Button>
           </Link>
         )}
-        <Link href="/me" passHref>
+        <Link href="/user/me" passHref>
           <Avatar cursor="pointer" />
         </Link>
       </HStack>
