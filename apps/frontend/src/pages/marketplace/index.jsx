@@ -6,7 +6,6 @@ import {
   ButtonGroup,
   Flex,
   Spinner,
-  Center,
 } from "@chakra-ui/react"
 import Link from "next/link"
 import Card from "src/components/ui/Card"
@@ -14,6 +13,7 @@ import { useEffect } from "react"
 import axios from "axios"
 import useListingsStore from "src/stores/listingsStore"
 import useSWR from "swr"
+import ErrorLayout from "src/components/layouts/ErrorLayout"
 
 const Header = () => {
   return (
@@ -34,9 +34,9 @@ const Header = () => {
 const AllListings = ({ items }) => {
   return (
     <Flex w="100%" h="100%" wrap="wrap" justify="flex-start">
-      {items.map((item) => {
-        return <Card key={item.id} item={item} />
-      })}
+      {items.map((item) => (
+        <Card key={item.id} item={item} />
+      ))}
     </Flex>
   )
 }
@@ -56,7 +56,7 @@ const Marketplace = () => {
   // const newStub = useMemo(() => [...stub, ...listings], [listings])
 
   if (error) {
-    return <Center>Error occured</Center>
+    return <ErrorLayout />
   }
 
   return (
