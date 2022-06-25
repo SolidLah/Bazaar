@@ -5,7 +5,6 @@ import {
   Button,
   Center,
   Spinner,
-  Text,
 } from "@chakra-ui/react"
 import Link from "next/link"
 import { useEffect, useRef } from "react"
