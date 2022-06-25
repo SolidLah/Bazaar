@@ -1,10 +1,10 @@
 import Navbar from "../ui/Navbar"
 
-const BaseLayout = (props) => {
+const BaseLayout = ({ children }) => {
   return (
     <>
       <Navbar />
-      {props.children}
+      <main>{children}</main>
     </>
   )
 }
