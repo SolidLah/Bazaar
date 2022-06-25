@@ -4,7 +4,7 @@ import NextLink from "next/link"
 
 const Home = () => {
   return (
-    <Flex h="100vh" direction="column">
+    <Flex h="100%" direction="column">
       <Flex p={10} direction="column">
         <Heading mb={3}>How to use</Heading>
         <OrderedList mb={10}>

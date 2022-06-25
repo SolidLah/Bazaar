@@ -37,14 +37,6 @@ const Signup = () => {
     )
   }
 
-  if (error) {
-    return (
-      <Center p={10}>
-        <Text>Error has occurred...</Text>
-      </Center>
-    )
-  }
-
   const register = async () => {
     const name = nameRef.current?.value
     const email = emailRef.current?.value

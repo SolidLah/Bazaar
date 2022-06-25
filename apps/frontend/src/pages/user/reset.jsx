@@ -1,5 +1,5 @@
 import { sendPasswordReset } from "src/firebase"
-import { Button, Flex, Heading, Input } from "@chakra-ui/react"
+import { Button, Flex, Center, Heading, Input } from "@chakra-ui/react"
 import Link from "next/link"
 import { useState } from "react"
 
@@ -7,7 +7,7 @@ const Reset = () => {
   const [email, setEmail] = useState("")
 
   return (
-    <Flex h="100vh" w="100vw" align="center" justify="center">
+    <Center>
       <Flex direction="column" bg="gray.100" p={12} rounded="md">
         <Heading mb={6} align="center">
           Password Reset
@@ -32,7 +32,7 @@ const Reset = () => {
           </Button>
         </Link>
       </Flex>
-    </Flex>
+    </Center>
   )
 }
 export default Reset

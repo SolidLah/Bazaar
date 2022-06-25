@@ -33,14 +33,6 @@ const Login = () => {
     )
   }
 
-  if (error) {
-    return (
-      <Center p={10}>
-        <Text>Error has occurred...</Text>
-      </Center>
-    )
-  }
-
   const buttonCallback = async (event) => {
     event.preventDefault()
 
