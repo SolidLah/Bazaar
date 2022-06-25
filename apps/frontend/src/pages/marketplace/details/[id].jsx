@@ -11,7 +11,6 @@ import {
   Badge,
 } from "@chakra-ui/react"
 import Image from "next/image"
-import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import axios from "axios"
 import BuyButton from "src/components/ui/BuyButton"
@@ -21,15 +20,9 @@ const Details = () => {
   const router = useRouter()
   const { id } = router.query
 
-  const { data, error } = useSWR(`/api/listings/${id}`, (url) =>
+  const { data: item, error } = useSWR(`/api/listings/${id}`, (url) =>
     axios.get(url).then((res) => res.data.msg)
   )
-
-  const [item, setItem] = useState()
-
-  useEffect(() => {
-    setItem(data)
-  }, [data])
 
   if (!item) {
     return (
@@ -63,7 +56,9 @@ const Details = () => {
             <Flex w="100%" direction="column">
               <Heading>{item.nftData.name}</Heading>
               <Text>NFT collection</Text>
-              <Text>NFT minter</Text>
+              <Text>
+                {`${item.marketData[4].slice(0,3)}...${item.marketData[4].slice(38)}`}
+              </Text>
             </Flex>
             <Badge
               alignSelf="start"

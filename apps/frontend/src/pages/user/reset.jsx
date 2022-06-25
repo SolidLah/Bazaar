@@ -7,7 +7,7 @@ const Reset = () => {
   const [email, setEmail] = useState("")
 
   return (
-    <Center>
+    <Center h="100vh" w="100vw">
       <Flex direction="column" bg="gray.100" p={12} rounded="md">
         <Heading mb={6} align="center">
           Password Reset
