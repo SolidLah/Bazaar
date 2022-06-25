@@ -50,7 +50,7 @@ export default async function handler(req, res) {
         userNFTs.map(async (url) => (await axios.get(url)).data)
       )
 
-      const userCollection = { userItems, userNFTs }
+      const userCollection = { userListings, userNFTs }
 
       res.status(200).json({
         route: `api/listings/user/${id}`,
