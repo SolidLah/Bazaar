@@ -82,9 +82,9 @@ const DetailsGrid = ({ user, fireStoredAddress }) => {
         </GridItem>
         <GridItem justifySelf="center">
           <Text>
-            {`${fireStoredAddress?.slice(0, 3)}...${fireStoredAddress?.slice(
-              38
-            )}` ?? ""}
+            {fireStoredAddress
+              ? `${fireStoredAddress?.slice(0, 3)}...${fireStoredAddress?.slice(38)}` 
+              : ""}
           </Text>
           <Button colorScheme="teal" onClick={buttonCallback}>
             {fireStoredAddress ? "Change" : "Connect"}
