@@ -19,9 +19,13 @@ const DetailsGrid = ({ fireStoredAddress }) => {
   const ethersStoredAddress = useEthersStore((state) => state.address)
   const toast = useToast()
   const { mutate } = useSWRConfig()
-  const [user, loading, authError] = useAuthState(auth)
+  const [user, loading, error] = useAuthState(auth)
 
   const buttonCallback = useCallback(async () => {
+    if (loading) {
+      return
+    }
+
     if (!ethersInitialised) {
       toast({
         title: "Connect wallet to account",
@@ -57,7 +61,7 @@ const DetailsGrid = ({ fireStoredAddress }) => {
     })
 
     mutate(user)
-  }, [user.uid, ethersStoredAddress, fireStoredAddress, ethersInitialised])
+  }, [user, loading, ethersStoredAddress, fireStoredAddress, ethersInitialised])
 
   return (
     <Center flexDirection="column">
