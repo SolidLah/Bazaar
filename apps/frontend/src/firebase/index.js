@@ -7,8 +7,7 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth"
-
-import { getFirestore } from "firebase/firestore"
+import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore"
 
 const firebaseConfig = {
   apiKey: "AIzaSyAKEv3N-20uVAHgk5sYb2tV9GNuUDsI7I4",
@@ -36,6 +35,10 @@ const registerWithEmailAndPassword = async (name, email, password) => {
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password)
     await updateProfile(res.user, { displayName: name })
+
+    await setDoc(doc(db, "users", res.user.uid), {
+      walletAddress: "",
+    })
   } catch (err) {
     console.error(err)
   }
