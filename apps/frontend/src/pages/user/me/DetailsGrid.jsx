@@ -12,6 +12,7 @@ import { useCallback } from "react"
 import { db, auth } from "src/firebase"
 import { doc, setDoc } from "firebase/firestore"
 import { useSWRConfig } from "swr"
+import { useAuthState } from "react-firebase-hooks/auth"
 
 const DetailsGrid = ({ fireStoredAddress }) => {
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised)
