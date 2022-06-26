@@ -36,7 +36,7 @@ const Me = () => {
     <Center w="100%" flexDirection="column" mt={20} mb={200} gap={10}>
       {user !== undefined && storedAddress !== undefined ? (
         <>
-          <DetailsGrid user={user} fireStoredAddress={storedAddress} />
+          <DetailsGrid fireStoredAddress={storedAddress} />
           <ListingsAndBalance items={userItems} />
         </>
       ) : (

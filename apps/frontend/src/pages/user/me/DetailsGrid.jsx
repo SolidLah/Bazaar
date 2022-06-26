@@ -9,15 +9,16 @@ import {
 } from "@chakra-ui/react"
 import useEthersStore from "src/stores/ethersStore"
 import { useCallback } from "react"
-import { db } from "src/firebase"
+import { db, auth } from "src/firebase"
 import { doc, setDoc } from "firebase/firestore"
 import { useSWRConfig } from "swr"
 
-const DetailsGrid = ({ user, fireStoredAddress }) => {
+const DetailsGrid = ({ fireStoredAddress }) => {
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised)
   const ethersStoredAddress = useEthersStore((state) => state.address)
   const toast = useToast()
   const { mutate } = useSWRConfig()
+  const [user, loading, authError] = useAuthState(auth)
 
   const buttonCallback = useCallback(async () => {
     if (!ethersInitialised) {
@@ -83,7 +84,9 @@ const DetailsGrid = ({ user, fireStoredAddress }) => {
         <GridItem justifySelf="center">
           <Text>
             {fireStoredAddress
-              ? `${fireStoredAddress?.slice(0, 3)}...${fireStoredAddress?.slice(38)}` 
+              ? `${fireStoredAddress?.slice(0, 3)}...${fireStoredAddress?.slice(
+                  38
+                )}`
               : ""}
           </Text>
           <Button colorScheme="teal" onClick={buttonCallback}>
