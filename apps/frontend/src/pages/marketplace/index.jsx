@@ -9,9 +9,7 @@ import {
 } from "@chakra-ui/react"
 import Link from "next/link"
 import Card from "src/components/ui/Card"
-import { useEffect } from "react"
 import axios from "axios"
-import useListingsStore from "src/stores/listingsStore"
 import useSWR from "swr"
 import ErrorLayout from "src/components/layouts/ErrorLayout"
 
@@ -42,18 +40,9 @@ const AllListings = ({ items }) => {
 }
 
 const Marketplace = () => {
-  const listings = useListingsStore((state) => state.listings)
-  const setListings = useListingsStore((state) => state.setListings)
-
   const { data, error } = useSWR("/api/listings", (url) =>
     axios.get(url).then((res) => res.data.msg)
   )
-
-  useEffect(() => {
-    setListings(data)
-  }, [data])
-
-  // const newStub = useMemo(() => [...stub, ...listings], [listings])
 
   if (error) {
     return <ErrorLayout />
@@ -62,10 +51,10 @@ const Marketplace = () => {
   return (
     <VStack w="100%" p={10} spacing={20}>
       <Header />
-      {!listings ? (
+      {!data ? (
         <Spinner size="xl" color="gray" />
       ) : (
-        <AllListings items={listings} />
+        <AllListings items={data} />
       )}
     </VStack>
   )
