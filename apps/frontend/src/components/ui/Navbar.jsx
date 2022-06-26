@@ -5,6 +5,7 @@ import Link from "next/link"
 import bazaar_icon_alpha from "../../../public/bazaar_icon_alpha.png"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { auth, logout } from "src/firebase"
+import ConnectWalletButton from "./ConnectWalletButton"
 
 const Navbar = () => {
   const router = useRouter()
@@ -65,6 +66,7 @@ const Navbar = () => {
             </Button>
           </Link>
         )}
+        <ConnectWalletButton />
         <Link href="/user/me" passHref>
           <Avatar cursor="pointer" />
         </Link>
