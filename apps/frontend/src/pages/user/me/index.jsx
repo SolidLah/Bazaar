@@ -6,8 +6,8 @@ import { doc, getDoc } from "firebase/firestore"
 import { useEffect } from "react"
 import useSWR from "swr"
 import axios from "axios"
-import DetailsGrid from "./DetailsGrid"
-import ListingsAndBalance from "./ListingsAndBalance"
+import DetailsGrid from "src/components/modules/user/DetailsGrid"
+import ListingsAndBalance from "src/components/modules/user/ListingsAndBalance"
 import ErrorLayout from "src/components/layouts/ErrorLayout"
 
 const Me = () => {
@@ -36,7 +36,7 @@ const Me = () => {
     <Center w="100%" flexDirection="column" mt={20} mb={200} gap={10}>
       {user !== undefined && storedAddress !== undefined ? (
         <>
-          <DetailsGrid fireStoredAddress={storedAddress} />
+          <DetailsGrid user={user} fireStoredAddress={storedAddress} />
           <ListingsAndBalance items={userItems} />
         </>
       ) : (
