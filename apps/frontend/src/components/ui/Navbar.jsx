@@ -4,7 +4,8 @@ import { useRouter } from "next/router"
 import Link from "next/link"
 import bazaar_icon_alpha from "../../../public/bazaar_icon_alpha.png"
 import { useAuthState } from "react-firebase-hooks/auth"
-import { auth, logout } from "../../functions/firebase"
+import { auth, logout } from "src/firebase"
+import ConnectWalletButton from "./ConnectWalletButton"
 
 const Navbar = () => {
   const router = useRouter()
@@ -12,7 +13,7 @@ const Navbar = () => {
 
   const logoutCallback = async () => {
     await logout()
-    router.push("/login")
+    router.push("/user/login")
   }
 
   return (
@@ -59,13 +60,14 @@ const Navbar = () => {
             Logout
           </Button>
         ) : (
-          <Link href="/login" passHref>
+          <Link href="/user/login" passHref>
             <Button colorScheme="blackAlpha" variant="ghost" color="white">
               Login
             </Button>
           </Link>
         )}
-        <Link href="/me" passHref>
+        <ConnectWalletButton />
+        <Link href="/user/me" passHref>
           <Avatar cursor="pointer" />
         </Link>
       </HStack>

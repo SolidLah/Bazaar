@@ -39,7 +39,7 @@ export default async function handler(req, res) {
         display: ethers.utils.formatEther(marketPrice),
         biggish: marketPrice,
       }
-      const nftURI = await nftContractReader.tokenURI(marketItem[2])
+      const nftURI = await nftContractReader.tokenURI(marketItem.tokenId)
       const nftMetadata = await (await fetch(nftURI)).json()
       const nftRes = {
         id,

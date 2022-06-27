@@ -28,7 +28,10 @@ export default async function handler(req, res) {
       const isAuth = (await pinata.testAuthentication()).authenticated
 
       if (!isAuth) {
-        throw new Error("Pinata is not authenticated")
+        res
+          .status(401)
+          .json({ route: "api/image/", success: false, msg: "Unauthorised" })
+        return
       }
 
       const formidableRes = await asyncParse(req)

@@ -45,13 +45,6 @@ describe("NFTMarketplace", function () {
   })
 
   describe("NFT contract testing", async function () {
-    it("Emit Minted event", async function () {
-      // event
-      expect(await nft.connect(addr1).mint(URI))
-        .to.emit(nft, "Minted")
-        .withArgs(NAME, SYMBOL, 1, URI)
-    })
-
     it("Check balance of minter", async function () {
       // balance
       await nft.connect(addr1).mint(URI)
