@@ -2,8 +2,8 @@ const { expect } = require("chai")
 const { ethers } = require("hardhat")
 
 // 1 ether === 10^18 wei
+// const toEth = (num) => ethers.utils.formatEther(num)
 const toWei = (num) => ethers.utils.parseEther(num.toString())
-const toEth = (num) => ethers.utils.formatEther(num)
 
 describe("NFTMarketplace", function () {
   let NFT
@@ -13,7 +13,6 @@ describe("NFTMarketplace", function () {
   let deployer
   let addr1
   let addr2
-  let addrs
   let URI = "Sample URI"
   let NAME = "Bazaar NFT"
   let SYMBOL = "BFT"
@@ -21,7 +20,7 @@ describe("NFTMarketplace", function () {
 
   beforeEach(async function () {
     // signers
-    [deployer, addr1, addr2, ...addrs] = await ethers.getSigners()
+    [deployer, addr1, addr2] = await ethers.getSigners()
 
     // contract factories
     MARKETPLACE = await ethers.getContractFactory("Marketplace")
@@ -46,13 +45,6 @@ describe("NFTMarketplace", function () {
   })
 
   describe("NFT contract testing", async function () {
-    it("Emit Minted event", async function () {
-      // event
-      expect(await nft.connect(addr1).mint(URI))
-        .to.emit(nft, "Minted")
-        .withArgs(NAME, SYMBOL, 1, URI)
-    })
-
     it("Check balance of minter", async function () {
       // balance
       await nft.connect(addr1).mint(URI)
@@ -63,6 +55,11 @@ describe("NFTMarketplace", function () {
       // URI
       await nft.connect(addr1).mint(URI)
       expect(await nft.tokenURI(1)).to.equal(URI)
+    })
+
+    it("Check fetch function", async function () {
+      await nft.connect(addr1).mint(URI)
+      expect(await nft.fetchUserNFTs(addr1.address)).to.deep.equal([URI])
     })
   })
 
@@ -186,6 +183,12 @@ describe("NFTMarketplace", function () {
         ).to.be.revertedWith("Market item does not exist")
       })
 
+      it("Revert if insufficient value", async function () {
+        await expect(
+          marketplace.connect(addr2).purchaseMarketItem(1, { value: 0 })
+        ).to.be.revertedWith("Insufficient funds")
+      })
+
       it("Revert if MarketItem already sold", async function () {
         marketplace
           .connect(addr2)
@@ -196,6 +199,50 @@ describe("NFTMarketplace", function () {
             .connect(addr2)
             .purchaseMarketItem(1, { value: totalPriceInWei })
         ).to.be.revertedWith("Market item already sold")
+      })
+    })
+
+    describe("Fetch market items", async function () {
+      const priceInEth = 1
+      const priceInWei = toWei(priceInEth)
+
+      it("Check data fetched", async function () {
+        await nft.connect(addr1).mint(URI)
+        await marketplace
+          .connect(addr1)
+          .createMarketItem(nft.address, 1, priceInWei)
+
+        const marketItemsArray = await marketplace.fetchMarketItems()
+
+        expect(marketItemsArray.length).to.equal(1)
+        expect(marketItemsArray[0].itemId).to.equal(1)
+        expect(marketItemsArray[0].nftAddress).to.equal(nft.address)
+        expect(marketItemsArray[0].tokenId).to.equal(1)
+        expect(marketItemsArray[0].price).to.equal(toWei(1))
+        expect(marketItemsArray[0].seller).to.equal(addr1.address)
+        expect(marketItemsArray[0].sold).to.equal(false)
+      })
+    })
+
+    describe("Fetch user market items", async function () {
+      const priceInEth = 1
+      const priceInWei = toWei(priceInEth)
+
+      it("Check data fetched", async function () {
+        await nft.connect(addr1).mint(URI)
+        await marketplace
+          .connect(addr1)
+          .createMarketItem(nft.address, 1, priceInWei)
+
+        const marketItemsArray = await marketplace.fetchUserItems(addr1.address)
+
+        expect(marketItemsArray.length).to.equal(1)
+        expect(marketItemsArray[0].itemId).to.equal(1)
+        expect(marketItemsArray[0].nftAddress).to.equal(nft.address)
+        expect(marketItemsArray[0].tokenId).to.equal(1)
+        expect(marketItemsArray[0].price).to.equal(toWei(1))
+        expect(marketItemsArray[0].seller).to.equal(addr1.address)
+        expect(marketItemsArray[0].sold).to.equal(false)
       })
     })
   })

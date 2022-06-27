@@ -5,18 +5,18 @@ import {
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
   signOut,
+  updateProfile,
 } from "firebase/auth"
-
-import { getFirestore, collection, addDoc } from "firebase/firestore"
+import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore"
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBjWC-CGEP3EtqbK8Z1N7j_CwziL_BvGeQ",
-  authDomain: "bazaar-89e98.firebaseapp.com",
-  projectId: "bazaar-89e98",
-  storageBucket: "bazaar-89e98.appspot.com",
-  messagingSenderId: "87987951475",
-  appId: "1:87987951475:web:5d767ceb303811ad025706",
-  measurementId: "G-GTDDK12KCQ",
+  apiKey: "AIzaSyAKEv3N-20uVAHgk5sYb2tV9GNuUDsI7I4",
+  authDomain: "bazaar-1d526.firebaseapp.com",
+  projectId: "bazaar-1d526",
+  storageBucket: "bazaar-1d526.appspot.com",
+  messagingSenderId: "623316894820",
+  appId: "1:623316894820:web:e9c2d35c3386f036a80b71",
+  measurementId: "G-CJV4Z8Q6MX",
 }
 
 const app = initializeApp(firebaseConfig)
@@ -27,24 +27,20 @@ const logInWithEmailAndPassword = async (email, password) => {
   try {
     await signInWithEmailAndPassword(auth, email, password)
   } catch (err) {
-    console.error(err)
-    alert(err.message)
+    alert(err)
   }
 }
 
 const registerWithEmailAndPassword = async (name, email, password) => {
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password)
-    const user = res.user
-    await addDoc(collection(db, "users"), {
-      uid: user.uid,
-      name,
-      authProvider: "local",
-      email,
+    await updateProfile(res.user, { displayName: name })
+
+    await setDoc(doc(db, "users", res.user.uid), {
+      walletAddress: "",
     })
   } catch (err) {
-    console.error(err)
-    alert(err.message)
+    alert(err)
   }
 }
 
@@ -53,8 +49,7 @@ const sendPasswordReset = async (email) => {
     await sendPasswordResetEmail(auth, email)
     alert("Password reset link sent!")
   } catch (err) {
-    console.error(err)
-    alert(err.message)
+    alert(err)
   }
 }
 

@@ -7,7 +7,7 @@
 | Team name | SolidLah |
 | Project name | Bazaar |
 | GitHub | https://github.com/SolidLah/Bazaar‣ |
-| Link to app |  |
+| Link to app | https://bazaar-solidlah.vercel.app |
 
 # Motivation
 

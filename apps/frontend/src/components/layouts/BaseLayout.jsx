@@ -1,10 +1,10 @@
-import Header from "../ui/Header"
+import Navbar from "../ui/Navbar"
 
-const BaseLayout = (props) => {
+const BaseLayout = ({ children }) => {
   return (
     <>
-      <Header />
-      {props.children}
+      <Navbar />
+      <main>{children}</main>
     </>
   )
 }
