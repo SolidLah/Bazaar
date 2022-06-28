@@ -1,5 +1,5 @@
 import ResetForm from "src/components/modules/ResetForm"
 
-const Reset = () => <ResetForm />
+const reset = () => <ResetForm />
 
-export default Reset
+export default reset
