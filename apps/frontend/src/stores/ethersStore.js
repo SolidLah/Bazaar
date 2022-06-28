@@ -1,7 +1,7 @@
 import create from "zustand"
 import { persist } from "zustand/middleware"
 import { ethers } from "ethers"
-import { NFTContractData, MarketplaceContractData } from "src/contractData"
+import { NFTContractData, MarketplaceContractData } from "src/contracts"
 
 const useEthersStore = create((set, get) => ({
   provider: null,

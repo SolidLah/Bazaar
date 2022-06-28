@@ -1,5 +1,5 @@
 import { ethers, BigNumber } from "ethers"
-import { NFTContractData, MarketplaceContractData } from "src/contractData"
+import { NFTContractData, MarketplaceContractData } from "src/contracts"
 
 export default async function handler(req, res) {
   if (req.method === "GET") {

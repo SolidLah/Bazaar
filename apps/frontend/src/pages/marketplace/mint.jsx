@@ -13,7 +13,7 @@ import axios from "axios"
 import ConnectWalletButton from "src/components/ui/ConnectWalletButton"
 import useEthersStore from "src/stores/ethersStore"
 import { ethers } from "ethers"
-import { NFTContractData } from "src/contractData"
+import { NFTContractData } from "src/contracts"
 
 const MintForm = () => {
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised)
