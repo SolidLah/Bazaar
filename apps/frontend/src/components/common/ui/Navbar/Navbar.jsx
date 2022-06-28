@@ -5,7 +5,7 @@ import Link from "next/link"
 import bazaar_icon_alpha from "../../../../../public/bazaar_icon_alpha.png"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { auth, logout } from "lib/firebase"
-import ConnectWalletButton from "src/components/common/ui/ConnectWalletButton"
+import ConnectWalletButton from "src/components/common/ui/ConnectWalletButton/ConnectWalletButton"
 
 const Navbar = () => {
   const router = useRouter()

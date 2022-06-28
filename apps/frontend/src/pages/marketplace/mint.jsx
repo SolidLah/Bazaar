@@ -1,4 +1,4 @@
-import MintForm from "src/components/modules/MintingForm"
+import MintForm from "src/components/modules/MintingForm/MintingForm"
 
 const Mint = () => <MintForm />
 

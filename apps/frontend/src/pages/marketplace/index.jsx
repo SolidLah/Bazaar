@@ -1,4 +1,4 @@
-import AllListings from "src/components/modules/AllListings"
+import AllListings from "src/components/modules/AllListings/AllListings"
 
 const Marketplace = () => <AllListings />
 

@@ -1,4 +1,4 @@
-import { Flex, Heading, Input, Button, Center, Spinner } from "@chakra-ui/react"
+import { Flex, Heading, Input, Button, Center } from "@chakra-ui/react"
 import Link from "next/link"
 import { useRef } from "react"
 import { logInWithEmailAndPassword } from "lib/firebase"

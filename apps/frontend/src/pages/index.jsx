@@ -1,5 +1,4 @@
 import { Flex, Heading, OrderedList, ListItem, Link } from "@chakra-ui/react"
-import ConnectWalletButton from "src/components/common/ui/ConnectWalletButton"
 import NextLink from "next/link"
 
 const Home = () => {
@@ -37,9 +36,6 @@ const Home = () => {
             and mint your NFT!
           </ListItem>
         </OrderedList>
-      </Flex>
-      <Flex p={10} justify="center">
-        <ConnectWalletButton />
       </Flex>
     </Flex>
   )

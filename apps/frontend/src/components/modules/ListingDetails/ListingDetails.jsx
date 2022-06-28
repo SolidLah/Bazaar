@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react"
 import Image from "next/image"
 import axios from "axios"
-import BuyButton from "src/components/common/ui/BuyButton"
+import BuyButton from "src/components/common/ui/BuyButton/BuyButton"
 import useSWR from "swr"
 
 const ListingDetails = ({ id }) => {
