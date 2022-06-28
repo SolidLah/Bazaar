@@ -10,6 +10,7 @@ import ErrorLayout from "src/components/common/layouts/ErrorLayout"
 
 const UserProfile = () => {
   const [user, loading, authError] = useAuthState(auth)
+
   const { data: storedAddress } = useSWR(user, (user) =>
     getDoc(doc(db, "users", user.uid)).then((res) => res.data().walletAddress)
   )
@@ -25,11 +26,13 @@ const UserProfile = () => {
 
   return (
     <Center w="100%" flexDirection="column" mt={20} mb={200} gap={10}>
-      {user !== undefined && storedAddress !== undefined ? (
-        <>
-          <DetailsGrid user={user} fireStoredAddress={storedAddress} />
-          <ListingsAndBalance items={userItems} />
-        </>
+      {user && storedAddress ? (
+        <DetailsGrid user={user} fireStoredAddress={storedAddress} />
+      ) : (
+        <Spinner size="xl" color="gray" />
+      )}
+      {userItems ? (
+        <ListingsAndBalance items={userItems} />
       ) : (
         <Spinner size="xl" color="gray" />
       )}
