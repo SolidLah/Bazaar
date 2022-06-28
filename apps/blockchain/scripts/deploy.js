@@ -2,7 +2,7 @@ const { ethers, artifacts } = require("hardhat")
 
 function saveToFrontend(contract, name) {
   const fs = require("fs")
-  const contractsDir = __dirname + "/../../frontend/src/contractData/"
+  const contractsDir = __dirname + "/../../frontend/src/contracts/"
   console.log(`Writing contract data to: ${contractsDir}`)
 
   const contractArtifact = artifacts.readArtifactSync(name)
