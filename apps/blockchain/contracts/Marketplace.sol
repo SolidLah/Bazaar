@@ -159,7 +159,11 @@ contract Marketplace is ReentrancyGuard, ERC721Holder {
         return _items;
     }
 
-    function fetchUserItems(address user) public view returns (MarketItem[] memory) {
+    function fetchUserItems(address user)
+        public
+        view
+        returns (MarketItem[] memory)
+    {
         uint256 _totalCount = idCounter.current();
         uint256 _userCount = 0;
         uint256 _currIndex = 0;
