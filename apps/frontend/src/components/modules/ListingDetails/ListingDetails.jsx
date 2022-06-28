@@ -48,7 +48,7 @@ const ListingDetails = ({ id }) => {
           />
         </Box>
         <VStack w="md" h="100%" direction="column" alignItems="start">
-          <Flex w="md" bg="gray.100" borderRadius="0.5rem" p="0.7rem">
+          <Flex w="md" bg="gray.100" borderRadius="0.5rem" p={3}>
             <Flex w="100%" direction="column">
               <Heading>{item.nftData.name}</Heading>
               <Text>NFT collection</Text>
