@@ -1,7 +1,7 @@
-import create from "zustand"
-import { persist } from "zustand/middleware"
-import { ethers } from "ethers"
-import { NFTContractData, MarketplaceContractData } from "src/contracts"
+import create from "zustand";
+import { persist } from "zustand/middleware";
+import { ethers } from "ethers";
+import { NFTContractData, MarketplaceContractData } from "src/contracts";
 
 const useEthersStore = create((set, get) => ({
   provider: null,
@@ -12,30 +12,30 @@ const useEthersStore = create((set, get) => ({
   ethersInitialised: false,
   initialiseEthers: async () => {
     if (get().ethersInitialised) {
-      return
+      return;
     }
 
     if (typeof window.ethereum === "undefined") {
-      console.log("MetaMask not installed!")
-      return
+      console.log("MetaMask not installed!");
+      return;
     }
 
-    const currProvider = new ethers.providers.Web3Provider(window.ethereum)
-    await currProvider.send("eth_requestAccounts", [])
-    const currSigner = currProvider.getSigner()
-    const currAddress = await currSigner.getAddress()
+    const currProvider = new ethers.providers.Web3Provider(window.ethereum);
+    await currProvider.send("eth_requestAccounts", []);
+    const currSigner = currProvider.getSigner();
+    const currAddress = await currSigner.getAddress();
 
     const currNftContract = new ethers.Contract(
       NFTContractData.address,
       NFTContractData.abi,
       currSigner
-    )
+    );
 
     const currMktContract = new ethers.Contract(
       MarketplaceContractData.address,
       MarketplaceContractData.abi,
       currSigner
-    )
+    );
 
     set({
       provider: currProvider,
@@ -44,8 +44,8 @@ const useEthersStore = create((set, get) => ({
       nftContract: currNftContract,
       mktContract: currMktContract,
       ethersInitialised: true,
-    })
+    });
   },
-}))
+}));
 
-export default useEthersStore
+export default useEthersStore;

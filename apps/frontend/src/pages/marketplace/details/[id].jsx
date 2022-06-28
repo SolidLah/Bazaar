@@ -1,11 +1,11 @@
-import { useRouter } from "next/router"
-import ListingDetails from "src/components/modules/ListingDetails/ListingDetails"
+import { useRouter } from "next/router";
+import ListingDetails from "src/components/modules/ListingDetails/ListingDetails";
 
 const Details = () => {
-  const router = useRouter()
-  const { id } = router.query
+  const router = useRouter();
+  const { id } = router.query;
 
-  return <ListingDetails id={id} />
-}
+  return <ListingDetails id={id} />;
+};
 
-export default Details
+export default Details;

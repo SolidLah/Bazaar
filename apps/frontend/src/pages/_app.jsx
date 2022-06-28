@@ -1,5 +1,5 @@
-import { ChakraProvider } from "@chakra-ui/react"
-import BaseLayout from "src/components/common/layouts/BaseLayout"
+import { ChakraProvider } from "@chakra-ui/react";
+import BaseLayout from "src/components/common/layouts/BaseLayout";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -8,7 +8,7 @@ function MyApp({ Component, pageProps }) {
         <Component {...pageProps} />
       </BaseLayout>
     </ChakraProvider>
-  )
+  );
 }
 
-export default MyApp
+export default MyApp;

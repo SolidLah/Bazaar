@@ -1,4 +1,4 @@
-import { initializeApp } from "firebase/app"
+import { initializeApp } from "firebase/app";
 import {
   getAuth,
   signInWithEmailAndPassword,
@@ -6,8 +6,8 @@ import {
   sendPasswordResetEmail,
   signOut,
   updateProfile,
-} from "firebase/auth"
-import { getFirestore, doc, setDoc } from "firebase/firestore"
+} from "firebase/auth";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAKEv3N-20uVAHgk5sYb2tV9GNuUDsI7I4",
@@ -17,45 +17,45 @@ const firebaseConfig = {
   messagingSenderId: "623316894820",
   appId: "1:623316894820:web:e9c2d35c3386f036a80b71",
   measurementId: "G-CJV4Z8Q6MX",
-}
+};
 
-const app = initializeApp(firebaseConfig)
-const auth = getAuth(app)
-const db = getFirestore(app)
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
 const logInWithEmailAndPassword = async (email, password) => {
   try {
-    await signInWithEmailAndPassword(auth, email, password)
+    await signInWithEmailAndPassword(auth, email, password);
   } catch (err) {
-    alert(err)
+    alert(err);
   }
-}
+};
 
 const registerWithEmailAndPassword = async (name, email, password) => {
   try {
-    const res = await createUserWithEmailAndPassword(auth, email, password)
-    await updateProfile(res.user, { displayName: name })
+    const res = await createUserWithEmailAndPassword(auth, email, password);
+    await updateProfile(res.user, { displayName: name });
 
     await setDoc(doc(db, "users", res.user.uid), {
       walletAddress: "",
-    })
+    });
   } catch (err) {
-    alert(err)
+    alert(err);
   }
-}
+};
 
 const sendPasswordReset = async (email) => {
   try {
-    await sendPasswordResetEmail(auth, email)
-    alert("Password reset link sent!")
+    await sendPasswordResetEmail(auth, email);
+    alert("Password reset link sent!");
   } catch (err) {
-    alert(err)
+    alert(err);
   }
-}
+};
 
 const logout = async () => {
-  await signOut(auth)
-}
+  await signOut(auth);
+};
 
 export {
   auth,
@@ -64,4 +64,4 @@ export {
   registerWithEmailAndPassword,
   sendPasswordReset,
   logout,
-}
+};

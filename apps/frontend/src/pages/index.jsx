@@ -1,5 +1,5 @@
-import { Flex, Heading, OrderedList, ListItem, Link } from "@chakra-ui/react"
-import NextLink from "next/link"
+import { Flex, Heading, OrderedList, ListItem, Link } from "@chakra-ui/react";
+import NextLink from "next/link";
 
 const Home = () => {
   return (
@@ -38,7 +38,7 @@ const Home = () => {
         </OrderedList>
       </Flex>
     </Flex>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

@@ -3,7 +3,8 @@ const items = {
     {
       id: 1,
       nftData: {
-        image: "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
+        image:
+          "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
         name: "stub",
       },
       marketPrice: {
@@ -13,7 +14,8 @@ const items = {
     {
       id: 2,
       nftData: {
-        image: "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
+        image:
+          "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
         name: "stub",
       },
       marketPrice: {
@@ -23,7 +25,8 @@ const items = {
     {
       id: 3,
       nftData: {
-        image: "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
+        image:
+          "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
         name: "stub",
       },
       marketPrice: {
@@ -33,7 +36,8 @@ const items = {
     {
       id: 4,
       nftData: {
-        image: "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
+        image:
+          "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
         name: "stub",
       },
       marketPrice: {
@@ -43,7 +47,8 @@ const items = {
     {
       id: 5,
       nftData: {
-        image: "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
+        image:
+          "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
         name: "stub",
       },
       marketPrice: {
@@ -53,7 +58,8 @@ const items = {
     {
       id: 6,
       nftData: {
-        image: "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
+        image:
+          "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
         name: "stub",
       },
       marketPrice: {
@@ -65,7 +71,8 @@ const items = {
     {
       id: 1,
       nftData: {
-        image: "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
+        image:
+          "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
         name: "stub",
       },
       marketPrice: {
@@ -75,7 +82,8 @@ const items = {
     {
       id: 2,
       nftData: {
-        image: "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
+        image:
+          "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
         name: "stub",
       },
       marketPrice: {
@@ -85,7 +93,8 @@ const items = {
     {
       id: 3,
       nftData: {
-        image: "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
+        image:
+          "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
         name: "stub",
       },
       marketPrice: {
@@ -95,7 +104,8 @@ const items = {
     {
       id: 4,
       nftData: {
-        image: "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
+        image:
+          "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
         name: "stub",
       },
       marketPrice: {
@@ -105,7 +115,8 @@ const items = {
     {
       id: 5,
       nftData: {
-        image: "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
+        image:
+          "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
         name: "stub",
       },
       marketPrice: {
@@ -115,7 +126,8 @@ const items = {
     {
       id: 6,
       nftData: {
-        image: "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
+        image:
+          "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
         name: "stub",
       },
       marketPrice: {
@@ -123,6 +135,6 @@ const items = {
       },
     },
   ],
-}
+};
 
-export default items
+export default items;
