@@ -6,18 +6,18 @@ import {
   Avatar,
   Button,
   useToast,
-} from "@chakra-ui/react"
-import useEthersStore from "src/stores/ethersStore"
-import { useCallback } from "react"
-import { db } from "lib/firebase"
-import { doc, setDoc } from "firebase/firestore"
-import { useSWRConfig } from "swr"
+} from "@chakra-ui/react";
+import useEthersStore from "src/stores/ethersStore";
+import { useCallback } from "react";
+import { db } from "lib/firebase";
+import { doc, setDoc } from "firebase/firestore";
+import { useSWRConfig } from "swr";
 
 const DetailsGrid = ({ user, fireStoredAddress }) => {
-  const ethersInitialised = useEthersStore((state) => state.ethersInitialised)
-  const ethersStoredAddress = useEthersStore((state) => state.address)
-  const toast = useToast()
-  const { mutate } = useSWRConfig()
+  const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
+  const ethersStoredAddress = useEthersStore((state) => state.address);
+  const toast = useToast();
+  const { mutate } = useSWRConfig();
 
   const buttonCallback = useCallback(async () => {
     if (!ethersInitialised) {
@@ -27,8 +27,8 @@ const DetailsGrid = ({ user, fireStoredAddress }) => {
         status: "error",
         isClosable: true,
         position: "bottom-right",
-      })
-      return
+      });
+      return;
     }
 
     if (ethersStoredAddress === fireStoredAddress) {
@@ -38,13 +38,13 @@ const DetailsGrid = ({ user, fireStoredAddress }) => {
         status: "error",
         isClosable: true,
         position: "bottom-right",
-      })
-      return
+      });
+      return;
     }
 
     await setDoc(doc(db, "users", user.uid), {
       walletAddress: ethersStoredAddress,
-    })
+    });
 
     toast({
       title: "Connect wallet to account",
@@ -52,10 +52,10 @@ const DetailsGrid = ({ user, fireStoredAddress }) => {
       status: "success",
       isClosable: true,
       position: "bottom-right",
-    })
+    });
 
-    mutate(user)
-  }, [user, ethersStoredAddress, fireStoredAddress, ethersInitialised])
+    mutate(user);
+  }, [user, ethersStoredAddress, fireStoredAddress, ethersInitialised]);
 
   return (
     <Center flexDirection="column">
@@ -94,7 +94,7 @@ const DetailsGrid = ({ user, fireStoredAddress }) => {
         </GridItem>
       </Grid>
     </Center>
-  )
-}
+  );
+};
 
-export default DetailsGrid
+export default DetailsGrid;

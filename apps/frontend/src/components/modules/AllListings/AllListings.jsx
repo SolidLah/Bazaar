@@ -1,17 +1,17 @@
-import { VStack, Spinner } from "@chakra-ui/react"
-import axios from "axios"
-import useSWR from "swr"
-import ErrorLayout from "src/components/common/layouts/ErrorLayout"
-import Header from "./Header"
-import ListingsGrid from "./ListingsGrid"
+import { VStack, Spinner } from "@chakra-ui/react";
+import axios from "axios";
+import useSWR from "swr";
+import ErrorLayout from "src/components/common/layouts/ErrorLayout";
+import Header from "./Header";
+import ListingsGrid from "./ListingsGrid";
 
 const AllListings = () => {
   const { data, error } = useSWR("/api/listings", (url) =>
     axios.get(url).then((res) => res.data.msg)
-  )
+  );
 
   if (error) {
-    return <ErrorLayout />
+    return <ErrorLayout />;
   }
 
   return (
@@ -23,7 +23,7 @@ const AllListings = () => {
         <ListingsGrid items={data} />
       )}
     </VStack>
-  )
-}
+  );
+};
 
-export default AllListings
+export default AllListings;

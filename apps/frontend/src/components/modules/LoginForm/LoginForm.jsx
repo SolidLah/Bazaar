@@ -1,20 +1,20 @@
-import { Flex, Heading, Input, Button, Center } from "@chakra-ui/react"
-import Link from "next/link"
-import { useRef } from "react"
-import { logInWithEmailAndPassword } from "lib/firebase"
+import { Flex, Heading, Input, Button, Center } from "@chakra-ui/react";
+import Link from "next/link";
+import { useRef } from "react";
+import { logInWithEmailAndPassword } from "lib/firebase";
 
 const LoginForm = () => {
-  const emailRef = useRef()
-  const passwordRef = useRef()
+  const emailRef = useRef();
+  const passwordRef = useRef();
 
   const buttonCallback = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
 
     await logInWithEmailAndPassword(
       emailRef.current?.value,
       passwordRef.current?.value
-    )
-  }
+    );
+  };
 
   return (
     <Center mt={20}>
@@ -47,7 +47,7 @@ const LoginForm = () => {
         </Link>
       </Flex>
     </Center>
-  )
-}
+  );
+};
 
-export default LoginForm
+export default LoginForm;

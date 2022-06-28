@@ -1,17 +1,17 @@
-import { sendPasswordReset } from "lib/firebase"
-import { Button, Flex, Center, Heading, Input } from "@chakra-ui/react"
-import Link from "next/link"
-import { useRef } from "react"
+import { sendPasswordReset } from "lib/firebase";
+import { Button, Flex, Center, Heading, Input } from "@chakra-ui/react";
+import Link from "next/link";
+import { useRef } from "react";
 
 const ResetForm = () => {
-  const emailRef = useRef("")
+  const emailRef = useRef("");
 
   const buttonCallback = async (event) => {
-    event.preventDefault()
-    const email = emailRef.current.value
+    event.preventDefault();
+    const email = emailRef.current.value;
 
-    await sendPasswordReset(email)
-  }
+    await sendPasswordReset(email);
+  };
 
   return (
     <Center mt={20}>
@@ -30,6 +30,6 @@ const ResetForm = () => {
         </Link>
       </Flex>
     </Center>
-  )
-}
-export default ResetForm
+  );
+};
+export default ResetForm;

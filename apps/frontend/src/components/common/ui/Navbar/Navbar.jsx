@@ -1,20 +1,20 @@
-import { Heading, HStack, Button, Avatar } from "@chakra-ui/react"
-import Image from "next/image"
-import { useRouter } from "next/router"
-import Link from "next/link"
-import bazaar_icon_alpha from "../../../../../public/bazaar_icon_alpha.png"
-import { useAuthState } from "react-firebase-hooks/auth"
-import { auth, logout } from "lib/firebase"
-import ConnectWalletButton from "src/components/common/ui/ConnectWalletButton/ConnectWalletButton"
+import { Heading, HStack, Button, Avatar } from "@chakra-ui/react";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import bazaar_icon_alpha from "../../../../../public/bazaar_icon_alpha.png";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth, logout } from "lib/firebase";
+import ConnectWalletButton from "src/components/common/ui/ConnectWalletButton/ConnectWalletButton";
 
 const Navbar = () => {
-  const router = useRouter()
-  const [user, loading, error] = useAuthState(auth)
+  const router = useRouter();
+  const [user, loading, error] = useAuthState(auth);
 
   const logoutCallback = async () => {
-    await logout()
-    router.push("/user")
-  }
+    await logout();
+    router.push("/user");
+  };
 
   return (
     <HStack
@@ -72,7 +72,7 @@ const Navbar = () => {
         </Link>
       </HStack>
     </HStack>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

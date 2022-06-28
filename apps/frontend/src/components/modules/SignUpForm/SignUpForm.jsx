@@ -5,38 +5,38 @@ import {
   Heading,
   Input,
   useToast,
-} from "@chakra-ui/react"
-import Link from "next/link"
-import { useEffect, useRef } from "react"
-import { useAuthState } from "react-firebase-hooks/auth"
-import { auth, registerWithEmailAndPassword } from "lib/firebase"
-import { useRouter } from "next/router"
-import LoadingLayout from "src/components/common/layouts/LoadingLayout"
+} from "@chakra-ui/react";
+import Link from "next/link";
+import { useEffect, useRef } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth, registerWithEmailAndPassword } from "lib/firebase";
+import { useRouter } from "next/router";
+import LoadingLayout from "src/components/common/layouts/LoadingLayout";
 
 const SignupForm = () => {
-  const emailRef = useRef()
-  const nameRef = useRef()
-  const passwordRef = useRef()
-  const confirmPasswordRef = useRef()
-  const [user, loading, error] = useAuthState(auth)
-  const router = useRouter()
-  const toast = useToast()
+  const emailRef = useRef();
+  const nameRef = useRef();
+  const passwordRef = useRef();
+  const confirmPasswordRef = useRef();
+  const [user, loading, error] = useAuthState(auth);
+  const router = useRouter();
+  const toast = useToast();
 
   useEffect(() => {
     if (user) {
-      router.push("/user")
+      router.push("/user");
     }
-  }, [user])
+  }, [user]);
 
   if (loading) {
-    return <LoadingLayout />
+    return <LoadingLayout />;
   }
 
   const register = async () => {
-    const name = nameRef.current?.value
-    const email = emailRef.current?.value
-    const password = passwordRef.current?.value
-    const confirmPassword = confirmPasswordRef.current?.value
+    const name = nameRef.current?.value;
+    const email = emailRef.current?.value;
+    const password = passwordRef.current?.value;
+    const confirmPassword = confirmPasswordRef.current?.value;
 
     if (!name || !email || !password || !confirmPassword) {
       toast({
@@ -45,8 +45,8 @@ const SignupForm = () => {
         status: "error",
         isClosable: true,
         position: "bottom-right",
-      })
-      return
+      });
+      return;
     }
 
     if (password !== confirmPassword) {
@@ -56,12 +56,12 @@ const SignupForm = () => {
         status: "error",
         isClosable: true,
         position: "bottom-right",
-      })
-      return
+      });
+      return;
     }
 
-    await registerWithEmailAndPassword(name, email, password)
-  }
+    await registerWithEmailAndPassword(name, email, password);
+  };
   return (
     <Center mt={20}>
       <Flex direction="column" bg="gray.100" p={12} rounded="md">
@@ -94,7 +94,7 @@ const SignupForm = () => {
         </Link>
       </Flex>
     </Center>
-  )
-}
+  );
+};
 
-export default SignupForm
+export default SignupForm;

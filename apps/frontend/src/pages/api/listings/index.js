@@ -44,13 +44,11 @@ export default async function handler(req, res) {
           };
         })
       );
-      res
-        .status(200)
-        .json({
-          route: "api/listings/",
-          success: true,
-          msg: listOfMarketItems,
-        });
+      res.status(200).json({
+        route: "api/listings/",
+        success: true,
+        msg: listOfMarketItems,
+      });
     } catch (error) {
       res
         .status(500)

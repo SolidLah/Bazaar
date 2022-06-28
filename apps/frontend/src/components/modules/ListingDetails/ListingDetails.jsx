@@ -9,23 +9,23 @@ import {
   Spinner,
   Center,
   Badge,
-} from "@chakra-ui/react"
-import Image from "next/image"
-import axios from "axios"
-import BuyButton from "src/components/common/ui/BuyButton/BuyButton"
-import useSWR from "swr"
+} from "@chakra-ui/react";
+import Image from "next/image";
+import axios from "axios";
+import BuyButton from "src/components/common/ui/BuyButton/BuyButton";
+import useSWR from "swr";
 
 const ListingDetails = ({ id }) => {
   const { data: item, error } = useSWR(`/api/listings/${id}`, (url) =>
     axios.get(url).then((res) => res.data.msg)
-  )
+  );
 
   if (!item) {
     return (
       <Center h="100%" p={10}>
         <Spinner size="xl" color="gray" />
       </Center>
-    )
+    );
   }
 
   if (error) {
@@ -33,7 +33,7 @@ const ListingDetails = ({ id }) => {
       <Center h="100%" p={10}>
         <div>Error has occured</div>
       </Center>
-    )
+    );
   }
 
   return (
@@ -53,7 +53,10 @@ const ListingDetails = ({ id }) => {
               <Heading>{item.nftData.name}</Heading>
               <Text>NFT collection</Text>
               <Text>
-                {`${item.marketData[4].slice(0,3)}...${item.marketData[4].slice(38)}`}
+                {`${item.marketData[4].slice(
+                  0,
+                  3
+                )}...${item.marketData[4].slice(38)}`}
               </Text>
             </Flex>
             <Badge
@@ -69,7 +72,7 @@ const ListingDetails = ({ id }) => {
         </VStack>
       </HStack>
     </VStack>
-  )
-}
+  );
+};
 
-export default ListingDetails
+export default ListingDetails;

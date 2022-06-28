@@ -1,5 +1,5 @@
-import { Button, Heading, HStack, ButtonGroup } from "@chakra-ui/react"
-import Link from "next/link"
+import { Button, Heading, HStack, ButtonGroup } from "@chakra-ui/react";
+import Link from "next/link";
 
 const Header = () => {
   return (
@@ -14,7 +14,7 @@ const Header = () => {
         </Link>
       </ButtonGroup>
     </HStack>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

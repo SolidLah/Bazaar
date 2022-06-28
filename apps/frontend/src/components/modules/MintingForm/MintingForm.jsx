@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from "react"
+import { useState, useCallback, useRef } from "react";
 import {
   Button,
   Flex,
@@ -8,46 +8,46 @@ import {
   InputRightAddon,
   useToast,
   Center,
-} from "@chakra-ui/react"
-import axios from "axios"
-import useEthersStore from "src/stores/ethersStore"
-import { ethers } from "ethers"
-import { NFTContractData } from "src/contracts"
+} from "@chakra-ui/react";
+import axios from "axios";
+import useEthersStore from "src/stores/ethersStore";
+import { ethers } from "ethers";
+import { NFTContractData } from "src/contracts";
 
 const MintForm = () => {
-  const ethersInitialised = useEthersStore((state) => state.ethersInitialised)
-  const nftContract = useEthersStore((state) => state.nftContract)
-  const mktContract = useEthersStore((state) => state.mktContract)
+  const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
+  const nftContract = useEthersStore((state) => state.nftContract);
+  const mktContract = useEthersStore((state) => state.mktContract);
 
-  const imageRef = useRef()
-  const nameRef = useRef()
-  const descriptionRef = useRef()
-  const priceRef = useRef()
-  const [loading, setLoading] = useState("")
+  const imageRef = useRef();
+  const nameRef = useRef();
+  const descriptionRef = useRef();
+  const priceRef = useRef();
+  const [loading, setLoading] = useState("");
 
-  const toast = useToast()
+  const toast = useToast();
 
-  const toWei = (num) => ethers.utils.parseEther(num.toString())
+  const toWei = (num) => ethers.utils.parseEther(num.toString());
 
   const uploadNFT = async (image, name, description) => {
     // initialise FormData object
-    let imageData = new FormData()
-    imageData.append("image", image)
-    imageData.append("name", name)
-    imageData.append("description", description)
+    let imageData = new FormData();
+    imageData.append("image", image);
+    imageData.append("name", name);
+    imageData.append("description", description);
 
     // POST request to API
-    const imageUploadRes = await axios.post("/api/image", imageData)
-    const nftURI = imageUploadRes.data.msg
+    const imageUploadRes = await axios.post("/api/image", imageData);
+    const nftURI = imageUploadRes.data.msg;
 
-    return nftURI
-  }
+    return nftURI;
+  };
 
   const buttonCallback = useCallback(async () => {
-    const image = imageRef.current?.files[0]
-    const name = nameRef.current?.value
-    const description = descriptionRef.current?.value
-    const price = Number(priceRef.current?.value)
+    const image = imageRef.current?.files[0];
+    const name = nameRef.current?.value;
+    const description = descriptionRef.current?.value;
+    const price = Number(priceRef.current?.value);
 
     if (typeof window.ethereum === "undefined") {
       toast({
@@ -56,8 +56,8 @@ const MintForm = () => {
         status: "error",
         isClosable: true,
         position: "bottom-right",
-      })
-      return
+      });
+      return;
     }
 
     if (!ethersInitialised) {
@@ -67,8 +67,8 @@ const MintForm = () => {
         status: "error",
         isClosable: true,
         position: "bottom-right",
-      })
-      return
+      });
+      return;
     }
 
     if (!image || !price || !name || !description) {
@@ -78,18 +78,18 @@ const MintForm = () => {
         status: "error",
         isClosable: true,
         position: "bottom-right",
-      })
-      return
+      });
+      return;
     }
 
-    setLoading("Uploading Image")
+    setLoading("Uploading Image");
 
     // upload image then NFT to IPFS
-    let nftURI
+    let nftURI;
 
     try {
-      nftURI = await uploadNFT(image, name, description)
-      console.log("upload to IPFS: success")
+      nftURI = await uploadNFT(image, name, description);
+      console.log("upload to IPFS: success");
     } catch (error) {
       toast({
         title: "Minting status",
@@ -97,22 +97,22 @@ const MintForm = () => {
         status: "error",
         isClosable: true,
         position: "bottom-right",
-      })
-      setLoading("")
-      return
+      });
+      setLoading("");
+      return;
     }
 
-    setLoading("Minting NFT")
+    setLoading("Minting NFT");
 
     // mint and list NFT
     try {
       // mint NFT
-      await (await nftContract.mint(nftURI)).wait()
-      console.log("await mintNFT done")
+      await (await nftContract.mint(nftURI)).wait();
+      console.log("await mintNFT done");
 
       // get tokenId
-      const tokenId = await nftContract.getCurrentId()
-      console.log(`current tokenId: ${tokenId.toString()}`)
+      const tokenId = await nftContract.getCurrentId();
+      console.log(`current tokenId: ${tokenId.toString()}`);
 
       // list NFT
       await (
@@ -121,8 +121,8 @@ const MintForm = () => {
           tokenId,
           toWei(price)
         )
-      ).wait()
-      console.log("list on marketplace: success")
+      ).wait();
+      console.log("list on marketplace: success");
     } catch (error) {
       toast({
         title: "Minting status",
@@ -130,16 +130,16 @@ const MintForm = () => {
         status: "error",
         isClosable: true,
         position: "bottom-right",
-      })
-      setLoading("")
-      return
+      });
+      setLoading("");
+      return;
     }
 
-    imageRef.current.value = ""
-    nameRef.current.value = ""
-    descriptionRef.current.value = ""
-    priceRef.current.value = ""
-    setLoading("")
+    imageRef.current.value = "";
+    nameRef.current.value = "";
+    descriptionRef.current.value = "";
+    priceRef.current.value = "";
+    setLoading("");
 
     toast({
       title: "Minting status",
@@ -147,8 +147,8 @@ const MintForm = () => {
       status: "success",
       isClosable: true,
       position: "bottom-right",
-    })
-  }, [ethersInitialised, nftContract, mktContract])
+    });
+  }, [ethersInitialised, nftContract, mktContract]);
 
   return (
     <Center h="100%" w="100%" p={10} flexDirection="column">
@@ -185,7 +185,7 @@ const MintForm = () => {
         </Button>
       </Flex>
     </Center>
-  )
-}
+  );
+};
 
-export default MintForm
+export default MintForm;

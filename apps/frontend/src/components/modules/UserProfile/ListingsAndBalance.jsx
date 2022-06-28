@@ -1,10 +1,10 @@
-import { Flex, Heading, Center } from "@chakra-ui/react"
-import Card from "src/components/common/ui/Card/Card"
-import UnlinkedCard from "src/components/common/ui/UnlinkedCard/UnlinkedCard"
+import { Flex, Heading, Center } from "@chakra-ui/react";
+import Card from "src/components/common/ui/Card/Card";
+import UnlinkedCard from "src/components/common/ui/UnlinkedCard/UnlinkedCard";
 
 const ListingsAndBalance = ({ items }) => {
-  const userListings = items?.userListings
-  const userNFTs = items?.userNFTs
+  const userListings = items?.userListings;
+  const userNFTs = items?.userNFTs;
 
   return (
     <Flex direction="column" gap={6}>
@@ -33,7 +33,7 @@ const ListingsAndBalance = ({ items }) => {
         <Center>No NFTs owned</Center>
       )}
     </Flex>
-  )
-}
+  );
+};
 
-export default ListingsAndBalance
+export default ListingsAndBalance;
