@@ -1,7 +1,7 @@
 import { Flex, Heading, Input, Button, Center, Spinner } from "@chakra-ui/react"
 import Link from "next/link"
 import { useEffect, useRef } from "react"
-import { auth, logInWithEmailAndPassword } from "src/firebase"
+import { auth, logInWithEmailAndPassword } from "lib/firebase"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { useRouter } from "next/router"
 

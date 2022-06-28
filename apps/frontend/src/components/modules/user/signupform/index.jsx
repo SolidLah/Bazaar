@@ -10,7 +10,7 @@ import {
 import Link from "next/link"
 import { useEffect, useRef } from "react"
 import { useAuthState } from "react-firebase-hooks/auth"
-import { auth, registerWithEmailAndPassword } from "src/firebase"
+import { auth, registerWithEmailAndPassword } from "lib/firebase"
 import { useRouter } from "next/router"
 
 const SignupForm = () => {

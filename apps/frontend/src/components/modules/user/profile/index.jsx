@@ -1,7 +1,7 @@
 import { Center, Spinner } from "@chakra-ui/react"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { useRouter } from "next/router"
-import { db, auth } from "src/firebase"
+import { db, auth } from "lib/firebase"
 import { doc, getDoc } from "firebase/firestore"
 import { useEffect } from "react"
 import useSWR from "swr"
