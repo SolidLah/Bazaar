@@ -7,7 +7,7 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth"
-import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore"
+import { getFirestore, doc, setDoc } from "firebase/firestore"
 
 const firebaseConfig = {
   apiKey: "AIzaSyAKEv3N-20uVAHgk5sYb2tV9GNuUDsI7I4",
