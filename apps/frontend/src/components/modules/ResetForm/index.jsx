@@ -1,10 +1,17 @@
 import { sendPasswordReset } from "lib/firebase"
 import { Button, Flex, Center, Heading, Input } from "@chakra-ui/react"
 import Link from "next/link"
-import { useState } from "react"
+import { useRef } from "react"
 
 const ResetForm = () => {
-  const [email, setEmail] = useState("")
+  const emailRef = useRef("")
+
+  const buttonCallback = async (event) => {
+    event.preventDefault()
+    const email = emailRef.current.value
+
+    await sendPasswordReset(email)
+  }
 
   return (
     <Center mt={20}>
@@ -12,18 +19,8 @@ const ResetForm = () => {
         <Heading mb={6} align="center">
           Password Reset
         </Heading>
-        <Input
-          placeholder="email"
-          variant="filled"
-          mb={3}
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <Button
-          colorScheme="teal"
-          mb={6}
-          onClick={() => sendPasswordReset(email)}
-        >
+        <Input ref={emailRef} placeholder="email" variant="filled" mb={3} />
+        <Button colorScheme="teal" mb={6} onClick={buttonCallback}>
           Send Reset Link to Email
         </Button>
         <Link href="/user/signup" passHref>

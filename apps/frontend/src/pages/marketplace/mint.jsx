@@ -1,5 +1,5 @@
 import MintForm from "src/components/modules/MintingForm"
 
-const mint = () => <MintForm />
+const Mint = () => <MintForm />
 
-export default mint
+export default Mint

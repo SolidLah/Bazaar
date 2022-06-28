@@ -1,29 +1,11 @@
 import { Flex, Heading, Input, Button, Center, Spinner } from "@chakra-ui/react"
 import Link from "next/link"
-import { useEffect, useRef } from "react"
-import { auth, logInWithEmailAndPassword } from "lib/firebase"
-import { useAuthState } from "react-firebase-hooks/auth"
-import { useRouter } from "next/router"
+import { useRef } from "react"
+import { logInWithEmailAndPassword } from "lib/firebase"
 
 const LoginForm = () => {
   const emailRef = useRef()
   const passwordRef = useRef()
-  const [user, loading, error] = useAuthState(auth)
-  const router = useRouter()
-
-  useEffect(() => {
-    if (user) {
-      router.push("/user/me")
-    }
-  }, [user])
-
-  if (loading) {
-    return (
-      <Center mt={20}>
-        <Spinner size="xl" color="gray" />
-      </Center>
-    )
-  }
 
   const buttonCallback = async (event) => {
     event.preventDefault()

@@ -60,7 +60,7 @@ const Navbar = () => {
             Logout
           </Button>
         ) : (
-          <Link href="/user/login" passHref>
+          <Link href="/user" passHref>
             <Button colorScheme="blackAlpha" variant="ghost" color="white">
               Login
             </Button>

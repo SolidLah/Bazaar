@@ -1,9 +1,7 @@
 import { Center, Spinner } from "@chakra-ui/react"
 import { useAuthState } from "react-firebase-hooks/auth"
-import { useRouter } from "next/router"
 import { db, auth } from "lib/firebase"
 import { doc, getDoc } from "firebase/firestore"
-import { useEffect } from "react"
 import useSWR from "swr"
 import axios from "axios"
 import DetailsGrid from "src/components/modules/UserProfile/DetailsGrid"
@@ -12,7 +10,6 @@ import ErrorLayout from "src/components/common/layouts/ErrorLayout"
 
 const UserProfile = () => {
   const [user, loading, authError] = useAuthState(auth)
-  const router = useRouter()
   const { data: storedAddress } = useSWR(user, (user) =>
     getDoc(doc(db, "users", user.uid)).then((res) => res.data().walletAddress)
   )
@@ -21,12 +18,6 @@ const UserProfile = () => {
     () => (storedAddress ? "/api/listings/user/" + storedAddress : null),
     (url) => axios.get(url).then((res) => res.data.msg)
   )
-
-  useEffect(() => {
-    if (!user) {
-      router.push("/user/login")
-    }
-  }, [user])
 
   if (authError) {
     return <ErrorLayout />

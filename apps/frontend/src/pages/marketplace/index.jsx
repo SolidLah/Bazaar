@@ -1,5 +1,5 @@
 import AllListings from "src/components/modules/AllListings"
 
-const marketplace = () => <AllListings />
+const Marketplace = () => <AllListings />
 
-export default marketplace
+export default Marketplace

@@ -5,13 +5,13 @@ import {
   Heading,
   Input,
   useToast,
-  Spinner,
 } from "@chakra-ui/react"
 import Link from "next/link"
 import { useEffect, useRef } from "react"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { auth, registerWithEmailAndPassword } from "lib/firebase"
 import { useRouter } from "next/router"
+import LoadingLayout from "src/components/common/layouts/LoadingLayout"
 
 const SignupForm = () => {
   const emailRef = useRef()
@@ -24,16 +24,12 @@ const SignupForm = () => {
 
   useEffect(() => {
     if (user) {
-      router.push("/user/me")
+      router.push("/user")
     }
   }, [user])
 
   if (loading) {
-    return (
-      <Center p={10}>
-        <Spinner size="xl" />
-      </Center>
-    )
+    return <LoadingLayout />
   }
 
   const register = async () => {
