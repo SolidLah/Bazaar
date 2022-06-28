@@ -10,7 +10,6 @@ import {
   Center,
 } from "@chakra-ui/react"
 import axios from "axios"
-import ConnectWalletButton from "src/components/common/ui/ConnectWalletButton"
 import useEthersStore from "src/stores/ethersStore"
 import { ethers } from "ethers"
 import { NFTContractData } from "src/contracts"
@@ -153,7 +152,6 @@ const MintForm = () => {
 
   return (
     <Center h="100%" w="100%" p={10} flexDirection="column">
-      <ConnectWalletButton mb={3} />
       <Flex direction="column" bg="gray.100" p={12} rounded="md">
         <Heading align="center" mb={6}>
           Mint NFT

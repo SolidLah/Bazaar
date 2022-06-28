@@ -87,7 +87,7 @@ const SignupForm = () => {
         <Button colorScheme="teal" mb={6} onClick={register}>
           Sign Up
         </Button>
-        <Link href="/user/login" passHref>
+        <Link href="/user" passHref>
           <Button variant="link" size="sm">
             Log In
           </Button>

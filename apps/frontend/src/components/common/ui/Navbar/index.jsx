@@ -13,7 +13,7 @@ const Navbar = () => {
 
   const logoutCallback = async () => {
     await logout()
-    router.push("/user/login")
+    router.push("/user")
   }
 
   return (
