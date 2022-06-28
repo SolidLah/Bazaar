@@ -67,7 +67,7 @@ const Navbar = () => {
           </Link>
         )}
         <ConnectWalletButton />
-        <Link href="/user/me" passHref>
+        <Link href="/user" passHref>
           <Avatar cursor="pointer" />
         </Link>
       </HStack>
