@@ -13,7 +13,7 @@ import {
 import Image from "next/image"
 import { useRouter } from "next/router"
 import axios from "axios"
-import BuyButton from "src/components/ui/BuyButton"
+import BuyButton from "src/components/common/ui/BuyButton"
 import useSWR from "swr"
 
 const Details = () => {

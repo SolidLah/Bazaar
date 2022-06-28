@@ -10,7 +10,7 @@ import {
   Center,
 } from "@chakra-ui/react"
 import axios from "axios"
-import ConnectWalletButton from "src/components/ui/ConnectWalletButton"
+import ConnectWalletButton from "src/components/common/ui/ConnectWalletButton"
 import useEthersStore from "src/stores/ethersStore"
 import { ethers } from "ethers"
 import { NFTContractData } from "src/contracts"

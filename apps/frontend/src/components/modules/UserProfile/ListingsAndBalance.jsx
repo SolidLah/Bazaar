@@ -1,6 +1,6 @@
 import { Flex, Heading, Center } from "@chakra-ui/react"
-import Card from "src/components/ui/Card"
-import UnlinkedCard from "src/components/ui/UnlinkedCard"
+import Card from "src/components/common/ui/Card"
+import UnlinkedCard from "src/components/common/ui/UnlinkedCard"
 
 const ListingsAndBalance = ({ items }) => {
   const userListings = items?.userListings

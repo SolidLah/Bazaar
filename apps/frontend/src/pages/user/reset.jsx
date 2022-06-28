@@ -1,4 +1,4 @@
-import ResetForm from "src/components/modules/user/resetform"
+import ResetForm from "src/components/modules/ResetForm"
 
 const Reset = () => <ResetForm />
 

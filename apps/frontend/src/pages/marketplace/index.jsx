@@ -8,10 +8,10 @@ import {
   Spinner,
 } from "@chakra-ui/react"
 import Link from "next/link"
-import Card from "src/components/ui/Card"
+import Card from "src/components/common/ui/Card"
 import axios from "axios"
 import useSWR from "swr"
-import ErrorLayout from "src/components/layouts/ErrorLayout"
+import ErrorLayout from "src/components/common/layouts/ErrorLayout"
 
 const Header = () => {
   return (

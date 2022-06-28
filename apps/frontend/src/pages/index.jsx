@@ -1,5 +1,5 @@
 import { Flex, Heading, OrderedList, ListItem, Link } from "@chakra-ui/react"
-import ConnectWalletButton from "src/components/ui/ConnectWalletButton"
+import ConnectWalletButton from "src/components/common/ui/ConnectWalletButton"
 import NextLink from "next/link"
 
 const Home = () => {

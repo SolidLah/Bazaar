@@ -6,11 +6,11 @@ import { doc, getDoc } from "firebase/firestore"
 import { useEffect } from "react"
 import useSWR from "swr"
 import axios from "axios"
-import DetailsGrid from "src/components/modules/user/profile/DetailsGrid"
-import ListingsAndBalance from "src/components/modules/user/profile/ListingsAndBalance"
-import ErrorLayout from "src/components/layouts/ErrorLayout"
+import DetailsGrid from "src/components/modules/UserProfile/DetailsGrid"
+import ListingsAndBalance from "src/components/modules/UserProfile/ListingsAndBalance"
+import ErrorLayout from "src/components/common/layouts/ErrorLayout"
 
-const Profile = () => {
+const UserProfile = () => {
   const [user, loading, authError] = useAuthState(auth)
   const router = useRouter()
   const { data: storedAddress } = useSWR(user, (user) =>
@@ -46,4 +46,4 @@ const Profile = () => {
   )
 }
 
-export default Profile
+export default UserProfile

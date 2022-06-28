@@ -1,5 +1,5 @@
-import Profile from "src/components/modules/user/profile"
+import UserProfile from "src/components/modules/UserProfile"
 
-const Me = () => <Profile />
+const Me = () => <UserProfile />
 
 export default Me

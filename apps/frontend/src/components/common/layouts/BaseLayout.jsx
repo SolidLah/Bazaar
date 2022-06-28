@@ -1,4 +1,4 @@
-import Navbar from "../ui/Navbar"
+import Navbar from "src/components/common/ui/Navbar"
 
 const BaseLayout = ({ children }) => {
   return (
