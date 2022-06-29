@@ -1,4 +1,4 @@
-import UnlinkedCard from "../UnlinkedCard";
+import UnlinkedCard from "./UnlinkedCard";
 import { render, screen } from "@testing-library/react";
 
 const stubItem = {
