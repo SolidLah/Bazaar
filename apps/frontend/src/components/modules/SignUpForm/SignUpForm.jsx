@@ -44,7 +44,13 @@ const SignupForm = () => {
       return;
     }
 
-    await registerWithEmailAndPassword(name, email, password);
+    try {
+      await registerWithEmailAndPassword(name, email, password);
+    } catch (error) {
+      errorToast({
+        description: error.message,
+      });
+    }
   };
 
   if (loading) {

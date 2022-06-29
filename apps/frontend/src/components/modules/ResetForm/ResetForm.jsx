@@ -3,10 +3,12 @@ import { Button, Flex, Center, Heading, Input } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRef } from "react";
 import useErrorToast from "src/lib/hooks/useErrorToast";
+import useSuccessToast from "src/lib/hooks/useSuccessToast";
 
 const ResetForm = () => {
   const emailRef = useRef("");
   const errorToast = useErrorToast("Reset password");
+  const successToast = useSuccessToast("Reset password");
 
   const buttonCallback = async (event) => {
     event.preventDefault();
@@ -16,10 +18,16 @@ const ResetForm = () => {
       errorToast({
         description: "Missing fields",
       });
+
+      return;
     }
 
     try {
       await sendPasswordReset(email);
+
+      successToast({
+        description: "Password reset email sent",
+      });
     } catch (error) {
       errorToast({
         description: error.message,

@@ -18,6 +18,8 @@ const LoginForm = () => {
       errorToast({
         description: "Missing fields",
       });
+
+      return;
     }
 
     try {
