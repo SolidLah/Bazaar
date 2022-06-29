@@ -1,4 +1,4 @@
-import NavbarElement from "../NavBarElement";
+import NavbarElement from "../NavbarElement";
 import { render, screen } from "@testing-library/react";
 
 const stubUser = { id: 69 };
