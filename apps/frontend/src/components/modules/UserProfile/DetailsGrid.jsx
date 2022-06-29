@@ -8,7 +8,6 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import useEthersStore from "src/stores/ethersStore";
-import { useCallback } from "react";
 import { db } from "src/lib/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { useSWRConfig } from "swr";
@@ -19,7 +18,7 @@ const DetailsGrid = ({ user, fireStoredAddress }) => {
   const toast = useToast();
   const { mutate } = useSWRConfig();
 
-  const buttonCallback = useCallback(async () => {
+  const buttonCallback = async () => {
     if (!ethersInitialised) {
       toast({
         title: "Connect wallet to account",
@@ -55,7 +54,7 @@ const DetailsGrid = ({ user, fireStoredAddress }) => {
     });
 
     mutate(user);
-  }, [user, ethersStoredAddress, fireStoredAddress, ethersInitialised]);
+  };
 
   return (
     <Center flexDirection="column">

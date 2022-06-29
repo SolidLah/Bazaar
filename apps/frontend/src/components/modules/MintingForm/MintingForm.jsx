@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from "react";
+import { useState, useRef } from "react";
 import {
   Button,
   Flex,
@@ -43,7 +43,7 @@ const MintForm = () => {
     return nftURI;
   };
 
-  const buttonCallback = useCallback(async () => {
+  const buttonCallback = async () => {
     const image = imageRef.current?.files[0];
     const name = nameRef.current?.value;
     const description = descriptionRef.current?.value;
@@ -148,7 +148,7 @@ const MintForm = () => {
       isClosable: true,
       position: "bottom-right",
     });
-  }, [ethersInitialised, nftContract, mktContract]);
+  };
 
   return (
     <Center h="100%" w="100%" p={10} flexDirection="column">
