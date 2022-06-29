@@ -1,6 +1,6 @@
 import { Center, Spinner } from "@chakra-ui/react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { db, auth } from "lib/firebase";
+import { db, auth } from "src/lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import useSWR from "swr";
 import axios from "axios";

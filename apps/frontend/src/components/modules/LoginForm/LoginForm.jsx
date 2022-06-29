@@ -1,7 +1,7 @@
 import { Flex, Heading, Input, Button, Center } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRef } from "react";
-import { logInWithEmailAndPassword } from "lib/firebase";
+import { logInWithEmailAndPassword } from "src/lib/firebase";
 
 const LoginForm = () => {
   const emailRef = useRef();

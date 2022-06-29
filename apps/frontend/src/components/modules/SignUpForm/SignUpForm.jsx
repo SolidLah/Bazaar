@@ -9,7 +9,7 @@ import {
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, registerWithEmailAndPassword } from "lib/firebase";
+import { auth, registerWithEmailAndPassword } from "src/lib/firebase";
 import { useRouter } from "next/router";
 import LoadingLayout from "src/components/common/layouts/LoadingLayout";
 

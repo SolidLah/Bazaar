@@ -1,4 +1,4 @@
-import { sendPasswordReset } from "lib/firebase";
+import { sendPasswordReset } from "src/lib/firebase";
 import { Button, Flex, Center, Heading, Input } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRef } from "react";

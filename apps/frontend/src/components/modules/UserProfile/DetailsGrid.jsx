@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import useEthersStore from "src/stores/ethersStore";
 import { useCallback } from "react";
-import { db } from "lib/firebase";
+import { db } from "src/lib/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { useSWRConfig } from "swr";
 

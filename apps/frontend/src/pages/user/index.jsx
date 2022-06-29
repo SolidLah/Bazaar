@@ -1,4 +1,4 @@
-import { auth } from "lib/firebase";
+import { auth } from "src/lib/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import LoginForm from "src/components/modules/LoginForm/LoginForm";
 import UserProfile from "src/components/modules/UserProfile/UserProfile";

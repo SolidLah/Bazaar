@@ -1,14 +1,30 @@
 import Card from "../Card";
 import { render, screen } from "@testing-library/react";
-import stubNFT from "../../../../../../lib/stubNFT";
 
-const userItems = stubNFT.userNFTs;
-const userItem = userItems[0];
+const stubItem = {
+  id: 1,
+  nftData: {
+    image:
+      "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
+    name: "stub",
+  },
+  marketPrice: {
+    display: 10,
+  },
+};
 
 describe("Card component", () => {
-  it("Props are passed correctly to Card component", () => {
-    render(<Card item={userItem} />);
-    const nftName = screen.getByText(userItem.nftData.name);
+  it("NFT name is displayed in Card component", () => {
+    render(<Card item={stubItem} />);
+    const nftName = screen.getByText(stubItem.nftData.name);
     expect(nftName).toBeInTheDocument();
+  });
+
+  it("NFT price is displayed in Card component", () => {
+    render(<Card item={stubItem} />);
+    const nftPrice = screen.getByText(stubItem.marketPrice.display, {
+      exact: false,
+    });
+    expect(nftPrice).toBeInTheDocument();
   });
 });
