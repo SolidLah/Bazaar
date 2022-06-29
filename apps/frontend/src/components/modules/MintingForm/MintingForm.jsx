@@ -6,13 +6,14 @@ import {
   Input,
   InputGroup,
   InputRightAddon,
-  useToast,
   Center,
 } from "@chakra-ui/react";
 import axios from "axios";
 import useEthersStore from "src/stores/ethersStore";
 import { ethers } from "ethers";
 import { NFTContractData } from "src/contracts";
+import useErrorToast from "src/lib/hooks/useErrorToast";
+import useSuccessToast from "src/lib/hooks/useSuccessToast";
 
 const MintForm = () => {
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
@@ -25,7 +26,8 @@ const MintForm = () => {
   const priceRef = useRef();
   const [loading, setLoading] = useState("");
 
-  const toast = useToast();
+  const errorToast = useErrorToast("Minting NFT");
+  const successToast = useSuccessToast("Minting NFT");
 
   const toWei = (num) => ethers.utils.parseEther(num.toString());
 
@@ -50,35 +52,26 @@ const MintForm = () => {
     const price = Number(priceRef.current?.value);
 
     if (typeof window.ethereum === "undefined") {
-      toast({
-        title: "Metamask",
+      errorToast({
         description: "Metamask is not installed!",
-        status: "error",
-        isClosable: true,
-        position: "bottom-right",
       });
+
       return;
     }
 
     if (!ethersInitialised) {
-      toast({
-        title: "Metamask",
+      errorToast({
         description: "Connect a Metamask wallet!",
-        status: "error",
-        isClosable: true,
-        position: "bottom-right",
       });
+
       return;
     }
 
     if (!image || !price || !name || !description) {
-      toast({
-        title: "Form",
+      errorToast({
         description: "Missing fields",
-        status: "error",
-        isClosable: true,
-        position: "bottom-right",
       });
+
       return;
     }
 
@@ -124,12 +117,8 @@ const MintForm = () => {
       ).wait();
       console.log("list on marketplace: success");
     } catch (error) {
-      toast({
-        title: "Minting status",
+      errorToast({
         description: "Error occured minting NFT",
-        status: "error",
-        isClosable: true,
-        position: "bottom-right",
       });
       setLoading("");
       return;
@@ -141,12 +130,8 @@ const MintForm = () => {
     priceRef.current.value = "";
     setLoading("");
 
-    toast({
-      title: "Minting status",
+    successToast({
       description: "Minting success!",
-      status: "success",
-      isClosable: true,
-      position: "bottom-right",
     });
   };
 

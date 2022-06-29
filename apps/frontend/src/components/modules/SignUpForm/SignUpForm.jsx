@@ -1,17 +1,11 @@
-import {
-  Button,
-  Center,
-  Flex,
-  Heading,
-  Input,
-  useToast,
-} from "@chakra-ui/react";
+import { Button, Center, Flex, Heading, Input } from "@chakra-ui/react";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, registerWithEmailAndPassword } from "src/lib/firebase";
 import { useRouter } from "next/router";
 import LoadingLayout from "src/components/common/layouts/LoadingLayout";
+import useErrorToast from "src/lib/hooks/useErrorToast";
 
 const SignupForm = () => {
   const emailRef = useRef();
@@ -20,7 +14,7 @@ const SignupForm = () => {
   const confirmPasswordRef = useRef();
   const [user, loading, error] = useAuthState(auth);
   const router = useRouter();
-  const toast = useToast();
+  const errorToast = useErrorToast("Sign up");
 
   useEffect(() => {
     if (user) {
@@ -39,24 +33,18 @@ const SignupForm = () => {
     const confirmPassword = confirmPasswordRef.current?.value;
 
     if (!name || !email || !password || !confirmPassword) {
-      toast({
-        title: "Sign Up",
+      errorToast({
         description: "Missing fields",
-        status: "error",
-        isClosable: true,
-        position: "bottom-right",
       });
+
       return;
     }
 
     if (password !== confirmPassword) {
-      toast({
-        title: "Sign Up",
+      errorToast({
         description: "Passwords do not match",
-        status: "error",
-        isClosable: true,
-        position: "bottom-right",
       });
+
       return;
     }
 

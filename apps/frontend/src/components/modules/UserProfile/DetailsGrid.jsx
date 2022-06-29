@@ -1,43 +1,32 @@
-import {
-  Center,
-  Text,
-  Grid,
-  GridItem,
-  Avatar,
-  Button,
-  useToast,
-} from "@chakra-ui/react";
+import { Center, Text, Grid, GridItem, Avatar, Button } from "@chakra-ui/react";
 import useEthersStore from "src/stores/ethersStore";
 import { db } from "src/lib/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { useSWRConfig } from "swr";
+import useErrorToast from "src/lib/hooks/useErrorToast";
+import useSuccessToast from "src/lib/hooks/useSuccessToast";
 
 const DetailsGrid = ({ user, fireStoredAddress }) => {
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
   const ethersStoredAddress = useEthersStore((state) => state.address);
-  const toast = useToast();
+  const errorToast = useErrorToast("Connect wallet to account");
+  const successToast = useSuccessToast("Connect wallet to account");
   const { mutate } = useSWRConfig();
 
   const buttonCallback = async () => {
     if (!ethersInitialised) {
-      toast({
-        title: "Connect wallet to account",
+      errorToast({
         description: "No connected wallet found",
-        status: "error",
-        isClosable: true,
-        position: "bottom-right",
       });
+
       return;
     }
 
     if (ethersStoredAddress === fireStoredAddress) {
-      toast({
-        title: "Connect wallet to account",
+      errorToast({
         description: "No change in wallet address",
-        status: "error",
-        isClosable: true,
-        position: "bottom-right",
       });
+
       return;
     }
 
@@ -45,12 +34,8 @@ const DetailsGrid = ({ user, fireStoredAddress }) => {
       walletAddress: ethersStoredAddress,
     });
 
-    toast({
-      title: "Connect wallet to account",
+    successToast({
       description: "Wallet has been connected successfully",
-      status: "success",
-      isClosable: true,
-      position: "bottom-right",
     });
 
     mutate(user);
