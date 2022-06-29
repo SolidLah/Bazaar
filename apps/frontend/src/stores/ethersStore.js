@@ -12,7 +12,7 @@ const useEthersStore = create((set, get) => ({
   ethersInitialised: false,
   initialiseEthers: async () => {
     if (get().ethersInitialised) {
-      throw new Error("Ethers already initialised");
+      throw new Error("Wallet already connected");
     }
 
     if (typeof window.ethereum === "undefined") {
