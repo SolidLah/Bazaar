@@ -4,6 +4,6 @@ const nextConfig = {
   images: {
     domains: ["gateway.pinata.cloud"],
   },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
