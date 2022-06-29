@@ -12,12 +12,11 @@ const useEthersStore = create((set, get) => ({
   ethersInitialised: false,
   initialiseEthers: async () => {
     if (get().ethersInitialised) {
-      return;
+      throw new Error("Ethers already initialised");
     }
 
     if (typeof window.ethereum === "undefined") {
-      console.log("MetaMask not installed!");
-      return;
+      throw new Error("Metamask not installed");
     }
 
     const currProvider = new ethers.providers.Web3Provider(window.ethereum);
