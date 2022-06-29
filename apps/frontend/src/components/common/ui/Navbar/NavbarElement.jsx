@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import bazaar_icon_alpha from "../../../../../public/bazaar_icon_alpha.png";
 import { logout } from "src/lib/firebase";
-import ConnectWalletButton from "src/components/common/ui/ConnectWalletButton/ConnectWalletButton";
+import WalletHandlerButton from "src/components/common/ui/WalletHandlerButton/WalletHandlerButton";
 
 const NavbarElement = ({ user }) => {
   const router = useRouter();
@@ -64,7 +64,7 @@ const NavbarElement = ({ user }) => {
             </Button>
           </Link>
         )}
-        <ConnectWalletButton />
+        <WalletHandlerButton />
         <Link href="/user" passHref>
           <Avatar cursor="pointer" />
         </Link>

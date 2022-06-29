@@ -3,7 +3,7 @@ import useEthersStore from "src/stores/ethersStore";
 import useErrorToast from "src/lib/hooks/useErrorToast";
 import useSuccessToast from "src/lib/hooks/useSuccessToast";
 
-const ConnectWalletButton = (props) => {
+const WalletHandlerButton = (props) => {
   const address = useEthersStore((state) => state.address);
   const initialiseEthers = useEthersStore((state) => state.initialiseEthers);
   const errorToast = useErrorToast("Connect wallet");
@@ -12,7 +12,6 @@ const ConnectWalletButton = (props) => {
   const buttonCallback = async () => {
     try {
       await initialiseEthers();
-
       successToast({
         description: "Success",
       });
@@ -32,4 +31,4 @@ const ConnectWalletButton = (props) => {
   );
 };
 
-export default ConnectWalletButton;
+export default WalletHandlerButton;
