@@ -1,7 +1,7 @@
 import NavbarElement from "../NavBarElement";
 import { render, screen } from "@testing-library/react";
 
-const stubUser = { id: 10 };
+const stubUser = { id: 69 };
 
 describe("Navbar component", () => {
   it("Displays login button if user is undefined", () => {
