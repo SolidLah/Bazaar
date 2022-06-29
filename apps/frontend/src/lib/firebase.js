@@ -24,33 +24,20 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 const logInWithEmailAndPassword = async (email, password) => {
-  try {
-    await signInWithEmailAndPassword(auth, email, password);
-  } catch (err) {
-    alert(err);
-  }
+  await signInWithEmailAndPassword(auth, email, password);
 };
 
 const registerWithEmailAndPassword = async (name, email, password) => {
-  try {
-    const res = await createUserWithEmailAndPassword(auth, email, password);
-    await updateProfile(res.user, { displayName: name });
+  const res = await createUserWithEmailAndPassword(auth, email, password);
+  await updateProfile(res.user, { displayName: name });
 
-    await setDoc(doc(db, "users", res.user.uid), {
-      walletAddress: "",
-    });
-  } catch (err) {
-    alert(err);
-  }
+  await setDoc(doc(db, "users", res.user.uid), {
+    walletAddress: "",
+  });
 };
 
 const sendPasswordReset = async (email) => {
-  try {
-    await sendPasswordResetEmail(auth, email);
-    alert("Password reset link sent!");
-  } catch (err) {
-    alert(err);
-  }
+  await sendPasswordResetEmail(auth, email);
 };
 
 const logout = async () => {

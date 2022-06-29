@@ -22,10 +22,6 @@ const SignupForm = () => {
     }
   }, [user]);
 
-  if (loading) {
-    return <LoadingLayout />;
-  }
-
   const register = async () => {
     const name = nameRef.current?.value;
     const email = emailRef.current?.value;
@@ -50,6 +46,11 @@ const SignupForm = () => {
 
     await registerWithEmailAndPassword(name, email, password);
   };
+
+  if (loading) {
+    return <LoadingLayout />;
+  }
+
   return (
     <Center mt={20}>
       <Flex direction="column" bg="gray.100" p={12} rounded="md">

@@ -2,15 +2,29 @@ import { sendPasswordReset } from "src/lib/firebase";
 import { Button, Flex, Center, Heading, Input } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRef } from "react";
+import useErrorToast from "src/lib/hooks/useErrorToast";
 
 const ResetForm = () => {
   const emailRef = useRef("");
+  const errorToast = useErrorToast("Reset password");
 
   const buttonCallback = async (event) => {
     event.preventDefault();
     const email = emailRef.current.value;
 
-    await sendPasswordReset(email);
+    if (!email) {
+      errorToast({
+        description: "Missing fields",
+      });
+    }
+
+    try {
+      await sendPasswordReset(email);
+    } catch (error) {
+      errorToast({
+        description: error.message,
+      });
+    }
   };
 
   return (

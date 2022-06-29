@@ -2,18 +2,31 @@ import { Flex, Heading, Input, Button, Center } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRef } from "react";
 import { logInWithEmailAndPassword } from "src/lib/firebase";
+import useErrorToast from "src/lib/hooks/useErrorToast";
 
 const LoginForm = () => {
   const emailRef = useRef();
   const passwordRef = useRef();
+  const errorToast = useErrorToast("Login");
 
   const buttonCallback = async (event) => {
     event.preventDefault();
+    const email = emailRef.current?.value;
+    const password = passwordRef.current?.value;
 
-    await logInWithEmailAndPassword(
-      emailRef.current?.value,
-      passwordRef.current?.value
-    );
+    if (!email || !password) {
+      errorToast({
+        description: "Missing fields",
+      });
+    }
+
+    try {
+      await logInWithEmailAndPassword(email, password);
+    } catch (error) {
+      errorToast({
+        description: error.message,
+      });
+    }
   };
 
   return (
