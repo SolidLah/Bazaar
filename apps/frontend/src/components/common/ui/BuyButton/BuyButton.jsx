@@ -1,33 +1,26 @@
-import { Button, useToast } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import useEthersStore from "src/stores/ethersStore";
-import { useCallback } from "react";
+import useErrorToast from "src/lib/hooks/useErrorToast";
 
-const BuyButton = ({ item }) => {
+const BuyButton = ({ item, ...props }) => {
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
   const mktContract = useEthersStore((state) => state.mktContract);
+  const errorToast = useErrorToast("Buying NFT");
 
-  const toast = useToast();
-
-  const buttonCallback = useCallback(async () => {
+  const buttonCallback = async () => {
     if (typeof window.ethereum === "undefined") {
-      toast({
-        title: "Metamask",
-        description: "Metamask is not installed!",
-        status: "error",
-        isClosable: true,
-        position: "bottom-right",
+      errorToast({
+        description: "Metamask is not installed",
       });
+
       return;
     }
 
     if (!ethersInitialised) {
-      toast({
-        title: "Metamask",
-        description: "Connect a Metamask wallet!",
-        status: "error",
-        isClosable: true,
-        position: "bottom-right",
+      errorToast({
+        description: "Connect a Metamask wallet",
       });
+
       return;
     }
 
@@ -39,22 +32,16 @@ const BuyButton = ({ item }) => {
         })
       ).wait();
     } catch (error) {
-      if (error.code === 4001) {
-        toast({
-          title: "Metamask",
-          description: "Transaction cancelled",
-          status: "error",
-          isClosable: true,
-          position: "bottom-right",
-        });
-      }
-      console.log(error);
+      errorToast({
+        description: error.message,
+      });
+
       return;
     }
-  }, [ethersInitialised, mktContract, item]);
+  };
 
   return (
-    <Button onClick={buttonCallback} colorScheme="teal">
+    <Button onClick={buttonCallback} colorScheme="teal" {...props}>
       Buy
     </Button>
   );
