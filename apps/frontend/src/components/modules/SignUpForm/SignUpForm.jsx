@@ -1,6 +1,6 @@
 import { Button, Center, Flex, Heading, Input } from "@chakra-ui/react";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, registerWithEmailAndPassword } from "src/lib/firebase";
 import { useRouter } from "next/router";
@@ -16,11 +16,9 @@ const SignupForm = () => {
   const router = useRouter();
   const errorToast = useErrorToast("Sign up");
 
-  useEffect(() => {
-    if (user) {
-      router.push("/user");
-    }
-  }, [user]);
+  if (user) {
+    router.push("/user");
+  }
 
   const register = async () => {
     const name = nameRef.current?.value;
