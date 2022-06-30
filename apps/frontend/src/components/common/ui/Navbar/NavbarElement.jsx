@@ -2,7 +2,6 @@ import { Heading, HStack, Button, Avatar } from "@chakra-ui/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import bazaar_icon_alpha from "../../../../../public/bazaar_icon_alpha.png";
 import { logout } from "src/lib/firebase";
 import WalletHandlerButton from "src/components/common/ui/WalletHandlerButton/WalletHandlerButton";
 
@@ -26,9 +25,12 @@ const NavbarElement = ({ user }) => {
           <Heading size="xl" color="black">
             Bazaar
           </Heading>
-          <div style={{ width: "30px", height: "30px" }}>
-            <Image src={bazaar_icon_alpha} alt="Bazaar Icon" />
-          </div>
+          <Image
+            src="/bazaar_icon_alpha.png"
+            alt="Bazaar Icon"
+            width="30px"
+            height="30px"
+          />
         </HStack>
       </Link>
       <HStack justify="space-evenly" spacing={3}>
