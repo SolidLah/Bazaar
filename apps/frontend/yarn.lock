@@ -2132,6 +2132,14 @@
     is-ipfs "^0.6.0"
     recursive-fs "^1.1.2"
 
+"@playwright/test@^1.23.0":
+  version "1.23.0"
+  resolved "https://registry.yarnpkg.com/@playwright/test/-/test-1.23.0.tgz#5d07ace37e1598a4a1a785b07856620b4e26fc43"
+  integrity sha512-RPWI8AHBVBiDyfTuxi1BhOaY3yaVy3S5ZsGKkSGGeWpZtSgN4SerInCYvgh9+EunIAK4RJQo+bzupbAn5pVqHQ==
+  dependencies:
+    "@types/node" "*"
+    playwright-core "1.23.0"
+
 "@popperjs/core@^2.9.3":
   version "2.11.5"
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.5.tgz#db5a11bf66bdab39569719555b0f76e138d7bd64"
@@ -5506,6 +5514,11 @@ pkg-dir@^4.2.0:
   integrity sha512-HRDzbaKjC+AOWVXxAU/x54COGeIv9eb+6CkDSQoNTt4XyWoIJvuPsXizxu/Fr23EiekbtZwmh1IcIG/l/a10GQ==
   dependencies:
     find-up "^4.0.0"
+
+playwright-core@1.23.0:
+  version "1.23.0"
+  resolved "https://registry.yarnpkg.com/playwright-core/-/playwright-core-1.23.0.tgz#51e24121b3a5bbe759d79738d8eff7a63156293c"
+  integrity sha512-Zzhyr5RZGoJ1ek2sgfJCt2076kdOg8hnNwFBqAYeLySiutXyxSQk93vZ5gbnFiWV1sHvueCcwla9n35acUTxtA==
 
 popmotion@11.0.3:
   version "11.0.3"
