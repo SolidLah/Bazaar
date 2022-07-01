@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 contract NFT is ERC721URIStorage {
     using Counters for Counters.Counter;
 
-    Counters.Counter private idCounter;
+    Counters.Counter public idCounter;
     address private immutable contractAddress;
     address payable public immutable deployer;
 

@@ -29,7 +29,7 @@ contract Marketplace is ReentrancyGuard, ERC721Holder {
 
     address payable public immutable deployer;
     uint256 public immutable feePercent;
-    Counters.Counter private idCounter;
+    Counters.Counter public idCounter;
     mapping(uint256 => MarketItem) public marketItemsMapping;
 
     constructor(uint256 _feePercent) {
