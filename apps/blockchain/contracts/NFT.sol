@@ -10,6 +10,7 @@ contract NFT is ERC721URIStorage {
 
     Counters.Counter private idCounter;
     address private immutable contractAddress;
+    address payable public immutable deployer;
 
     constructor(
         string memory name,
@@ -17,6 +18,7 @@ contract NFT is ERC721URIStorage {
         address _contractAddress
     ) ERC721(name, symbol) {
         contractAddress = _contractAddress;
+        deployer = payable(msg.sender);
     }
 
     function getCurrentId() public view returns (uint256) {
@@ -49,6 +51,7 @@ contract NFT is ERC721URIStorage {
         for (uint256 i = 1; i < _totalCount + 1; i++) {
             if (this.ownerOf(i) == user) {
                 _userNFTs[_currIndex] = this.tokenURI(i);
+                _currIndex++;
             }
         }
 
