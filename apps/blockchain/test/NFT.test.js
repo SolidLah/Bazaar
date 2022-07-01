@@ -8,7 +8,6 @@ describe("NFT contract", function () {
   let marketplace;
   let deployer;
   let addr1;
-  let addr2;
   let URI = "Sample URI";
   let NAME = "Bazaar NFT";
   let SYMBOL = "BFT";
@@ -16,7 +15,7 @@ describe("NFT contract", function () {
 
   beforeEach(async function () {
     // signers
-    [deployer, addr1, addr2] = await ethers.getSigners();
+    [deployer, addr1] = await ethers.getSigners();
 
     // contract factories
     MARKETPLACE = await ethers.getContractFactory("Marketplace");
@@ -44,14 +43,5 @@ describe("NFT contract", function () {
     await nft.connect(addr1).mint(URI);
     expect(await nft.tokenURI(1)).to.equal(URI);
     expect(await nft.deployer()).to.equal(deployer.address);
-  });
-
-  it("Check fetch function", async function () {
-    await nft.connect(addr1).mint(URI);
-    await nft.connect(addr1).mint(URI);
-
-    await nft.connect(addr2).mint(URI);
-
-    expect(await nft.fetchUserNFTs(addr1.address)).to.deep.equal([URI, URI]);
   });
 });

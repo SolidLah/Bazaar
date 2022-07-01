@@ -21,10 +21,6 @@ contract NFT is ERC721URIStorage {
         deployer = payable(msg.sender);
     }
 
-    function getCurrentId() public view returns (uint256) {
-        return idCounter.current();
-    }
-
     function mint(string memory tokenURI) public {
         idCounter.increment();
         uint256 newTokenId = idCounter.current();
@@ -33,28 +29,5 @@ contract NFT is ERC721URIStorage {
         _setTokenURI(newTokenId, tokenURI);
 
         setApprovalForAll(contractAddress, true);
-    }
-
-    function fetchUserNFTs(address user) public view returns (string[] memory) {
-        uint256 _totalCount = idCounter.current();
-        uint256 _userCount = 0;
-        uint256 _currIndex = 0;
-
-        for (uint256 i = 1; i < _totalCount + 1; i++) {
-            if (this.ownerOf(i) == user) {
-                _userCount++;
-            }
-        }
-
-        string[] memory _userNFTs = new string[](_userCount);
-
-        for (uint256 i = 1; i < _totalCount + 1; i++) {
-            if (this.ownerOf(i) == user) {
-                _userNFTs[_currIndex] = this.tokenURI(i);
-                _currIndex++;
-            }
-        }
-
-        return _userNFTs;
     }
 }
