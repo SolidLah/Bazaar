@@ -5,7 +5,7 @@ const ListingsGrid = ({ items }) => {
   return (
     <Flex w="100%" h="100%" wrap="wrap" justify="flex-start">
       {items.map((item) => (
-        <Card key={item.id} item={item} />
+        <Card key={item.itemId} item={item} />
       ))}
     </Flex>
   );
