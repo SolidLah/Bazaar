@@ -17,7 +17,6 @@ contract Marketplace is ReentrancyGuard, ERC721Holder {
         uint256 price;
         uint256 marketPrice;
         bool sold;
-
         // NFT properties
         address nftAddress;
         address payable minter;
@@ -43,7 +42,10 @@ contract Marketplace is ReentrancyGuard, ERC721Holder {
         uint256 _price
     ) public nonReentrant {
         require(_price > 0, "Price must be greater than zero");
-        require(IERC721Metadata(_nftAddress).ownerOf(_tokenId) == msg.sender, "Not the owner of token"); // check token exists
+        require(
+            IERC721Metadata(_nftAddress).ownerOf(_tokenId) == msg.sender,
+            "Not the owner of token"
+        ); // check token exists
 
         IERC721Metadata(_nftAddress).safeTransferFrom(
             msg.sender,
@@ -57,7 +59,9 @@ contract Marketplace is ReentrancyGuard, ERC721Holder {
 
         // getting NFT details
         address payable _minter = NFT(_nftAddress).deployer();
-        string memory _tokenURI = IERC721Metadata(_nftAddress).tokenURI(_tokenId);
+        string memory _tokenURI = IERC721Metadata(_nftAddress).tokenURI(
+            _tokenId
+        );
 
         // getting market price
         uint256 _marketPrice = (_price * (100 + feePercent)) / 100;
@@ -85,7 +89,6 @@ contract Marketplace is ReentrancyGuard, ERC721Holder {
             _soldItemId > 0 && _soldItemId <= idCounter.current(),
             "Market item does not exist"
         );
-
 
         MarketItem storage _currMarketItem = marketItemsMapping[_soldItemId];
         uint256 _totalPrice = _currMarketItem.marketPrice;
