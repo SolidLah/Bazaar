@@ -1,6 +1,6 @@
 import { useToast } from "@chakra-ui/react";
 
-const useErrorToast = (title) => {
+export default function useErrorToast(title) {
   const toast = useToast({
     title: title,
     status: "error",
@@ -9,6 +9,4 @@ const useErrorToast = (title) => {
   });
 
   return toast;
-};
-
-export default useErrorToast;
+}
