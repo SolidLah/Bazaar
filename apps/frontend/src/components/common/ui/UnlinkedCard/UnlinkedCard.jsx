@@ -16,7 +16,7 @@ const UnlinkedCard = ({ item }) => {
       >
         <Box w="100%" h="100%" pos="relative">
           <Image
-            src={item.image}
+            src={item.nftData.image}
             alt="NFT here"
             priority="true"
             layout="fill"
@@ -34,7 +34,7 @@ const UnlinkedCard = ({ item }) => {
           direction="row"
           justify="space-between"
         >
-          <Heading size="sm">{item.name}</Heading>
+          <Heading size="sm">{item.nftData.name}</Heading>
         </Flex>
       </Flex>
     </Square>

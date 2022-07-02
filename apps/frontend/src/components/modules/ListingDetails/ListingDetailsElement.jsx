@@ -39,10 +39,7 @@ const ListingDetailsElement = ({ item, error }) => {
               <Heading>{item.nftData.name}</Heading>
               <Text>NFT collection</Text>
               <Text>
-                {`${item.marketData[4].slice(
-                  0,
-                  3
-                )}...${item.marketData[4].slice(38)}`}
+                {`${item.minter.slice(0, 3)}...${item.minter.slice(38)}`}
               </Text>
             </Flex>
             <Badge
@@ -50,7 +47,7 @@ const ListingDetailsElement = ({ item, error }) => {
               colorScheme="green"
               variant="subtle"
               fontSize={17}
-            >{`${item.marketPrice.display} MATIC`}</Badge>
+            >{`${item.marketPrice} MATIC`}</Badge>
           </Flex>
           <Text>{item.nftData.description}</Text>
           <Spacer />

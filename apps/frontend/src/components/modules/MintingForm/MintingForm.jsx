@@ -54,12 +54,11 @@ const MintForm = () => {
       return;
     }
 
-    setLoading("Uploading Image");
-
     // upload image then NFT to IPFS
     let nftURI;
 
     try {
+      setLoading("Uploading Image");
       nftURI = await uploadNFT(image, name, description);
       successToast({
         description: "Upload success",
@@ -73,10 +72,9 @@ const MintForm = () => {
       return;
     }
 
-    setLoading("Minting NFT");
-
     // mint and list NFT
     try {
+      setLoading("Minting NFT");
       const tokenId = await mintNFT(nftURI); // mint NFT
       await listNFT(tokenId, price); // list NFT
       successToast({
