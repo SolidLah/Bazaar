@@ -1,5 +1,5 @@
 {
-  "address": "0x622C9F9cB6B98894F666CC115B16AA818B6dAb09",
+  "address": "0x94104645FCF3D999387f6a531C5aE53b09b88bfF",
   "abi": [
     {
       "inputs": [
@@ -135,19 +135,13 @@
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "user",
-          "type": "address"
-        }
-      ],
-      "name": "fetchUserNFTs",
+      "inputs": [],
+      "name": "deployer",
       "outputs": [
         {
-          "internalType": "string[]",
+          "internalType": "address payable",
           "name": "",
-          "type": "string[]"
+          "type": "address"
         }
       ],
       "stateMutability": "view",
@@ -174,11 +168,11 @@
     },
     {
       "inputs": [],
-      "name": "getCurrentId",
+      "name": "idCounter",
       "outputs": [
         {
           "internalType": "uint256",
-          "name": "",
+          "name": "_value",
           "type": "uint256"
         }
       ],

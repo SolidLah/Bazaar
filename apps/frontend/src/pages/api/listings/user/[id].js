@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
-import { NFTContractData, MarketplaceContractData } from "src/contracts";
-import axios from "axios";
+import { MarketplaceContractData } from "src/contracts";
+import { formatItem } from "src/lib/helpers";
 
 export default async function handler(req, res) {
   if (req.method === "GET") {
@@ -17,45 +17,24 @@ export default async function handler(req, res) {
         provider
       );
 
-      const nftContractReader = new ethers.Contract(
-        NFTContractData.address,
-        NFTContractData.abi,
-        provider
+      let userItems = await mktContractReader.fetchUserItems(id);
+      let listed = await Promise.all(
+        userItems.listed.map(async (item) => formatItem(item))
       );
-
-      let userListings = await mktContractReader.fetchUserItems(id);
-      userListings = await Promise.all(
-        userListings.map(async (item) => {
-          const marketPrice = await mktContractReader.getTotalPriceForItem(
-            item.itemId
-          );
-          const marketPriceObj = {
-            display: ethers.utils.formatEther(marketPrice),
-            biggish: marketPrice,
-          };
-          const nftURI = await nftContractReader.tokenURI(item.tokenId);
-          const nftMetadata = (await axios.get(nftURI)).data;
-
-          return {
-            id: item.itemId.toNumber(),
-            marketData: item,
-            marketPrice: marketPriceObj,
-            nftData: nftMetadata,
-          };
-        })
+      let owned = await Promise.all(
+        userItems.owned.map(async (item) => formatItem(item))
       );
+      userItems = {
+        listed,
+        owned,
+      };
 
-      let userNFTs = await nftContractReader.fetchUserNFTs(id);
-      userNFTs = await Promise.all(
-        userNFTs.map(async (url) => (await axios.get(url)).data)
-      );
-
-      const userCollection = { userListings, userNFTs };
+      console.log(userItems);
 
       res.status(200).json({
         route: `api/listings/user/${id}`,
         success: true,
-        msg: userCollection,
+        msg: userItems,
       });
     } catch (error) {
       res

@@ -1,6 +1,6 @@
 import { useToast } from "@chakra-ui/react";
 
-const useSuccessToast = (title) => {
+export default function useSuccessToast(title) {
   const toast = useToast({
     title: title,
     description: "Success",
@@ -10,6 +10,4 @@ const useSuccessToast = (title) => {
   });
 
   return toast;
-};
-
-export default useSuccessToast;
+}
