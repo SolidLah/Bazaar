@@ -8,17 +8,12 @@ import {
   InputRightAddon,
   Center,
 } from "@chakra-ui/react";
-import axios from "axios";
 import useEthersStore from "src/stores/ethersStore";
-import { ethers } from "ethers";
-import { NFTContractData } from "src/contracts";
-import useErrorToast from "src/lib/hooks/useErrorToast";
-import useSuccessToast from "src/lib/hooks/useSuccessToast";
+import { useErrorToast, useSuccessToast } from "src/lib/hooks";
+import { uploadNFT, mintNFT, listNFT } from "src/lib/helpers";
 
 const MintForm = () => {
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
-  const nftContract = useEthersStore((state) => state.nftContract);
-  const mktContract = useEthersStore((state) => state.mktContract);
 
   const imageRef = useRef();
   const nameRef = useRef();
@@ -28,22 +23,6 @@ const MintForm = () => {
 
   const errorToast = useErrorToast("Minting NFT");
   const successToast = useSuccessToast("Minting NFT");
-
-  const toWei = (num) => ethers.utils.parseEther(num.toString());
-
-  const uploadNFT = async (image, name, description) => {
-    // initialise FormData object
-    let imageData = new FormData();
-    imageData.append("image", image);
-    imageData.append("name", name);
-    imageData.append("description", description);
-
-    // POST request to API
-    const imageUploadRes = await axios.post("/api/image", imageData);
-    const nftURI = imageUploadRes.data.msg;
-
-    return nftURI;
-  };
 
   const buttonCallback = async () => {
     const image = imageRef.current?.files[0];
@@ -82,14 +61,13 @@ const MintForm = () => {
 
     try {
       nftURI = await uploadNFT(image, name, description);
-      console.log("upload to IPFS: success");
+      successToast({
+        description: "Upload success",
+      });
     } catch (error) {
-      toast({
-        title: "Minting status",
+      console.log(error);
+      errorToast({
         description: "Error occured uploading NFT",
-        status: "error",
-        isClosable: true,
-        position: "bottom-right",
       });
       setLoading("");
       return;
@@ -99,24 +77,13 @@ const MintForm = () => {
 
     // mint and list NFT
     try {
-      // mint NFT
-      await (await nftContract.mint(nftURI)).wait();
-      console.log("await mintNFT done");
-
-      // get tokenId
-      const tokenId = await nftContract.getCurrentId();
-      console.log(`current tokenId: ${tokenId.toString()}`);
-
-      // list NFT
-      await (
-        await mktContract.createMarketItem(
-          NFTContractData.address,
-          tokenId,
-          toWei(price)
-        )
-      ).wait();
-      console.log("list on marketplace: success");
+      const tokenId = await mintNFT(nftURI); // mint NFT
+      await listNFT(tokenId, price); // list NFT
+      successToast({
+        description: "Minting success",
+      });
     } catch (error) {
+      console.log(error);
       errorToast({
         description: "Error occured minting NFT",
       });
@@ -129,10 +96,6 @@ const MintForm = () => {
     descriptionRef.current.value = "";
     priceRef.current.value = "";
     setLoading("");
-
-    successToast({
-      description: "Minting success!",
-    });
   };
 
   return (
