@@ -8,7 +8,7 @@ const blurImage =
 
 const Card = ({ item }) => {
   return (
-    <Link href={`/marketplace/details/${item.itemId}`} passHref>
+    <Link href={`/marketplace/details/${item.id}`} passHref>
       <Square
         as={motion.div}
         size={60}
@@ -48,7 +48,7 @@ const Card = ({ item }) => {
           >
             <Heading size="sm">{item.nftData.name}</Heading>
             <Badge colorScheme="green" variant="subtle" fontSize={12}>
-              {item.marketPrice} MATIC
+              {item.marketPrice.display} MATIC
             </Badge>
           </Flex>
         </Flex>

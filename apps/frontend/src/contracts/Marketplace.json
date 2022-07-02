@@ -1,5 +1,5 @@
 {
-  "address": "0x63fEb756E8C0F69EF8D9185C3e4E6ef4CAE4ed6A",
+  "address": "0x2c1D89F8F6FC5F18963c6e15Acfe2Cf063913E97",
   "abi": [
     {
       "inputs": [
@@ -11,6 +11,86 @@
       ],
       "stateMutability": "nonpayable",
       "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "itemId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "nftAddress",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "price",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "seller",
+          "type": "address"
+        }
+      ],
+      "name": "MarketItemCreated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "itemId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "nftAddress",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "price",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "seller",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "buyer",
+          "type": "address"
+        }
+      ],
+      "name": "MarketItemSold",
+      "type": "event"
     },
     {
       "inputs": [
@@ -73,38 +153,8 @@
               "type": "uint256"
             },
             {
-              "internalType": "address payable",
-              "name": "seller",
-              "type": "address"
-            },
-            {
-              "internalType": "address payable",
-              "name": "owner",
-              "type": "address"
-            },
-            {
-              "internalType": "uint256",
-              "name": "price",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "marketPrice",
-              "type": "uint256"
-            },
-            {
-              "internalType": "bool",
-              "name": "sold",
-              "type": "bool"
-            },
-            {
               "internalType": "address",
               "name": "nftAddress",
-              "type": "address"
-            },
-            {
-              "internalType": "address payable",
-              "name": "minter",
               "type": "address"
             },
             {
@@ -113,9 +163,19 @@
               "type": "uint256"
             },
             {
-              "internalType": "string",
-              "name": "tokenURI",
-              "type": "string"
+              "internalType": "uint256",
+              "name": "price",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address payable",
+              "name": "seller",
+              "type": "address"
+            },
+            {
+              "internalType": "bool",
+              "name": "sold",
+              "type": "bool"
             }
           ],
           "internalType": "struct Marketplace.MarketItem[]",
@@ -144,38 +204,8 @@
               "type": "uint256"
             },
             {
-              "internalType": "address payable",
-              "name": "seller",
-              "type": "address"
-            },
-            {
-              "internalType": "address payable",
-              "name": "owner",
-              "type": "address"
-            },
-            {
-              "internalType": "uint256",
-              "name": "price",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "marketPrice",
-              "type": "uint256"
-            },
-            {
-              "internalType": "bool",
-              "name": "sold",
-              "type": "bool"
-            },
-            {
               "internalType": "address",
               "name": "nftAddress",
-              "type": "address"
-            },
-            {
-              "internalType": "address payable",
-              "name": "minter",
               "type": "address"
             },
             {
@@ -184,20 +214,8 @@
               "type": "uint256"
             },
             {
-              "internalType": "string",
-              "name": "tokenURI",
-              "type": "string"
-            }
-          ],
-          "internalType": "struct Marketplace.MarketItem[]",
-          "name": "listed",
-          "type": "tuple[]"
-        },
-        {
-          "components": [
-            {
               "internalType": "uint256",
-              "name": "itemId",
+              "name": "price",
               "type": "uint256"
             },
             {
@@ -206,62 +224,14 @@
               "type": "address"
             },
             {
-              "internalType": "address payable",
-              "name": "owner",
-              "type": "address"
-            },
-            {
-              "internalType": "uint256",
-              "name": "price",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "marketPrice",
-              "type": "uint256"
-            },
-            {
               "internalType": "bool",
               "name": "sold",
               "type": "bool"
-            },
-            {
-              "internalType": "address",
-              "name": "nftAddress",
-              "type": "address"
-            },
-            {
-              "internalType": "address payable",
-              "name": "minter",
-              "type": "address"
-            },
-            {
-              "internalType": "uint256",
-              "name": "tokenId",
-              "type": "uint256"
-            },
-            {
-              "internalType": "string",
-              "name": "tokenURI",
-              "type": "string"
             }
           ],
           "internalType": "struct Marketplace.MarketItem[]",
-          "name": "owned",
+          "name": "",
           "type": "tuple[]"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "idCounter",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "_value",
-          "type": "uint256"
         }
       ],
       "stateMutability": "view",
@@ -271,61 +241,67 @@
       "inputs": [
         {
           "internalType": "uint256",
-          "name": "",
+          "name": "_itemId",
           "type": "uint256"
         }
       ],
-      "name": "marketItemsMapping",
+      "name": "getMarketItem",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "itemId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "nftAddress",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "tokenId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "price",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address payable",
+              "name": "seller",
+              "type": "address"
+            },
+            {
+              "internalType": "bool",
+              "name": "sold",
+              "type": "bool"
+            }
+          ],
+          "internalType": "struct Marketplace.MarketItem",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_itemId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getTotalPriceForItem",
       "outputs": [
         {
           "internalType": "uint256",
-          "name": "itemId",
+          "name": "",
           "type": "uint256"
-        },
-        {
-          "internalType": "address payable",
-          "name": "seller",
-          "type": "address"
-        },
-        {
-          "internalType": "address payable",
-          "name": "owner",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "price",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "marketPrice",
-          "type": "uint256"
-        },
-        {
-          "internalType": "bool",
-          "name": "sold",
-          "type": "bool"
-        },
-        {
-          "internalType": "address",
-          "name": "nftAddress",
-          "type": "address"
-        },
-        {
-          "internalType": "address payable",
-          "name": "minter",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "tokenId",
-          "type": "uint256"
-        },
-        {
-          "internalType": "string",
-          "name": "tokenURI",
-          "type": "string"
         }
       ],
       "stateMutability": "view",

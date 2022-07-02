@@ -1,6 +1,5 @@
-import { ethers } from "ethers";
-import { MarketplaceContractData } from "src/contracts";
-import { formatItem } from "src/lib/helpers";
+import { ethers, BigNumber } from "ethers";
+import { NFTContractData, MarketplaceContractData } from "src/contracts";
 
 export default async function handler(req, res) {
   if (req.method === "GET") {
@@ -17,14 +16,41 @@ export default async function handler(req, res) {
         provider
       );
 
-      let item = await mktContractReader.marketItemsMapping(id);
-      item = await formatItem(item);
+      const nftContractReader = new ethers.Contract(
+        NFTContractData.address,
+        NFTContractData.abi,
+        provider
+      );
 
-      console.log(item);
+      /* struct MarketItem {
+          uint256 itemId;
+          address nftAddress;
+          uint256 tokenId;
+          uint256 price;
+          address payable seller;
+          bool sold;
+        } */
+      const idBiggish = BigNumber.from(id);
+      const marketItem = await mktContractReader.getMarketItem(idBiggish);
+      const marketPrice = await mktContractReader.getTotalPriceForItem(
+        idBiggish
+      );
+      const marketPriceObj = {
+        display: ethers.utils.formatEther(marketPrice),
+        biggish: marketPrice,
+      };
+      const nftURI = await nftContractReader.tokenURI(marketItem.tokenId);
+      const nftMetadata = await (await fetch(nftURI)).json();
+      const nftRes = {
+        id,
+        marketData: marketItem,
+        marketPrice: marketPriceObj,
+        nftData: nftMetadata,
+      };
 
       res
         .status(200)
-        .json({ route: `api/listings/${id}`, success: true, msg: item });
+        .json({ route: `api/listings/${id}`, success: true, msg: nftRes });
     } catch (error) {
       res
         .status(500)
