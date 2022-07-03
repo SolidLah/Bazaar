@@ -1,9 +1,9 @@
 import create from "zustand";
-import { persist } from "zustand/middleware";
+// import { persist } from "zustand/middleware";
 import { ethers } from "ethers";
 import { NFTContractData, MarketplaceContractData } from "src/contracts";
 
-const useEthersStore = create((set, get) => ({
+let ethersStore = (set, get) => ({
   provider: null,
   signer: null,
   address: null,
@@ -45,6 +45,19 @@ const useEthersStore = create((set, get) => ({
       ethersInitialised: true,
     });
   },
-}));
+});
+
+// middleware
+// ethersStore = persist(ethersStore, {
+//   name: "ethers-storage",
+//   partialize: (state) =>
+//     Object.fromEntries(
+//       Object.entries(state).filter(
+//         ([key]) => !["initialiseEthers"].includes(key)
+//       )
+//     ),
+// });
+
+const useEthersStore = create(ethersStore);
 
 export default useEthersStore;

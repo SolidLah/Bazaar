@@ -16,6 +16,7 @@ const WalletHandlerButton = (props) => {
         description: "Success",
       });
     } catch (error) {
+      console.log(error);
       errorToast({
         description: error.message,
       });
