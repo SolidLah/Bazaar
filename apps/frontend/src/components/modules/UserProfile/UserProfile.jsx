@@ -1,18 +1,33 @@
 import { Center, Spinner } from "@chakra-ui/react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { db, auth } from "src/lib/firebase";
-import { doc, getDoc } from "firebase/firestore";
-import useSWR from "swr";
 import axios from "axios";
-import DetailsGrid from "src/components/modules/UserProfile/DetailsGrid";
-import ListingsAndBalance from "src/components/modules/UserProfile/ListingsAndBalance";
+import { doc } from "firebase/firestore";
+import { useMemo } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useDocument } from "react-firebase-hooks/firestore";
 import ErrorLayout from "src/components/common/layouts/ErrorLayout";
+import { auth, db } from "src/lib/firebase";
+import useSWR from "swr";
+import DetailsGrid from "./DetailsGrid";
+import ItemsGrid from "./ItemsGrid";
+import WatchlistGrid from "./WatchlistGrid";
 
 const UserProfile = () => {
-  const [user, loading, authError] = useAuthState(auth);
+  const [user, authLoading, authError] = useAuthState(auth);
+  const [userData, docLoading, docError] = useDocument(
+    doc(db, "users", user.uid),
+    {
+      snapshotListenOptions: { includeMetadataChanges: true },
+    }
+  );
 
-  const { data: storedAddress } = useSWR(user, (user) =>
-    getDoc(doc(db, "users", user.uid)).then((res) => res.data().walletAddress)
+  const storedAddress = useMemo(
+    () => (userData ? userData.get("walletAddress") : null),
+    [userData]
+  );
+
+  const watchlist = useMemo(
+    () => (userData ? userData.get("watchlist") : null),
+    [userData]
   );
 
   const { data: userItems } = useSWR(
@@ -31,8 +46,14 @@ const UserProfile = () => {
       ) : (
         <Spinner size="xl" color="gray" />
       )}
+      {/* {watchlist ? (
+        <WatchlistGrid watchlist={watchlist} />
+      ) : (
+        <Spinner size="xl" color="gray" />
+      )} */}
+      {watchlist}
       {userItems ? (
-        <ListingsAndBalance items={userItems} />
+        <ItemsGrid items={userItems} />
       ) : (
         <Spinner size="xl" color="gray" />
       )}
