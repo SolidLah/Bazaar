@@ -13,7 +13,7 @@ const WalletHandlerButton = (props) => {
     try {
       await initialiseEthers();
       successToast({
-        description: "Success",
+        description: "Wallet connected successfully",
       });
     } catch (error) {
       console.log(error);

@@ -1,17 +1,10 @@
-import {
-  Box,
-  Heading,
-  HStack,
-  Text,
-  VStack,
-  Flex,
-  Spacer,
-  Badge,
-} from "@chakra-ui/react";
+import { Box, HStack, VStack } from "@chakra-ui/react";
 import Image from "next/image";
-import BuyButton from "src/components/common/ui/BuyButton/BuyButton";
-import LoadingLayout from "src/components/common/layouts/LoadingLayout";
 import ErrorLayout from "src/components/common/layouts/ErrorLayout";
+import LoadingLayout from "src/components/common/layouts/LoadingLayout";
+import { blurImage } from "src/lib/blurImage";
+import ButtonArray from "./ButtonArray";
+import DetailsCard from "./DetailsCard";
 
 const ListingDetailsElement = ({ item, error }) => {
   if (!item) {
@@ -31,27 +24,13 @@ const ListingDetailsElement = ({ item, error }) => {
             alt="NFT here"
             layout="fill"
             objectFit="contain"
+            placeholder="blur"
+            blurDataURL={blurImage}
           />
         </Box>
         <VStack w="md" h="100%" direction="column" alignItems="start">
-          <Flex w="md" bg="gray.100" borderRadius="0.5rem" p={3}>
-            <Flex w="100%" direction="column">
-              <Heading>{item.nftData.name}</Heading>
-              <Text>NFT collection</Text>
-              <Text>
-                {`${item.minter.slice(0, 3)}...${item.minter.slice(38)}`}
-              </Text>
-            </Flex>
-            <Badge
-              alignSelf="start"
-              colorScheme="green"
-              variant="subtle"
-              fontSize={17}
-            >{`${item.marketPrice} MATIC`}</Badge>
-          </Flex>
-          <Text>{item.nftData.description}</Text>
-          <Spacer />
-          <BuyButton item={item} width="full" />
+          <DetailsCard item={item} />
+          <ButtonArray item={item} />
         </VStack>
       </HStack>
     </VStack>
