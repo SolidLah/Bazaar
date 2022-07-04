@@ -1,12 +1,21 @@
-import { Square, Flex, Box, Heading, Badge } from "@chakra-ui/react";
+import {
+  Square,
+  Flex,
+  Box,
+  Heading,
+  Badge,
+  LinkOverlay,
+  LinkBox,
+} from "@chakra-ui/react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import AddToWatchListButton from "src/components/common/ui/AddToWatchlistButton/AddToWatchlistButton";
 import { blurImage } from "src/lib/blurImage";
 
 const Card = ({ item }) => {
   return (
-    <Link href={`/marketplace/details/${item.itemId}`} passHref>
+    <LinkBox>
       <Square
         as={motion.div}
         size={60}
@@ -24,16 +33,29 @@ const Card = ({ item }) => {
           align="center"
           justify="flex-end"
         >
-          <Box w="100%" h="100%" pos="relative">
+          <Box
+            w="100%"
+            h="100%"
+            borderTopRadius={10}
+            overflow="hidden"
+            pos="relative"
+          >
             <Image
               src={item.nftData.image}
               alt="NFT here"
               priority="true"
               layout="fill"
               objectFit="cover"
-              style={{ borderTopRightRadius: 10, borderTopLeftRadius: 10 }}
               placeholder="blur"
               blurDataURL={blurImage}
+            />
+            <AddToWatchListButton
+              item={item}
+              position="absolute"
+              m={3}
+              variant="ghost"
+              colorScheme="yellow"
+              zIndex="2"
             />
           </Box>
           <Flex
@@ -44,14 +66,18 @@ const Card = ({ item }) => {
             direction="row"
             justify="space-between"
           >
-            <Heading size="sm">{item.nftData.name}</Heading>
+            <Heading size="sm">
+              <Link href={`/marketplace/details/${item.itemId}`} passHref>
+                <LinkOverlay>{item.nftData.name}</LinkOverlay>
+              </Link>
+            </Heading>
             <Badge colorScheme="green" variant="subtle" fontSize={12}>
               {item.marketPrice} MATIC
             </Badge>
           </Flex>
         </Flex>
       </Square>
-    </Link>
+    </LinkBox>
   );
 };
 
