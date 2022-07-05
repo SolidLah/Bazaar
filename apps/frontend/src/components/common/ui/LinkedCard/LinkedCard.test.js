@@ -1,4 +1,4 @@
-import Card from "./Card";
+import LinkedCard from "../LinkedCard/LinkedCard";
 import { render, screen } from "@testing-library/react";
 
 describe("Card component", () => {
@@ -15,13 +15,13 @@ describe("Card component", () => {
   };
 
   it("NFT name is displayed in Card component", () => {
-    render(<Card item={stubItem} />);
+    render(<LinkedCard item={stubItem} />);
     const nftName = screen.getByText(stubItem.nftData.name);
     expect(nftName).toBeInTheDocument();
   });
 
   it("NFT price is displayed in Card component", () => {
-    render(<Card item={stubItem} />);
+    render(<LinkedCard item={stubItem} />);
     const nftPrice = screen.getByText(stubItem.marketPrice.display, {
       exact: false,
     });

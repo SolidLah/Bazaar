@@ -25,15 +25,20 @@ const UserProfile = () => {
     [userData]
   );
 
-  const watchlist = useMemo(
+  const watchlistArray = useMemo(
     () => (userData ? userData.get("watchlist") : null),
     [userData]
   );
 
   const { data: userItems } = useSWR(
-    () => (storedAddress ? "/api/listings/user/" + storedAddress : null),
+    storedAddress ? "/api/listings/user/" + storedAddress : null,
     (url) => axios.get(url).then((res) => res.data.msg)
   );
+
+  /* const { data: watchlist } = useSWR(
+    ["/api/listings/watchlist/", watchlistArray],
+    (url, array) =>
+  ); */
 
   if (authError) {
     return <ErrorLayout />;
@@ -51,7 +56,7 @@ const UserProfile = () => {
       ) : (
         <Spinner size="xl" color="gray" />
       )} */}
-      {watchlist}
+      {watchlistArray}
       {userItems ? (
         <ItemsGrid items={userItems} />
       ) : (

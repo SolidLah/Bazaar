@@ -35,23 +35,24 @@ const NavbarElement = ({ user }) => {
       </Link>
       <HStack justify="space-evenly" spacing={3}>
         <Link href="/marketplace" passHref>
-          <Button colorScheme="blackAlpha" variant="ghost" color="white">
+          <Button as="a" colorScheme="blackAlpha" variant="ghost" color="white">
             Marketplace
           </Button>
         </Link>
-        <Button colorScheme="blackAlpha" variant="ghost" color="white">
+        <Button as="a" colorScheme="blackAlpha" variant="ghost" color="white">
           Trending
         </Button>
         <Link href="/creators" passHref>
-          <Button colorScheme="blackAlpha" variant="ghost" color="white">
+          <Button as="a" colorScheme="blackAlpha" variant="ghost" color="white">
             Creators
           </Button>
         </Link>
-        <Button colorScheme="blackAlpha" variant="ghost" color="white">
+        <Button as="a" colorScheme="blackAlpha" variant="ghost" color="white">
           Albums
         </Button>
         {user ? (
           <Button
+            as="a"
             onClick={logoutCallback}
             colorScheme="blackAlpha"
             variant="ghost"
@@ -61,14 +62,19 @@ const NavbarElement = ({ user }) => {
           </Button>
         ) : (
           <Link href="/user" passHref>
-            <Button colorScheme="blackAlpha" variant="ghost" color="white">
+            <Button
+              as="a"
+              colorScheme="blackAlpha"
+              variant="ghost"
+              color="white"
+            >
               Login
             </Button>
           </Link>
         )}
         <WalletHandlerButton />
         <Link href="/user" passHref>
-          <Avatar cursor="pointer" />
+          <Avatar as="a" cursor="pointer" />
         </Link>
       </HStack>
     </HStack>

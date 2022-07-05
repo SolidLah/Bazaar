@@ -1,11 +1,11 @@
 import { Flex } from "@chakra-ui/react";
-import Card from "src/components/common/ui/Card/Card";
+import LinkedCard from "src/components/common/ui/LinkedCard/LinkedCard";
 
 const ListingsGrid = ({ items }) => {
   return (
     <Flex w="100%" h="100%" wrap="wrap" justify="flex-start">
       {items.map((item) => (
-        <Card key={item.itemId} item={item} />
+        <LinkedCard key={item.itemId} item={item} />
       ))}
     </Flex>
   );

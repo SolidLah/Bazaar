@@ -13,7 +13,7 @@ import { motion } from "framer-motion";
 import AddToWatchListButton from "src/components/common/ui/AddToWatchlistButton/AddToWatchlistButton";
 import { blurImage } from "src/lib/blurImage";
 
-const Card = ({ item }) => {
+const LinkedCard = ({ item }) => {
   return (
     <LinkBox>
       <Square
@@ -81,4 +81,4 @@ const Card = ({ item }) => {
   );
 };
 
-export default Card;
+export default LinkedCard;

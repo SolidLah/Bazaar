@@ -1,5 +1,5 @@
 import { Center, Flex } from "@chakra-ui/react";
-import Card from "src/components/common/ui/Card/Card";
+import LinkedCard from "src/components/common/ui/LinkedCard/LinkedCard";
 
 const WatchListGrid = ({ watchlist }) => {
   return (
@@ -7,7 +7,7 @@ const WatchListGrid = ({ watchlist }) => {
       {watchlist.length > 0 ? (
         <Flex wrap="wrap" justify="flex-start">
           {watchlist.map((item) => (
-            <Card key={item.itemId} item={item} />
+            <LinkedCard key={item.itemId} item={item} />
           ))}
         </Flex>
       ) : (
