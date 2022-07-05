@@ -13,7 +13,7 @@ import { motion } from "framer-motion";
 import AddToWatchListButton from "src/components/common/ui/AddToWatchlistButton/AddToWatchlistButton";
 import { blurImage } from "src/lib/blurImage";
 
-const LinkedCard = ({ item }) => {
+const LinkedCard = ({ item, watchlistEnabled }) => {
   return (
     <LinkBox>
       <Square
@@ -49,14 +49,16 @@ const LinkedCard = ({ item }) => {
               placeholder="blur"
               blurDataURL={blurImage}
             />
-            <AddToWatchListButton
-              item={item}
-              position="absolute"
-              m={3}
-              variant="ghost"
-              colorScheme="yellow"
-              zIndex="2"
-            />
+            {watchlistEnabled && (
+              <AddToWatchListButton
+                item={item}
+                position="absolute"
+                m={3}
+                variant="ghost"
+                colorScheme="yellow"
+                zIndex="2"
+              />
+            )}
           </Box>
           <Flex
             bg="gray.200"

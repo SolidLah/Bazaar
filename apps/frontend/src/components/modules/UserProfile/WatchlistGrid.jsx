@@ -1,9 +1,12 @@
-import { Center, Flex } from "@chakra-ui/react";
+import { Center, Flex, Heading } from "@chakra-ui/react";
 import LinkedCard from "src/components/common/ui/LinkedCard/LinkedCard";
 
 const WatchListGrid = ({ watchlist }) => {
   return (
-    <Flex direction="column">
+    <Flex direction="column" gap={6}>
+      <Center>
+        <Heading>Watchlist</Heading>
+      </Center>
       {watchlist.length > 0 ? (
         <Flex wrap="wrap" justify="flex-start">
           {watchlist.map((item) => (
@@ -11,7 +14,7 @@ const WatchListGrid = ({ watchlist }) => {
           ))}
         </Flex>
       ) : (
-        <Center>No listings</Center>
+        <Center>Watchlist empty</Center>
       )}
     </Flex>
   );

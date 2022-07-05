@@ -14,7 +14,11 @@ const ItemsGrid = ({ items }) => {
       {listed?.length > 0 ? (
         <Flex wrap="wrap" justify="flex-start">
           {listed.map((item) => (
-            <LinkedCard key={item.itemId} item={item} />
+            <LinkedCard
+              key={item.itemId}
+              item={item}
+              watchlistEnabled={false}
+            />
           ))}
         </Flex>
       ) : (

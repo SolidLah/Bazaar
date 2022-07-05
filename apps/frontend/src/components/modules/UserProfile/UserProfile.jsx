@@ -10,6 +10,7 @@ import useSWR from "swr";
 import DetailsGrid from "./DetailsGrid";
 import ItemsGrid from "./ItemsGrid";
 import WatchlistGrid from "./WatchlistGrid";
+import stubItems from "src/lib/stubData";
 
 const UserProfile = () => {
   const [user, authLoading, authError] = useAuthState(auth);
@@ -51,12 +52,7 @@ const UserProfile = () => {
       ) : (
         <Spinner size="xl" color="gray" />
       )}
-      {/* {watchlist ? (
-        <WatchlistGrid watchlist={watchlist} />
-      ) : (
-        <Spinner size="xl" color="gray" />
-      )} */}
-      {watchlistArray}
+      <WatchlistGrid watchlist={stubItems.userListings} />
       {userItems ? (
         <ItemsGrid items={userItems} />
       ) : (

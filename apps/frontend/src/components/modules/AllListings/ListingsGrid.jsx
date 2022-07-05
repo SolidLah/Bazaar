@@ -5,7 +5,7 @@ const ListingsGrid = ({ items }) => {
   return (
     <Flex w="100%" h="100%" wrap="wrap" justify="flex-start">
       {items.map((item) => (
-        <LinkedCard key={item.itemId} item={item} />
+        <LinkedCard key={item.itemId} item={item} watchlistEnabled={true} />
       ))}
     </Flex>
   );
