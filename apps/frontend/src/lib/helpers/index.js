@@ -3,6 +3,15 @@ import toWei from "./toWei";
 import uploadNFT from "./uploadNFT";
 import mintNFT from "./mintNFT";
 import listNFT from "./listNFT";
-import addToWatchList from "./addToWatchlist";
+import addToWatchlist from "./addToWatchlist";
+import removeFromWatchlist from "./removeFromWatchlist";
 
-export { formatItem, toWei, uploadNFT, mintNFT, listNFT, addToWatchList };
+export {
+  formatItem,
+  toWei,
+  uploadNFT,
+  mintNFT,
+  listNFT,
+  addToWatchlist,
+  removeFromWatchlist,
+};
