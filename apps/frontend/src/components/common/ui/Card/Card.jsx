@@ -2,7 +2,7 @@ import { Square, Flex, Box, Heading } from "@chakra-ui/react";
 import Image from "next/image";
 import { blurImage } from "src/lib/blurImage";
 
-const UnlinkedCard = ({ item }) => {
+const Card = ({ item }) => {
   return (
     <Square size={60} bg="gray.100" m={3} borderRadius={10}>
       <Flex
@@ -39,4 +39,4 @@ const UnlinkedCard = ({ item }) => {
   );
 };
 
-export default UnlinkedCard;
+export default Card;

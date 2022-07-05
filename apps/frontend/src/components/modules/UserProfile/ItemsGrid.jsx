@@ -1,6 +1,6 @@
 import { Flex, Heading, Center } from "@chakra-ui/react";
 import LinkedCard from "src/components/common/ui/LinkedCard/LinkedCard";
-import UnlinkedCard from "src/components/common/ui/UnlinkedCard/UnlinkedCard";
+import Card from "src/components/common/ui/Card/Card";
 
 const ItemsGrid = ({ items }) => {
   const listed = items?.listed;
@@ -26,7 +26,7 @@ const ItemsGrid = ({ items }) => {
       {owned?.length > 0 ? (
         <Flex wrap="wrap" justify="flex-start">
           {owned.map((item) => (
-            <UnlinkedCard key={item.itemId} item={item} />
+            <Card key={item.itemId} item={item} />
           ))}
         </Flex>
       ) : (

@@ -1,4 +1,4 @@
-import UnlinkedCard from "./UnlinkedCard";
+import Card from "./Card";
 import { render, screen } from "@testing-library/react";
 
 describe("UnlinkedCard component", () => {
@@ -9,7 +9,7 @@ describe("UnlinkedCard component", () => {
   };
 
   it("NFT name is displayed in UnlinkedCard component", () => {
-    render(<UnlinkedCard item={stubItem} />);
+    render(<Card item={stubItem} />);
     const nftName = screen.getByText(stubItem.name, { exact: false });
     expect(nftName).toBeInTheDocument();
   });
