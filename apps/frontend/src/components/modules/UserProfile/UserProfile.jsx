@@ -5,20 +5,21 @@ import useSWR from "swr";
 import UserDetailsGrid from "./UserDetailsGrid";
 import UserItemsGrid from "./UserItemsGrid";
 import WatchlistGrid from "./WatchlistGrid";
-// import stubItems from "src/lib/stubData";
-import { useFirestoreUserData, useStoredAddress } from "src/lib/hooks";
+import {
+  useFirestoreUserData,
+  useStoredAddress,
+  useWatchlist,
+  useFetchWatchlist,
+} from "src/lib/hooks";
 
 const UserProfile = () => {
   const { user, userData, error } = useFirestoreUserData();
   const storedAddress = useStoredAddress(userData);
+  const watchlistArray = useWatchlist(userData);
+  const watchlist = useFetchWatchlist(watchlistArray);
 
   const { data: userItems } = useSWR(
     storedAddress ? "/api/listings/user/" + storedAddress : null,
-    (url) => axios.get(url).then((res) => res.data.msg)
-  );
-
-  const { data: watchlist } = useSWR(
-    user ? "/api/listings/user/watchlist/" + user.uid : null,
     (url) => axios.get(url).then((res) => res.data.msg)
   );
 
@@ -33,7 +34,7 @@ const UserProfile = () => {
       ) : (
         <Spinner size="xl" color="gray" />
       )}
-      {watchlist ? (
+      {watchlist && watchlist.length > 0 ? (
         <WatchlistGrid watchlist={watchlist} />
       ) : (
         <Spinner size="xl" color="gray" />

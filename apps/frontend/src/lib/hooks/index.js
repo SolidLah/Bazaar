@@ -3,6 +3,7 @@ import useSuccessToast from "./useSuccessToast";
 import useFirestoreUserData from "./useFirestoreUserData";
 import useWatchlist from "./useWatchlist";
 import useStoredAddress from "./useStoredAddress";
+import useFetchWatchlist from "./useFetchWatchlist";
 
 export {
   useErrorToast,
@@ -10,4 +11,5 @@ export {
   useFirestoreUserData,
   useWatchlist,
   useStoredAddress,
+  useFetchWatchlist,
 };
