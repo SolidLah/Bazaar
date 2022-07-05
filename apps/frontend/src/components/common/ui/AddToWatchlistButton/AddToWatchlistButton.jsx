@@ -1,14 +1,21 @@
 import { IconButton } from "@chakra-ui/react";
 import { StarIcon } from "@chakra-ui/icons";
 import { useErrorToast, useSuccessToast } from "src/lib/hooks";
-import { auth } from "src/lib/firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { addToWatchList } from "src/lib/helpers";
+import { addToWatchlist, removeFromWatchlist } from "src/lib/helpers";
+import { useFirestoreUserData, useWatchlist } from "src/lib/hooks";
+import { useMemo } from "react";
 
 const AddToWatchListButton = ({ item, ...props }) => {
-  const [user] = useAuthState(auth);
   const errorToast = useErrorToast("Add to watchlist");
   const successToast = useSuccessToast("Add to watchlist");
+
+  const { user, userData } = useFirestoreUserData();
+  const watchlistArray = useWatchlist(userData);
+
+  const itemInWatchlist = useMemo(
+    () => (watchlistArray ? watchlistArray.includes(item.itemId) : false),
+    [watchlistArray, item]
+  );
 
   const buttonCallback = async () => {
     try {
@@ -16,8 +23,17 @@ const AddToWatchListButton = ({ item, ...props }) => {
         throw new Error("Not signed in");
       }
 
-      await addToWatchList({ uid: user.uid, itemId: item.itemId });
-      successToast();
+      if (itemInWatchlist) {
+        await removeFromWatchlist({ uid: user.uid, itemId: item.itemId });
+        successToast({
+          description: "Removed from watchlist",
+        });
+      } else {
+        await addToWatchlist({ uid: user.uid, itemId: item.itemId });
+        successToast({
+          description: "Added to watchlist",
+        });
+      }
     } catch (error) {
       console.log(error);
       errorToast({
@@ -26,7 +42,14 @@ const AddToWatchListButton = ({ item, ...props }) => {
     }
   };
 
-  return <IconButton icon={<StarIcon />} onClick={buttonCallback} {...props} />;
+  return (
+    <IconButton
+      icon={<StarIcon />}
+      onClick={buttonCallback}
+      isActive={itemInWatchlist}
+      {...props}
+    />
+  );
 };
 
 export default AddToWatchListButton;

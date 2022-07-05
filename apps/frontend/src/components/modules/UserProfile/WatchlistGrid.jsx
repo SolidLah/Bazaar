@@ -10,7 +10,7 @@ const WatchListGrid = ({ watchlist }) => {
       {watchlist.length > 0 ? (
         <Flex wrap="wrap" justify="flex-start">
           {watchlist.map((item) => (
-            <LinkedCard key={item.itemId} item={item} />
+            <LinkedCard key={item.itemId} item={item} watchlistEnabled={true} />
           ))}
         </Flex>
       ) : (
