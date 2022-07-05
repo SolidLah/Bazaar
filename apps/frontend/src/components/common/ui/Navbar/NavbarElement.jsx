@@ -2,7 +2,6 @@ import { Heading, HStack, Button, Avatar } from "@chakra-ui/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import bazaar_icon_alpha from "../../../../../public/bazaar_icon_alpha.png";
 import { logout } from "src/lib/firebase";
 import WalletHandlerButton from "src/components/common/ui/WalletHandlerButton/WalletHandlerButton";
 
@@ -26,30 +25,34 @@ const NavbarElement = ({ user }) => {
           <Heading size="xl" color="black">
             Bazaar
           </Heading>
-          <div style={{ width: "30px", height: "30px" }}>
-            <Image src={bazaar_icon_alpha} alt="Bazaar Icon" />
-          </div>
+          <Image
+            src="/bazaar_icon_alpha.png"
+            alt="Bazaar Icon"
+            width="30px"
+            height="30px"
+          />
         </HStack>
       </Link>
       <HStack justify="space-evenly" spacing={3}>
         <Link href="/marketplace" passHref>
-          <Button colorScheme="blackAlpha" variant="ghost" color="white">
+          <Button as="a" colorScheme="blackAlpha" variant="ghost" color="white">
             Marketplace
           </Button>
         </Link>
-        <Button colorScheme="blackAlpha" variant="ghost" color="white">
+        <Button as="a" colorScheme="blackAlpha" variant="ghost" color="white">
           Trending
         </Button>
         <Link href="/creators" passHref>
-          <Button colorScheme="blackAlpha" variant="ghost" color="white">
+          <Button as="a" colorScheme="blackAlpha" variant="ghost" color="white">
             Creators
           </Button>
         </Link>
-        <Button colorScheme="blackAlpha" variant="ghost" color="white">
+        <Button as="a" colorScheme="blackAlpha" variant="ghost" color="white">
           Albums
         </Button>
         {user ? (
           <Button
+            as="a"
             onClick={logoutCallback}
             colorScheme="blackAlpha"
             variant="ghost"
@@ -59,14 +62,19 @@ const NavbarElement = ({ user }) => {
           </Button>
         ) : (
           <Link href="/user" passHref>
-            <Button colorScheme="blackAlpha" variant="ghost" color="white">
+            <Button
+              as="a"
+              colorScheme="blackAlpha"
+              variant="ghost"
+              color="white"
+            >
               Login
             </Button>
           </Link>
         )}
         <WalletHandlerButton />
         <Link href="/user" passHref>
-          <Avatar cursor="pointer" />
+          <Avatar as="a" cursor="pointer" />
         </Link>
       </HStack>
     </HStack>

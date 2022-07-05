@@ -12,6 +12,7 @@ export default async function formatItem(item) {
     owner: item.owner,
     price: ethers.utils.formatEther(item.price),
     marketPrice: ethers.utils.formatEther(item.marketPrice),
+    marketPriceWei: item.marketPrice,
     sold: item.sold,
     nftAddress: item.nftAddress,
     minter: item.minter,
