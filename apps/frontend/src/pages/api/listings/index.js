@@ -6,7 +6,7 @@ export default async function handler(req, res) {
   if (req.method === "GET") {
     try {
       const provider = new ethers.providers.JsonRpcProvider(
-        process.env.MATIC_VIGIL_URL
+        process.env.MORALIS_RPC
       );
 
       const mktContractReader = new ethers.Contract(
