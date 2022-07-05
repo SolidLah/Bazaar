@@ -6,7 +6,7 @@ import UserProfile from "src/components/modules/UserProfile/UserProfile";
 const User = () => {
   const [user, loading, error] = useAuthState(auth);
 
-  return user ? <UserProfile /> : <LoginForm />;
+  return user && !loading ? <UserProfile /> : <LoginForm />;
 };
 
 export default User;
