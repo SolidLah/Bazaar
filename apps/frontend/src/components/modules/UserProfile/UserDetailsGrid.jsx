@@ -6,7 +6,7 @@ import { useSWRConfig } from "swr";
 import useErrorToast from "src/lib/hooks/useErrorToast";
 import useSuccessToast from "src/lib/hooks/useSuccessToast";
 
-const DetailsGrid = ({ user, fireStoredAddress }) => {
+const UserDetailsGrid = ({ user, fireStoredAddress }) => {
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
   const ethersStoredAddress = useEthersStore((state) => state.address);
   const errorToast = useErrorToast("Connect wallet to account");
@@ -81,4 +81,4 @@ const DetailsGrid = ({ user, fireStoredAddress }) => {
   );
 };
 
-export default DetailsGrid;
+export default UserDetailsGrid;

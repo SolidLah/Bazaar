@@ -7,8 +7,8 @@ import { useDocument } from "react-firebase-hooks/firestore";
 import ErrorLayout from "src/components/common/layouts/ErrorLayout";
 import { auth, db } from "src/lib/firebase";
 import useSWR from "swr";
-import DetailsGrid from "./DetailsGrid";
-import ItemsGrid from "./ItemsGrid";
+import UserDetailsGrid from "./UserDetailsGrid";
+import UserItemsGrid from "./UserItemsGrid";
 import WatchlistGrid from "./WatchlistGrid";
 import stubItems from "src/lib/stubData";
 
@@ -48,13 +48,13 @@ const UserProfile = () => {
   return (
     <Center w="100%" flexDirection="column" mt={20} mb={200} gap={10}>
       {user && storedAddress ? (
-        <DetailsGrid user={user} fireStoredAddress={storedAddress} />
+        <UserDetailsGrid user={user} fireStoredAddress={storedAddress} />
       ) : (
         <Spinner size="xl" color="gray" />
       )}
       <WatchlistGrid watchlist={stubItems.userListings} />
       {userItems ? (
-        <ItemsGrid items={userItems} />
+        <UserItemsGrid items={userItems} />
       ) : (
         <Spinner size="xl" color="gray" />
       )}
