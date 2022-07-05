@@ -16,7 +16,8 @@ const UserProfile = () => {
   const { user, userData, error } = useFirestoreUserData();
   const storedAddress = useStoredAddress(userData);
   const watchlistArray = useWatchlist(userData);
-  const watchlist = useFetchWatchlist(watchlistArray);
+  const { watchlist, loading: watchlistLoading } =
+    useFetchWatchlist(watchlistArray);
 
   const { data: userItems } = useSWR(
     storedAddress ? "/api/listings/user/" + storedAddress : null,
@@ -34,7 +35,7 @@ const UserProfile = () => {
       ) : (
         <Spinner size="xl" color="gray" />
       )}
-      {watchlist && watchlist.length > 0 ? (
+      {!watchlistLoading && watchlist && watchlist.length > 0 ? (
         <WatchlistGrid watchlist={watchlist} />
       ) : (
         <Spinner size="xl" color="gray" />

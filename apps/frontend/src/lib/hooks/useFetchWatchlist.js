@@ -3,6 +3,7 @@ import axios from "axios";
 
 export default function useFetchWatchlist(watchlistArray) {
   const [watchlist, setWatchlist] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const load = async () => {
@@ -18,15 +19,17 @@ export default function useFetchWatchlist(watchlistArray) {
         return;
       }
       setWatchlist(res);
+      setLoading(false);
       console.log("set");
     };
 
     let active = true;
+    setLoading(true);
     load();
     return () => {
       active = false;
     };
   }, [watchlistArray]);
 
-  return watchlist;
+  return { watchlist, loading };
 }
