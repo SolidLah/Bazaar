@@ -1,5 +1,5 @@
 import { IncomingForm } from "formidable";
-import pinataSDK from "@pinata/sdk";
+import Moralis from "moralis/node";
 import fs from "fs";
 
 export const config = {
@@ -17,46 +17,73 @@ const asyncParse = (req) =>
     });
   });
 
-const pinata = pinataSDK(
-  process.env.PINATA_API_KEY,
-  process.env.PINATA_API_SECRET
-);
-
 export default async function handler(req, res) {
   if (req.method === "POST") {
     try {
-      const isAuth = (await pinata.testAuthentication()).authenticated;
-
-      if (!isAuth) {
-        res
-          .status(401)
-          .json({ route: "api/image/", success: false, msg: "Unauthorised" });
-        return;
-      }
+      await Moralis.start({
+        serverUrl: process.env.MORALIS_SERVER_URL,
+        appId: process.env.MORALIS_APP_ID,
+        masterKey: process.env.MORALIS_MASTER_KEY,
+      });
 
       const formidableRes = await asyncParse(req);
 
       // getting data from request
-      const image = fs.createReadStream(formidableRes.files.image.filepath);
+      const image = formidableRes.files.image;
+      let stream;
+      await new Promise((res, rej) => {
+        fs.readFile(image.filepath, (err, data) => {
+          if (err) {
+            rej();
+          }
+
+          stream = data.toString("base64");
+          res();
+        });
+      });
+
+      console.log(stream);
+
       const name = formidableRes.fields.name;
       const description = formidableRes.fields.description;
 
       // upload image
-      const imageCID = (await pinata.pinFileToIPFS(image)).IpfsHash;
-      const imageURI = "https://gateway.pinata.cloud/ipfs/" + imageCID;
+      const imageURL = (
+        await Moralis.Web3API.storage.uploadFolder({
+          abi: [
+            {
+              path: "dev/image/" + image.originalFilename,
+              content: stream,
+            },
+          ],
+        })
+      )[0].path;
+
+      console.log("image URL:", imageURL);
 
       const nftJSON = {
-        image: imageURI,
+        image: imageURL,
         name,
         description,
       };
 
       // upload NFT
-      const nftCID = (await pinata.pinJSONToIPFS(nftJSON)).IpfsHash;
-      const nftURI = "https://gateway.pinata.cloud/ipfs/" + nftCID;
+      const nftURL = (
+        await Moralis.Web3API.storage.uploadFolder({
+          abi: [
+            {
+              path: `dev/metadata/${name}.json`,
+              content: nftJSON,
+            },
+          ],
+        })
+      )[0].path;
 
-      res.status(200).json({ route: "api/image/", success: true, msg: nftURI });
+      console.log("nft URL:", nftURL);
+
+      res.status(200).json({ route: "api/image/", success: true, msg: nftURL });
     } catch (error) {
+      console.log(error);
       res.status(500).json({ route: "api/image/", success: false, msg: error });
     }
   }
