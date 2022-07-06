@@ -1,15 +1,21 @@
-import { IconButton } from "@chakra-ui/react";
 import { StarIcon } from "@chakra-ui/icons";
-import { useErrorToast, useSuccessToast } from "src/lib/hooks";
-import { addToWatchlist, removeFromWatchlist } from "src/lib/helpers";
-import { useFirestoreUserData, useWatchlist } from "src/lib/hooks";
+import { IconButton } from "@chakra-ui/react";
 import { useMemo } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "src/lib/firebase";
+import { addToWatchlist, removeFromWatchlist } from "src/lib/helpers";
+import {
+  useErrorToast,
+  useFirestoreUserData,
+  useSuccessToast,
+  useWatchlist,
+} from "src/lib/hooks";
 
 const AddToWatchListButton = ({ item, ...props }) => {
   const errorToast = useErrorToast("Add to watchlist");
   const successToast = useSuccessToast("Add to watchlist");
-
-  const { user, userData } = useFirestoreUserData();
+  const [user, authLoading, authError] = useAuthState(auth);
+  const { userData } = useFirestoreUserData(user);
   const watchlistArray = useWatchlist(userData);
 
   const itemInWatchlist = useMemo(
@@ -35,7 +41,6 @@ const AddToWatchListButton = ({ item, ...props }) => {
         });
       }
     } catch (error) {
-      console.log(error);
       errorToast({
         description: error.message,
       });

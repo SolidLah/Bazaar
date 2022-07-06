@@ -1,17 +1,14 @@
 import { Center, Text, Grid, GridItem, Avatar, Button } from "@chakra-ui/react";
 import useEthersStore from "src/stores/ethersStore";
-import { db } from "src/lib/firebase";
-import { doc, setDoc } from "firebase/firestore";
-import { useSWRConfig } from "swr";
 import useErrorToast from "src/lib/hooks/useErrorToast";
 import useSuccessToast from "src/lib/hooks/useSuccessToast";
+import { formatAddress, updateWalletAddress } from "src/lib/helpers";
 
 const UserDetailsGrid = ({ user, fireStoredAddress }) => {
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
   const ethersStoredAddress = useEthersStore((state) => state.address);
   const errorToast = useErrorToast("Connect wallet to account");
   const successToast = useSuccessToast("Connect wallet to account");
-  const { mutate } = useSWRConfig();
 
   const buttonCallback = async () => {
     if (!ethersInitialised) {
@@ -30,15 +27,14 @@ const UserDetailsGrid = ({ user, fireStoredAddress }) => {
       return;
     }
 
-    await setDoc(doc(db, "users", user.uid), {
+    await updateWalletAddress({
+      uid: user.uid,
       walletAddress: ethersStoredAddress,
     });
 
     successToast({
       description: "Wallet has been connected successfully",
     });
-
-    mutate(user);
   };
 
   return (
@@ -66,11 +62,7 @@ const UserDetailsGrid = ({ user, fireStoredAddress }) => {
         </GridItem>
         <GridItem justifySelf="center">
           <Text>
-            {fireStoredAddress
-              ? `${fireStoredAddress?.slice(0, 3)}...${fireStoredAddress?.slice(
-                  38
-                )}`
-              : ""}
+            {fireStoredAddress ? formatAddress(fireStoredAddress) : ""}
           </Text>
           <Button colorScheme="teal" onClick={buttonCallback}>
             {fireStoredAddress ? "Change" : "Connect"}

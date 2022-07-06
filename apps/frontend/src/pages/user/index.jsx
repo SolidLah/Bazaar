@@ -1,12 +1,12 @@
-import { auth } from "src/lib/firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
-import LoginForm from "src/components/modules/LoginForm/LoginForm";
+import ProtectedRoute from "src/components/common/layouts/ProtectedRoute";
 import UserProfile from "src/components/modules/UserProfile/UserProfile";
 
 const User = () => {
-  const [user, loading, error] = useAuthState(auth);
-
-  return user && !loading ? <UserProfile /> : <LoginForm />;
+  return (
+    <ProtectedRoute>
+      <UserProfile />
+    </ProtectedRoute>
+  );
 };
 
 export default User;

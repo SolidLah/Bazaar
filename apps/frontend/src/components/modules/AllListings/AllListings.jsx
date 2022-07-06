@@ -6,8 +6,10 @@ import Header from "./Header";
 import ListingsGrid from "./ListingsGrid";
 
 const AllListings = () => {
-  const { data, error } = useSWR("/api/listings", (url) =>
-    axios.get(url).then((res) => res.data.msg)
+  const { data, error } = useSWR(
+    "/api/listings",
+    (url) => axios.get(url).then((res) => res.data.msg),
+    { revalidateOnFocus: false }
   );
 
   if (error) {
