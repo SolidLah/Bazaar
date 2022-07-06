@@ -4,7 +4,7 @@ import { auth } from "src/lib/firebase";
 import useSWR from "swr";
 import ListingDetailsElement from "./ListingDetailsElement";
 
-const ListingDetails = ({ id }) => {
+const ListingDetailsPage = ({ id }) => {
   const [user] = useAuthState(auth);
   const { data: item, error } = useSWR(`/api/listings/${id}`, (url) =>
     axios.get(url).then((res) => res.data.msg)
@@ -13,4 +13,4 @@ const ListingDetails = ({ id }) => {
   return <ListingDetailsElement user={user} item={item} error={error} />;
 };
 
-export default ListingDetails;
+export default ListingDetailsPage;

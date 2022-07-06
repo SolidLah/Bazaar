@@ -1,10 +1,10 @@
 import ProtectedRoute from "src/components/common/layouts/ProtectedRoute";
-import UserProfile from "src/components/modules/UserProfile/UserProfile";
+import UserProfilePage from "src/components/modules/UserProfilePage/UserProfilePage";
 
 const User = () => {
   return (
     <ProtectedRoute>
-      <UserProfile />
+      <UserProfilePage />
     </ProtectedRoute>
   );
 };

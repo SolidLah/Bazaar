@@ -14,7 +14,7 @@ import UserDetailsGrid from "./UserDetailsGrid";
 import UserItemsGrid from "./UserItemsGrid";
 import WatchlistGrid from "./WatchlistGrid";
 
-const UserProfile = () => {
+const UserProfilePage = () => {
   const [user, authLoading, authError] = useAuthState(auth);
   const { userData, error: firestoreError } = useFirestoreUserData(user);
   const storedAddress = useStoredAddress(userData);
@@ -53,4 +53,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default UserProfilePage;

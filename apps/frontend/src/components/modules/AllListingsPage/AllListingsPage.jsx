@@ -5,7 +5,7 @@ import ErrorLayout from "src/components/common/layouts/ErrorLayout";
 import Header from "./Header";
 import ListingsGrid from "./ListingsGrid";
 
-const AllListings = () => {
+const AllListingsPage = () => {
   const { data, error } = useSWR(
     "/api/listings",
     (url) => axios.get(url).then((res) => res.data.msg),
@@ -28,4 +28,4 @@ const AllListings = () => {
   );
 };
 
-export default AllListings;
+export default AllListingsPage;
