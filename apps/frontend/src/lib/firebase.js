@@ -34,6 +34,7 @@ const registerWithEmailAndPassword = async (name, email, password) => {
   await setDoc(doc(db, "users", res.user.uid), {
     walletAddress: "",
     watchlist: [],
+    collections: [],
   });
 };
 
