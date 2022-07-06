@@ -21,7 +21,8 @@ const UserProfile = () => {
 
   const { data: userItems } = useSWR(
     storedAddress ? "/api/listings/user/" + storedAddress : null,
-    (url) => axios.get(url).then((res) => res.data.msg)
+    (url) => axios.get(url).then((res) => res.data.msg),
+    { revalidateOnFocus: false }
   );
 
   if (error) {
