@@ -1,5 +1,6 @@
 import { Center, Spinner } from "@chakra-ui/react";
 import axios from "axios";
+import { useAuthState } from "react-firebase-hooks/auth";
 import ErrorLayout from "src/components/common/layouts/ErrorLayout";
 import useSWR from "swr";
 import UserDetailsGrid from "./UserDetailsGrid";
@@ -13,7 +14,8 @@ import {
 } from "src/lib/hooks";
 
 const UserProfile = () => {
-  const { user, userData, error } = useFirestoreUserData();
+  const [user, authLoading, authError] = useAuthState(auth);
+  const { userData, error: firestoreError } = useFirestoreUserData(user);
   const storedAddress = useStoredAddress(userData);
   const watchlistArray = useWatchlist(userData);
   const { watchlist, loading: watchlistLoading } =
@@ -25,7 +27,7 @@ const UserProfile = () => {
     { revalidateOnFocus: false }
   );
 
-  if (error) {
+  if (authError || firestoreError) {
     return <ErrorLayout />;
   }
 
@@ -36,7 +38,7 @@ const UserProfile = () => {
       ) : (
         <Spinner size="xl" color="gray" />
       )}
-      {!watchlistLoading && watchlist && watchlist.length > 0 ? (
+      {!watchlistLoading && watchlist ? (
         <WatchlistGrid watchlist={watchlist} />
       ) : (
         <Spinner size="xl" color="gray" />

@@ -19,13 +19,12 @@ export default function useFetchWatchlist(watchlistArray) {
         return;
       }
       setWatchlist(res);
-      setLoading(false);
-      console.log("set");
     };
 
     let active = true;
     setLoading(true);
     load();
+    setLoading(false);
     return () => {
       active = false;
     };

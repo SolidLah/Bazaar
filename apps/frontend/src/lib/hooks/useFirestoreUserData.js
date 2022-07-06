@@ -1,23 +1,16 @@
-import { useAuthState } from "react-firebase-hooks/auth";
-import { useDocument } from "react-firebase-hooks/firestore";
 import { doc } from "firebase/firestore";
-import { db, auth } from "src/lib/firebase";
 import { useMemo } from "react";
+import { useDocument } from "react-firebase-hooks/firestore";
+import { db } from "src/lib/firebase";
 
-export default function useFirestoreUserData() {
-  const [user, authLoading, authError] = useAuthState(auth);
-  const [userData, docLoading, docError] = useDocument(
-    doc(db, "users", user.uid),
-    {
-      snapshotListenOptions: { includeMetadataChanges: true },
-    }
+export default function useFirestoreUserData(user) {
+  const docRef = useMemo(
+    () => (user ? doc(db, "users", user.uid) : null),
+    [user]
   );
+  const [userData, loading, error] = useDocument(docRef, {
+    snapshotListenOptions: { includeMetadataChanges: true },
+  });
 
-  const error = useMemo(() => authError && docError, [authError, docError]);
-  const loading = useMemo(
-    () => authLoading && docLoading,
-    [authLoading, docLoading]
-  );
-
-  return { user, userData, loading, error };
+  return { userData, loading, error };
 }
