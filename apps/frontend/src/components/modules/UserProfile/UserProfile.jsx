@@ -2,16 +2,17 @@ import { Center, Spinner } from "@chakra-ui/react";
 import axios from "axios";
 import { useAuthState } from "react-firebase-hooks/auth";
 import ErrorLayout from "src/components/common/layouts/ErrorLayout";
+import { auth } from "src/lib/firebase";
+import {
+  useFetchWatchlist,
+  useFirestoreUserData,
+  useStoredAddress,
+  useWatchlist,
+} from "src/lib/hooks";
 import useSWR from "swr";
 import UserDetailsGrid from "./UserDetailsGrid";
 import UserItemsGrid from "./UserItemsGrid";
 import WatchlistGrid from "./WatchlistGrid";
-import {
-  useFirestoreUserData,
-  useStoredAddress,
-  useWatchlist,
-  useFetchWatchlist,
-} from "src/lib/hooks";
 
 const UserProfile = () => {
   const [user, authLoading, authError] = useAuthState(auth);
