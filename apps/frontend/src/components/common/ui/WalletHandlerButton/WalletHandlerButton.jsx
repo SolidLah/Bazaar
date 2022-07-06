@@ -10,15 +10,18 @@ const WalletHandlerButton = (props) => {
   const initialiseEthers = useEthersStore((state) => state.initialiseEthers);
   const errorToast = useErrorToast("Connect wallet");
   const successToast = useSuccessToast("Connect wallet");
+  const [loading, setLoading] = useState(false);
 
   const buttonCallback = async () => {
     try {
+      setLoading(true);
       await initialiseEthers();
       successToast({
         description: "Wallet connected successfully",
       });
+      setLoading(false);
     } catch (error) {
-      console.log(error);
+      setLoading(false);
       errorToast({
         description: error.message,
       });
@@ -26,10 +29,8 @@ const WalletHandlerButton = (props) => {
   };
 
   return (
-    <Button onClick={buttonCallback} {...props}>
-      {address
-        ? `${address.slice(0, 3)}...${address.slice(38)}`
-        : "Connect Wallet"}
+    <Button onClick={buttonCallback} isLoading={loading} {...props}>
+      {address ? formatAddress(address) : "Connect Wallet"}
     </Button>
   );
 };
