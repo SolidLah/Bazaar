@@ -10,8 +10,7 @@ const ResetForm = () => {
   const errorToast = useErrorToast("Reset password");
   const successToast = useSuccessToast("Reset password");
 
-  const buttonCallback = async (event) => {
-    event.preventDefault();
+  const buttonCallback = async () => {
     const email = emailRef.current.value;
 
     if (!email) {

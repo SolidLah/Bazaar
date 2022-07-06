@@ -10,7 +10,7 @@ const NavbarElement = ({ user }) => {
 
   const logoutCallback = async () => {
     await logout();
-    router.push("/user");
+    router.push("/user/login");
   };
 
   return (
@@ -61,7 +61,7 @@ const NavbarElement = ({ user }) => {
             Logout
           </Button>
         ) : (
-          <Link href="/user" passHref>
+          <Link href="/user/login" passHref>
             <Button
               as="a"
               colorScheme="blackAlpha"
