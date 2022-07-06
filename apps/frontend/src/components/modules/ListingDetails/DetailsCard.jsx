@@ -1,4 +1,5 @@
 import { Flex, Heading, Text, Badge } from "@chakra-ui/react";
+import { formatAddress } from "src/lib/helpers";
 
 const DetailsCard = ({ item }) => {
   return (
@@ -6,7 +7,7 @@ const DetailsCard = ({ item }) => {
       <Flex w="100%" direction="column">
         <Heading>{item.nftData.name}</Heading>
         <Text>NFT collection</Text>
-        <Text>{`${item.minter.slice(0, 3)}...${item.minter.slice(38)}`}</Text>
+        <Text>{formatAddress(item.minter)}</Text>
         <Text mt={6} as="i">
           {item.nftData.description}
         </Text>
