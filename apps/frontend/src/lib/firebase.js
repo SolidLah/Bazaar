@@ -6,6 +6,7 @@ import {
   sendPasswordResetEmail,
   signOut,
   updateProfile,
+  sendEmailVerification,
 } from "firebase/auth";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 
@@ -35,6 +36,9 @@ const registerWithEmailAndPassword = async (name, email, password) => {
     walletAddress: "",
     watchlist: [],
   });
+
+  await sendEmailVerification(res.user)
+  return res;
 };
 
 const sendPasswordReset = async (email) => {
