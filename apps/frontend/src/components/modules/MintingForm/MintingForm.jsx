@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import useEthersStore from "src/stores/ethersStore";
 import { useErrorToast, useSuccessToast } from "src/lib/hooks";
-import { uploadNFT, mintNFT, listNFT } from "src/lib/helpers";
+import { uploadNFT, mintNFT, listNFT, getWeb3 } from "src/lib/helpers";
 
 const MintForm = () => {
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
@@ -30,19 +30,11 @@ const MintForm = () => {
     const description = descriptionRef.current?.value;
     const price = Number(priceRef.current?.value);
 
-    if (typeof window.ethereum === "undefined") {
+    const web3Error = getWeb3(ethersInitialised);
+    if (web3Error !== "") {
       errorToast({
-        description: "Metamask is not installed!",
+        description: web3Error,
       });
-
-      return;
-    }
-
-    if (!ethersInitialised) {
-      errorToast({
-        description: "Connect a Metamask wallet!",
-      });
-
       return;
     }
 
