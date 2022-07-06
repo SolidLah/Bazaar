@@ -6,7 +6,7 @@ import { blurImage } from "src/lib/blurImage";
 import ButtonArray from "./ButtonArray";
 import DetailsCard from "./DetailsCard";
 
-const ListingDetailsElement = ({ item, error }) => {
+const ListingDetailsElement = ({ user, item, error }) => {
   if (!item) {
     return <LoadingLayout />;
   }
@@ -30,7 +30,7 @@ const ListingDetailsElement = ({ item, error }) => {
         </Box>
         <VStack w="md" h="100%" direction="column" alignItems="start">
           <DetailsCard item={item} />
-          <ButtonArray item={item} />
+          <ButtonArray item={item} user={user} />
         </VStack>
       </HStack>
     </VStack>
