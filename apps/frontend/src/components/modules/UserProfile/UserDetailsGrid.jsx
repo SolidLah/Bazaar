@@ -27,10 +27,7 @@ const UserDetailsGrid = ({ user, fireStoredAddress }) => {
       return;
     }
 
-    await updateWalletAddress({
-      uid: user.uid,
-      walletAddress: ethersStoredAddress,
-    });
+    await updateWalletAddress(user.uid, ethersStoredAddress);
 
     successToast({
       description: "Wallet has been connected successfully",
