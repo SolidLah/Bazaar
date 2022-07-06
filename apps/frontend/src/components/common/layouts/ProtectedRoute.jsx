@@ -5,10 +5,13 @@ import LoadingLayout from "./LoadingLayout";
 
 const ProtectedRoute = ({ children }) => {
   const router = useRouter();
-  const [user, loading, error] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
 
   if (!user && !loading) {
-    router.push("/user/login");
+    router.push({
+      pathname: "/user/login",
+      query: { from: router.pathname },
+    });
   }
 
   return loading ? <LoadingLayout /> : <>{children}</>;
