@@ -5,6 +5,8 @@ import mintNFT from "./mintNFT";
 import listNFT from "./listNFT";
 import addToWatchlist from "./addToWatchlist";
 import removeFromWatchlist from "./removeFromWatchlist";
+import updateWalletAddress from "./updateWalletAddress";
+import formatAddress from "./formatAddress";
 
 export {
   formatItem,
@@ -14,4 +16,6 @@ export {
   listNFT,
   addToWatchlist,
   removeFromWatchlist,
+  updateWalletAddress,
+  formatAddress,
 };
