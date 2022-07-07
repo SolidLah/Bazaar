@@ -34,7 +34,6 @@ const ProfilePictureComponent = ({ user }) => {
                       <Flex direction="column">
                         <Heading size="md">{user.email}</Heading>
                         <Text>{user.displayName}</Text>
-                        <Text>Wallet address</Text>
                         <Text>
                           {fireStoredAddress
                             ? formatAddress(fireStoredAddress)
