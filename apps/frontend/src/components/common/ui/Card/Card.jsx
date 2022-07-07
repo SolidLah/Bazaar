@@ -12,14 +12,13 @@ const Card = ({ item }) => {
         align="center"
         justify="flex-end"
       >
-        <Box w="100%" h="100%" pos="relative">
+        <Box w="100%" h="100%" roundedTop={10} overflow="hidden" pos="relative">
           <Image
             src={item.nftData.image}
             alt="NFT here"
             priority="true"
             layout="fill"
             objectFit="cover"
-            style={{ borderTopRightRadius: 10, borderTopLeftRadius: 10 }}
             placeholder="blur"
             blurDataURL={blurImage}
           />
