@@ -2,7 +2,7 @@ import { Flex, Heading, Center } from "@chakra-ui/react";
 import LinkedCard from "src/components/common/ui/LinkedCard/LinkedCard";
 import Card from "src/components/common/ui/Card/Card";
 
-const UserItemsGrid = ({ items }) => {
+const UserItemsComponent = ({ items }) => {
   const listed = items?.listed;
   const owned = items?.owned;
 
@@ -40,4 +40,4 @@ const UserItemsGrid = ({ items }) => {
   );
 };
 
-export default UserItemsGrid;
+export default UserItemsComponent;

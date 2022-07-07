@@ -10,9 +10,9 @@ import {
   useWatchlist,
 } from "src/lib/hooks";
 import useSWR from "swr";
-import UserDetailsGrid from "./UserDetailsGrid";
-import UserItemsGrid from "./UserItemsGrid";
-import WatchlistGrid from "./WatchlistGrid";
+import UserDetailsComponent from "./UserDetailsComponent";
+import UserItemsComponent from "./UserItemsComponent";
+import WatchlistComponent from "./WatchlistComponent";
 
 const UserProfilePage = () => {
   const [user, authLoading, authError] = useAuthState(auth);
@@ -35,17 +35,17 @@ const UserProfilePage = () => {
   return (
     <Center w="100%" flexDirection="column" mt={20} mb={200} gap={10}>
       {user && storedAddress ? (
-        <UserDetailsGrid user={user} fireStoredAddress={storedAddress} />
+        <UserDetailsComponent user={user} fireStoredAddress={storedAddress} />
       ) : (
         <Spinner size="xl" color="gray" />
       )}
       {!watchlistLoading && watchlist ? (
-        <WatchlistGrid watchlist={watchlist} />
+        <WatchlistComponent watchlist={watchlist} />
       ) : (
         <Spinner size="xl" color="gray" />
       )}
       {userItems ? (
-        <UserItemsGrid items={userItems} />
+        <UserItemsComponent items={userItems} />
       ) : (
         <Spinner size="xl" color="gray" />
       )}

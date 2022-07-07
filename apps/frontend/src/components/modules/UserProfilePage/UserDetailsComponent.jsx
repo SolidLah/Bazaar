@@ -4,7 +4,7 @@ import useErrorToast from "src/lib/hooks/useErrorToast";
 import useSuccessToast from "src/lib/hooks/useSuccessToast";
 import { formatAddress, updateWalletAddress } from "src/lib/helpers";
 
-const UserDetailsGrid = ({ user, fireStoredAddress }) => {
+const UserDetailsComponent = ({ user, fireStoredAddress }) => {
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
   const ethersStoredAddress = useEthersStore((state) => state.address);
   const errorToast = useErrorToast("Connect wallet to account");
@@ -70,4 +70,4 @@ const UserDetailsGrid = ({ user, fireStoredAddress }) => {
   );
 };
 
-export default UserDetailsGrid;
+export default UserDetailsComponent;
