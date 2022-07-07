@@ -1,9 +1,10 @@
-import { Heading, HStack, Button, Avatar } from "@chakra-ui/react";
+import { Button, Heading, HStack } from "@chakra-ui/react";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import Link from "next/link";
-import { logout } from "src/lib/firebase";
+import { useRouter } from "next/router";
 import WalletHandlerButton from "src/components/common/ui/WalletHandlerButton/WalletHandlerButton";
+import { logout } from "src/lib/firebase";
+import ProfilePictureComponent from "./ProfilePictureComponent";
 
 const NavbarElement = ({ user }) => {
   const router = useRouter();
@@ -73,9 +74,7 @@ const NavbarElement = ({ user }) => {
           </Link>
         )}
         <WalletHandlerButton />
-        <Link href="/user" passHref>
-          <Avatar as="a" cursor="pointer" />
-        </Link>
+        <ProfilePictureComponent user={user} />
       </HStack>
     </HStack>
   );
