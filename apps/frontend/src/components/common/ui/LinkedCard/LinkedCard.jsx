@@ -21,7 +21,7 @@ const LinkedCard = ({ item, watchlistEnabled }) => {
         size={60}
         bg="gray.100"
         m={3}
-        borderRadius={10}
+        rounded={10}
         _hover={{ shadow: "outline" }}
         cursor="pointer"
         whileHover={{ y: -3, scale: 1.02 }}
@@ -36,7 +36,7 @@ const LinkedCard = ({ item, watchlistEnabled }) => {
           <Box
             w="100%"
             h="100%"
-            borderTopRadius={10}
+            roundedTop={10}
             overflow="hidden"
             pos="relative"
           >
@@ -64,7 +64,7 @@ const LinkedCard = ({ item, watchlistEnabled }) => {
             bg="gray.200"
             w="100%"
             p={3}
-            borderBottomRadius={10}
+            roundedBottom={10}
             direction="row"
             justify="space-between"
           >

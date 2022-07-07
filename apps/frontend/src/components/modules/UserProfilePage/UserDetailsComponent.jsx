@@ -39,7 +39,7 @@ const UserDetailsComponent = ({ user, fireStoredAddress }) => {
       <Avatar h="250px" w="250px" mb={10} />
       <Grid
         bg="gray.200"
-        borderRadius="md"
+        rounded="md"
         templateColumns="repeat(2, 1fr)"
         gap={6}
         justifyItems="left"

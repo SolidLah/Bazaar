@@ -4,7 +4,7 @@ import { blurImage } from "src/lib/blurImage";
 
 const Card = ({ item }) => {
   return (
-    <Square size={60} bg="gray.100" m={3} borderRadius={10}>
+    <Square size={60} bg="gray.100" m={3} rounded={10}>
       <Flex
         w="100%"
         h="100%"
@@ -28,7 +28,7 @@ const Card = ({ item }) => {
           bg="gray.200"
           w="100%"
           p={3}
-          borderBottomRadius={10}
+          roundedBottom={10}
           direction="row"
           justify="space-between"
         >
