@@ -1,5 +1,5 @@
 const stubItems = {
-  userListings: [
+  listings: [
     {
       itemId: 1,
       nftData: {
@@ -37,26 +37,34 @@ const stubItems = {
       marketPrice: 10,
     },
   ],
-  userNFTs: [
+  owned: [
     {
-      image:
-        "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
-      name: "stub-owned",
+      nftData: {
+        image:
+          "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
+        name: "stub-owned",
+      },
     },
     {
-      image:
-        "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
-      name: "stub-owned",
+      nftData: {
+        image:
+          "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
+        name: "stub-owned",
+      },
     },
     {
-      image:
-        "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
-      name: "stub-owned",
+      nftData: {
+        image:
+          "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
+        name: "stub-owned",
+      },
     },
     {
-      image:
-        "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
-      name: "stub-owned",
+      nftData: {
+        image:
+          "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
+        name: "stub-owned",
+      },
     },
   ],
 };
