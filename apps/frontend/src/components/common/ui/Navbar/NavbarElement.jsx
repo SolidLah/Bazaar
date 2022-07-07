@@ -27,7 +27,7 @@ const NavbarElement = ({ user }) => {
             Bazaar
           </Heading>
           <Image
-            src="/bazaar_icon_alpha.png"
+            src="/images/bazaar_icon_alpha.png"
             alt="Bazaar Icon"
             width="30px"
             height="30px"

@@ -3,7 +3,7 @@ const stubItems = {
     {
       itemId: 1,
       nftData: {
-        image: "/ape.jpg",
+        image: "/images/ape.jpg",
         name: "stub-listing",
       },
       marketPrice: 10,
@@ -11,7 +11,7 @@ const stubItems = {
     {
       itemId: 2,
       nftData: {
-        image: "/ape.jpg",
+        image: "/images/ape.jpg",
         name: "stub-listing",
       },
       marketPrice: 10,
@@ -19,7 +19,7 @@ const stubItems = {
     {
       itemId: 3,
       nftData: {
-        image: "/ape.jpg",
+        image: "/images/ape.jpg",
         name: "stub-listing",
       },
       marketPrice: 10,
@@ -27,7 +27,7 @@ const stubItems = {
     {
       itemId: 4,
       nftData: {
-        image: "/ape.jpg",
+        image: "/images/ape.jpg",
         name: "stub-listing",
       },
       marketPrice: 10,
@@ -36,25 +36,25 @@ const stubItems = {
   owned: [
     {
       nftData: {
-        image: "/ape.jpg",
+        image: "/images/ape.jpg",
         name: "stub-owned",
       },
     },
     {
       nftData: {
-        image: "/ape.jpg",
+        image: "/images/ape.jpg",
         name: "stub-owned",
       },
     },
     {
       nftData: {
-        image: "/ape.jpg",
+        image: "/images/ape.jpg",
         name: "stub-owned",
       },
     },
     {
       nftData: {
-        image: "/ape.jpg",
+        image: "/images/ape.jpg",
         name: "stub-owned",
       },
     },
