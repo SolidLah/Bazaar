@@ -3,8 +3,7 @@ const stubItems = {
     {
       itemId: 1,
       nftData: {
-        image:
-          "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
+        image: "/ape.jpg",
         name: "stub-listing",
       },
       marketPrice: 10,
@@ -12,8 +11,7 @@ const stubItems = {
     {
       itemId: 2,
       nftData: {
-        image:
-          "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
+        image: "/ape.jpg",
         name: "stub-listing",
       },
       marketPrice: 10,
@@ -21,8 +19,7 @@ const stubItems = {
     {
       itemId: 3,
       nftData: {
-        image:
-          "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
+        image: "/ape.jpg",
         name: "stub-listing",
       },
       marketPrice: 10,
@@ -30,8 +27,7 @@ const stubItems = {
     {
       itemId: 4,
       nftData: {
-        image:
-          "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
+        image: "/ape.jpg",
         name: "stub-listing",
       },
       marketPrice: 10,
@@ -40,31 +36,53 @@ const stubItems = {
   owned: [
     {
       nftData: {
-        image:
-          "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
+        image: "/ape.jpg",
         name: "stub-owned",
       },
     },
     {
       nftData: {
-        image:
-          "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
+        image: "/ape.jpg",
         name: "stub-owned",
       },
     },
     {
       nftData: {
-        image:
-          "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
+        image: "/ape.jpg",
         name: "stub-owned",
       },
     },
     {
       nftData: {
-        image:
-          "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
+        image: "/ape.jpg",
         name: "stub-owned",
       },
+    },
+  ],
+  collections: [
+    {
+      name: "stub-collection",
+      symbol: "STUB",
+    },
+    {
+      name: "stub-collection",
+      symbol: "STUB",
+    },
+    {
+      name: "stub-collection",
+      symbol: "STUB",
+    },
+    {
+      name: "stub-collection",
+      symbol: "STUB",
+    },
+    {
+      name: "stub-collection",
+      symbol: "STUB",
+    },
+    {
+      name: "stub-collection",
+      symbol: "STUB",
     },
   ],
 };
