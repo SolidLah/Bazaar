@@ -35,24 +35,28 @@ const stubItems = {
   ],
   owned: [
     {
+      itemId: 1,
       nftData: {
         image: "/images/ape.jpg",
         name: "stub-owned",
       },
     },
     {
+      itemId: 2,
       nftData: {
         image: "/images/ape.jpg",
         name: "stub-owned",
       },
     },
     {
+      itemId: 3,
       nftData: {
         image: "/images/ape.jpg",
         name: "stub-owned",
       },
     },
     {
+      itemId: 4,
       nftData: {
         image: "/images/ape.jpg",
         name: "stub-owned",

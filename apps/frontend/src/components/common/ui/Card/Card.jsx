@@ -30,8 +30,9 @@ const Card = ({ item }) => {
           roundedBottom={10}
           direction="row"
           justify="space-between"
+          align="center"
         >
-          <Heading size="sm">{item.nftData.name}</Heading>
+          <Heading size="md">{item.nftData.name}</Heading>
         </Flex>
       </Flex>
     </Square>

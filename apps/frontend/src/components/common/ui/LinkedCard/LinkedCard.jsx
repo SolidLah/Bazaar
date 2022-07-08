@@ -67,13 +67,14 @@ const LinkedCard = ({ item, watchlistEnabled }) => {
             roundedBottom={10}
             direction="row"
             justify="space-between"
+            align="center"
           >
-            <Heading size="sm">
+            <Heading size="md">
               <Link href={`/marketplace/details/${item.itemId}`} passHref>
                 <LinkOverlay>{item.nftData.name}</LinkOverlay>
               </Link>
             </Heading>
-            <Badge colorScheme="green" variant="subtle" fontSize={12}>
+            <Badge colorScheme="green" variant="subtle" fontSize="sm">
               {item.marketPrice} MATIC
             </Badge>
           </Flex>
