@@ -28,7 +28,7 @@ const MintForm = () => {
     const image = imageRef.current?.files[0];
     const name = nameRef.current?.value;
     const description = descriptionRef.current?.value;
-    const price = Number(priceRef.current?.value);
+    const price = priceRef.current?.value;
 
     const web3Error = getWeb3(ethersInitialised);
     if (web3Error !== "") {
