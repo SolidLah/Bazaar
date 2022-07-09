@@ -1,22 +1,20 @@
-import { Center, Flex, Heading } from "@chakra-ui/react";
+import { Center, Flex } from "@chakra-ui/react";
+import LoadingLayout from "src/components/common/layouts/LoadingLayout";
 import LinkedCard from "src/components/common/ui/LinkedCard/LinkedCard";
 
 const WatchListComponent = ({ watchlist }) => {
-  return (
-    <Flex direction="column" gap={6}>
-      <Center>
-        <Heading>Watchlist</Heading>
-      </Center>
-      {watchlist.length > 0 ? (
-        <Flex wrap="wrap" justify="flex-start">
-          {watchlist.map((item) => (
-            <LinkedCard key={item.itemId} item={item} watchlistEnabled={true} />
-          ))}
-        </Flex>
-      ) : (
-        <Center>Watchlist empty</Center>
-      )}
+  if (!watchlist) {
+    return <LoadingLayout />;
+  }
+
+  return watchlist?.length > 0 ? (
+    <Flex gap={6} wrap="wrap" justify="flex-start">
+      {watchlist.map((item) => (
+        <LinkedCard key={item.itemId} item={item} watchlistEnabled={true} />
+      ))}
     </Flex>
+  ) : (
+    <Center>Watchlist empty</Center>
   );
 };
 

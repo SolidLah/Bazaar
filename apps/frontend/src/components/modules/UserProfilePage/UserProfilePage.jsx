@@ -1,4 +1,4 @@
-import { Center, Spinner } from "@chakra-ui/react";
+import { Container, Flex } from "@chakra-ui/react";
 import axios from "axios";
 import { useAuthState } from "react-firebase-hooks/auth";
 import ErrorLayout from "src/components/common/layouts/ErrorLayout";
@@ -9,10 +9,10 @@ import {
   useStoredAddress,
   useWatchlist,
 } from "src/lib/hooks";
+import stubItems from "src/lib/stubData";
 import useSWR from "swr";
+import TabsComponent from "./TabsComponent";
 import UserDetailsComponent from "./UserDetailsComponent";
-import UserItemsComponent from "./UserItemsComponent";
-import WatchlistComponent from "./WatchlistComponent";
 
 const UserProfilePage = () => {
   const [user, authLoading, authError] = useAuthState(auth);
@@ -33,23 +33,16 @@ const UserProfilePage = () => {
   }
 
   return (
-    <Center w="100%" flexDirection="column" mt={20} mb={200} gap={10}>
-      {user && storedAddress ? (
+    <Container maxW="container.xl" mt={20}>
+      <Flex gap={6} justify="flex-start">
         <UserDetailsComponent user={user} fireStoredAddress={storedAddress} />
-      ) : (
-        <Spinner size="xl" color="gray" />
-      )}
-      {!watchlistLoading && watchlist ? (
-        <WatchlistComponent watchlist={watchlist} />
-      ) : (
-        <Spinner size="xl" color="gray" />
-      )}
-      {userItems ? (
-        <UserItemsComponent items={userItems} />
-      ) : (
-        <Spinner size="xl" color="gray" />
-      )}
-    </Center>
+        <TabsComponent
+          watchlist={watchlist}
+          items={userItems}
+          collections={stubItems.collections}
+        />
+      </Flex>
+    </Container>
   );
 };
 

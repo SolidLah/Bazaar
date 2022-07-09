@@ -1,4 +1,4 @@
-import { Center, Text, Grid, GridItem, Avatar, Button } from "@chakra-ui/react";
+import { Text, Avatar, Button, Flex, Box } from "@chakra-ui/react";
 import useEthersStore from "src/stores/ethersStore";
 import useErrorToast from "src/lib/hooks/useErrorToast";
 import useSuccessToast from "src/lib/hooks/useSuccessToast";
@@ -35,38 +35,38 @@ const UserDetailsComponent = ({ user, fireStoredAddress }) => {
   };
 
   return (
-    <Center flexDirection="column">
-      <Avatar h="250px" w="250px" mb={10} />
-      <Grid
-        bg="gray.200"
-        rounded="md"
-        templateColumns="repeat(2, 1fr)"
-        gap={6}
-        justifyItems="left"
-        alignItems="center"
-        p={6}
-      >
-        <GridItem>
+    <Flex
+      direction="column"
+      align="center"
+      minW="60"
+      maxW="60"
+      h="max-content"
+      p="6"
+      gap="6"
+      bg="gray.200"
+      rounded="xl"
+    >
+      <Avatar size="100%" />
+      <Flex direction="column" gap={3} w="100%">
+        <Box>
           <Text fontWeight="bold">Name</Text>
-        </GridItem>
-        <GridItem>{user.displayName}</GridItem>
-        <GridItem>
+          <Text>{user.displayName}</Text>
+        </Box>
+        <Box>
           <Text fontWeight="bold">Email</Text>
-        </GridItem>
-        <GridItem>{user.email}</GridItem>
-        <GridItem>
+          <Text>{user.email}</Text>
+        </Box>
+        <Box>
           <Text fontWeight="bold">Wallet address</Text>
-        </GridItem>
-        <GridItem justifySelf="center">
           <Text>
             {fireStoredAddress ? formatAddress(fireStoredAddress) : ""}
           </Text>
-          <Button colorScheme="teal" onClick={buttonCallback}>
-            {fireStoredAddress ? "Change" : "Connect"}
-          </Button>
-        </GridItem>
-      </Grid>
-    </Center>
+        </Box>
+        <Button colorScheme="teal" onClick={buttonCallback}>
+          {fireStoredAddress ? "Change" : "Connect"}
+        </Button>
+      </Flex>
+    </Flex>
   );
 };
 
