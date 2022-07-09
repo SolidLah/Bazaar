@@ -1,11 +1,11 @@
-import ProtectedRoute from "src/components/common/layouts/ProtectedRoute";
+import ProtectedRouteLayout from "src/components/common/layouts/ProtectedRouteLayout";
 import CreateCollectionPage from "src/components/modules/CreateCollectionPage/CreateCollectionPage";
 
 const Collection = () => {
   return (
-    <ProtectedRoute>
+    <ProtectedRouteLayout>
       <CreateCollectionPage />
-    </ProtectedRoute>
+    </ProtectedRouteLayout>
   );
 };
 

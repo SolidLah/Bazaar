@@ -3,7 +3,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "src/lib/firebase";
 import LoadingLayout from "./LoadingLayout";
 
-const ProtectedRoute = ({ children }) => {
+const ProtectedRouteLayout = ({ children }) => {
   const router = useRouter();
   const [user, loading] = useAuthState(auth);
 
@@ -17,4 +17,4 @@ const ProtectedRoute = ({ children }) => {
   return loading ? <LoadingLayout /> : <>{children}</>;
 };
 
-export default ProtectedRoute;
+export default ProtectedRouteLayout;
