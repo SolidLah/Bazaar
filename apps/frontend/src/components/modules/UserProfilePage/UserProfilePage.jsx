@@ -2,6 +2,7 @@ import { Container, Flex } from "@chakra-ui/react";
 import axios from "axios";
 import { useAuthState } from "react-firebase-hooks/auth";
 import ErrorLayout from "src/components/common/layouts/ErrorLayout";
+import LoadingLayout from "src/components/common/layouts/LoadingLayout";
 import { auth } from "src/lib/firebase";
 import {
   useFetchWatchlist,
@@ -30,6 +31,10 @@ const UserProfilePage = () => {
 
   if (authError || firestoreError) {
     return <ErrorLayout />;
+  }
+
+  if (!userItems) {
+    return <LoadingLayout />;
   }
 
   return (
