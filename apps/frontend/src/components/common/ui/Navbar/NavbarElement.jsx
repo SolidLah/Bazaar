@@ -20,6 +20,9 @@ const NavbarElement = ({ user }) => {
       justify="space-between"
       p={5}
       bgGradient="linear(to-r, #E5618D, #7667BB)"
+      position="sticky"
+      top="0"
+      zIndex="10"
     >
       <Link href="/" passHref>
         <HStack spacing={0} cursor="pointer">
