@@ -18,9 +18,8 @@ const LinkedCard = ({ item, watchlistEnabled }) => {
     <LinkBox>
       <Square
         as={motion.div}
-        size={60}
+        size={56}
         bg="gray.100"
-        m={3}
         rounded={10}
         _hover={{ shadow: "outline" }}
         cursor="pointer"
