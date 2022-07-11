@@ -43,7 +43,13 @@ const NavbarElement = ({ user }) => {
             Marketplace
           </Button>
         </Link>
-        <Button as="a" colorScheme="blackAlpha" variant="ghost" color="white">
+        <Button
+          as="a"
+          colorScheme="blackAlpha"
+          variant="ghost"
+          color="white"
+          isDisabled={true}
+        >
           Trending
         </Button>
         <Link href="/creators" passHref>
@@ -51,12 +57,17 @@ const NavbarElement = ({ user }) => {
             Creators
           </Button>
         </Link>
-        <Button as="a" colorScheme="blackAlpha" variant="ghost" color="white">
+        <Button
+          as="a"
+          colorScheme="blackAlpha"
+          variant="ghost"
+          color="white"
+          isDisabled={true}
+        >
           Albums
         </Button>
         {user ? (
           <Button
-            as="a"
             onClick={logoutCallback}
             colorScheme="blackAlpha"
             variant="ghost"
