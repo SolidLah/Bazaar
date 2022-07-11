@@ -1,14 +1,15 @@
 import { Button, Flex, Heading, Input } from "@chakra-ui/react";
 import { useRef, useState } from "react";
-import { getWeb3, uploadNFT } from "src/lib/helpers";
+import { getWeb3 } from "src/lib/helpers";
 import newMintNFT from "src/lib/helpers/newMintNFT";
+import uploadManyNFT from "src/lib/helpers/uploadManyNFT";
 import { useErrorToast, useSuccessToast } from "src/lib/hooks";
 import useEthersStore from "src/stores/ethersStore";
 
 const BatchMintForm = ({ address }) => {
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
 
-  const imageRef = useRef();
+  const zipRef = useRef();
   const nameRef = useRef();
   const descriptionRef = useRef();
   const [loading, setLoading] = useState("");
@@ -17,7 +18,7 @@ const BatchMintForm = ({ address }) => {
   const successToast = useSuccessToast("Minting NFT");
 
   const buttonCallback = async () => {
-    const image = imageRef.current?.files[0];
+    const zip = zipRef.current?.files[0];
     const name = nameRef.current?.value;
     const description = descriptionRef.current?.value;
 
@@ -29,7 +30,7 @@ const BatchMintForm = ({ address }) => {
       return;
     }
 
-    if (!image || !name || !description) {
+    if (!zip || !name || !description) {
       errorToast({
         description: "Missing fields",
       });
@@ -42,7 +43,7 @@ const BatchMintForm = ({ address }) => {
     // upload to IPFS
     try {
       setLoading("Uploading Image");
-      url = await uploadNFT(image, name, description);
+      url = await uploadManyNFT(zip, name, description);
       successToast({
         description: "Upload success",
       });
@@ -56,7 +57,7 @@ const BatchMintForm = ({ address }) => {
     }
 
     // mint NFT
-    try {
+    /* try {
       setLoading("Minting NFT");
       await newMintNFT(address, url);
       successToast({
@@ -69,9 +70,9 @@ const BatchMintForm = ({ address }) => {
       });
       setLoading("");
       return;
-    }
+    } */
 
-    imageRef.current.value = "";
+    zipRef.current.value = "";
     nameRef.current.value = "";
     descriptionRef.current.value = "";
     setLoading("");
@@ -88,7 +89,7 @@ const BatchMintForm = ({ address }) => {
       mx="auto"
     >
       <Heading align="center">Mint multiple NFT</Heading>
-      <Input ref={imageRef} type="file" />
+      <Input ref={zipRef} type="file" />
       <Input ref={nameRef} placeholder="name" variant="filled" />
       <Input ref={descriptionRef} placeholder="description" variant="filled" />
       <Button
