@@ -28,70 +28,60 @@ export default async function handler(req, res) {
       });
 
       const formidableRes = await asyncParse(req);
+      const description = formidableRes.fields.description;
 
-      // getting data from request
       let images = [];
 
       const zipFile = formidableRes.files.zip;
       const data = fs.readFileSync(zipFile.filepath);
       const zipRes = await JSZip.loadAsync(data);
-      let zipKeys = Object.keys(zipRes.files);
+      const zipKeys = Object.keys(zipRes.files);
+
       await Promise.all(
         zipKeys.map(async (key) => {
           const item = zipRes.files[key];
-          if (!item.dir) {
+
+          if (!item.dir && !item.name.includes("._")) {
             const stream = await item.async("base64");
+            const fileName = item.name.split("/").at(-1);
+
             images.push({
-              path: "image/" + item.name,
-              content: stream,
+              abi: {
+                path: "image/" + fileName,
+                content: stream,
+              },
+              name: fileName,
+              description,
             });
           }
         })
       );
 
-      console.log(images);
+      const imageURLObjs = await Moralis.Web3API.storage.uploadFolder({
+        abi: images.map((image) => image.abi),
+      });
 
-      const name = formidableRes.fields.name;
-      const description = formidableRes.fields.description;
+      const jsons = images.map((image, index) => ({
+        path: `metadata/${image.name.split(".")[0]}.json`,
+        content: {
+          image: imageURLObjs[index].path,
+          name: image.name.split(".")[0],
+          description: image.description,
+        },
+      }));
 
-      // upload image
-      /* const imageURL = (
-        await Moralis.Web3API.storage.uploadFolder({
-          abi: [
-            {
-              path: "dev/image/" + zipFile.originalFilename,
-              content: stream,
-            },
-          ],
-        })
-      )[0].path;
+      const nftURLObjs = await Moralis.Web3API.storage.uploadFolder({
+        abi: jsons,
+      });
 
-      console.log("image URL:", imageURL);
+      const nftURLs = nftURLObjs.map((urlObjs) => urlObjs.path);
 
-      const nftJSON = {
-        image: imageURL,
-        name,
-        description,
-      };
-
-      // upload NFT
-      const nftURL = (
-        await Moralis.Web3API.storage.uploadFolder({
-          abi: [
-            {
-              path: `dev/metadata/${name}.json`,
-              content: nftJSON,
-            },
-          ],
-        })
-      )[0].path;
-
-      console.log("nft URL:", nftURL); */
+      console.log("nft URLs:", nftURLs);
 
       res.status(200).json({
         route: "api/images/",
         success: true,
-        msg: { files: zipRes.files, name, description },
+        msg: nftURLs,
       });
     } catch (error) {
       console.log(error);
