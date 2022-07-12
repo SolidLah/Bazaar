@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export default async function uploadNFTs(zip, description) {
+export default async function uploadManyNFTs(zip, description) {
   // initialise FormData object
   let data = new FormData();
   data.append("zip", zip);

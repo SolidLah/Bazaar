@@ -1,7 +1,7 @@
 import { Button, Flex, Heading, Input } from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import { getWeb3 } from "src/lib/helpers";
-import uploadNFTs from "src/lib/helpers/uploadNFTs";
+import uploadManyNFTs from "src/lib/helpers/uploadManyNFTs";
 import { useErrorToast, useSuccessToast } from "src/lib/hooks";
 import useEthersStore from "src/stores/ethersStore";
 
@@ -40,7 +40,7 @@ const BatchMintForm = ({ address }) => {
     // upload to IPFS
     try {
       setLoading("Uploading images");
-      urls = await uploadNFTs(zip, description);
+      urls = await uploadManyNFTs(zip, description);
       successToast({
         description: "Upload success",
       });
@@ -56,7 +56,7 @@ const BatchMintForm = ({ address }) => {
     // mint NFT
     /* try {
       setLoading("Minting NFTs");
-      await MintNFTs(address, urls);
+      await mintManyNFTs(address, urls);
       successToast({
         description: "Minting success",
       });
