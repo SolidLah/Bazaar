@@ -50,7 +50,7 @@ export default async function handler(req, res) {
         await Moralis.Web3API.storage.uploadFolder({
           abi: [
             {
-              path: "dev/image/" + image.originalFilename,
+              path: "image/" + image.originalFilename,
               content: stream,
             },
           ],
@@ -70,7 +70,7 @@ export default async function handler(req, res) {
         await Moralis.Web3API.storage.uploadFolder({
           abi: [
             {
-              path: `dev/metadata/${name}.json`,
+              path: `metadata/${name}.json`,
               content: nftJSON,
             },
           ],
