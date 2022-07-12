@@ -58,6 +58,7 @@ const CreateCollectionPage = () => {
       errorToast({
         description: error.message,
       });
+      setLoading(false);
       return;
     }
 
