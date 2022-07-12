@@ -1,8 +1,7 @@
 import { Button, Flex, Heading, Input } from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import { getWeb3 } from "src/lib/helpers";
-import newMintNFT from "src/lib/helpers/newMintNFT";
-import uploadManyNFT from "src/lib/helpers/uploadManyNFT";
+import uploadNFTs from "src/lib/helpers/uploadNFTs";
 import { useErrorToast, useSuccessToast } from "src/lib/hooks";
 import useEthersStore from "src/stores/ethersStore";
 
@@ -10,7 +9,6 @@ const BatchMintForm = ({ address }) => {
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
 
   const zipRef = useRef();
-  const nameRef = useRef();
   const descriptionRef = useRef();
   const [loading, setLoading] = useState("");
 
@@ -19,7 +17,6 @@ const BatchMintForm = ({ address }) => {
 
   const buttonCallback = async () => {
     const zip = zipRef.current?.files[0];
-    const name = nameRef.current?.value;
     const description = descriptionRef.current?.value;
 
     const web3Error = getWeb3(ethersInitialised);
@@ -30,7 +27,7 @@ const BatchMintForm = ({ address }) => {
       return;
     }
 
-    if (!zip || !name || !description) {
+    if (!zip || !description) {
       errorToast({
         description: "Missing fields",
       });
@@ -38,19 +35,19 @@ const BatchMintForm = ({ address }) => {
       return;
     }
 
-    let url;
+    let urls;
 
     // upload to IPFS
     try {
-      setLoading("Uploading Image");
-      url = await uploadManyNFT(zip, name, description);
+      setLoading("Uploading images");
+      urls = await uploadNFTs(zip, description);
       successToast({
         description: "Upload success",
       });
     } catch (error) {
       console.log(error);
       errorToast({
-        description: "Error occured uploading NFT",
+        description: "Error occured uploading NFTs",
       });
       setLoading("");
       return;
@@ -58,22 +55,21 @@ const BatchMintForm = ({ address }) => {
 
     // mint NFT
     /* try {
-      setLoading("Minting NFT");
-      await newMintNFT(address, url);
+      setLoading("Minting NFTs");
+      await MintNFTs(address, urls);
       successToast({
         description: "Minting success",
       });
     } catch (error) {
       console.log(error);
       errorToast({
-        description: "Error occured minting NFT",
+        description: "Error occured minting NFTs",
       });
       setLoading("");
       return;
     } */
 
     zipRef.current.value = "";
-    nameRef.current.value = "";
     descriptionRef.current.value = "";
     setLoading("");
   };
@@ -90,7 +86,6 @@ const BatchMintForm = ({ address }) => {
     >
       <Heading align="center">Mint multiple NFT</Heading>
       <Input ref={zipRef} type="file" />
-      <Input ref={nameRef} placeholder="name" variant="filled" />
       <Input ref={descriptionRef} placeholder="description" variant="filled" />
       <Button
         onClick={buttonCallback}
