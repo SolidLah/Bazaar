@@ -6,7 +6,7 @@ const DetailsCard = ({ item }) => {
     <Flex w="md" bg="gray.100" rounded="0.5rem" p={3}>
       <Flex w="100%" direction="column">
         <Heading>{item.nftData.name}</Heading>
-        <Text>NFT collection</Text>
+        <Text>{`${item.collectionName} (${item.collectionSymbol})`}</Text>
         <Text>{formatAddress(item.minter)}</Text>
         <Text mt={6} as="i">
           {item.nftData.description}
