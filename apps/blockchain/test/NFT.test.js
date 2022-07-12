@@ -76,7 +76,6 @@ describe("NFT contract", function () {
         .createMarketItem(nft.address, 1, toWei(1));
 
       const tokens = await nft.fetchUserTokens(deployer.address);
-      console.log(tokens);
       expect(tokens.length).to.equal(1);
     });
   });
