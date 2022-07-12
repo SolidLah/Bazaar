@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "@openzeppelin/contracts/interfaces/IERC721Metadata.sol";
 import "@openzeppelin/contracts/token/ERC721/utils/ERC721Holder.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "hardhat/console.sol";
 import "./NFT.sol";
 
-contract Marketplace is ReentrancyGuard, ERC721Holder {
+contract Marketplace is ReentrancyGuard, ERC721Holder, Ownable {
     struct MarketItem {
         // marketplace properties
         uint256 itemId;
@@ -19,6 +19,8 @@ contract Marketplace is ReentrancyGuard, ERC721Holder {
         bool sold;
         // NFT properties
         address nftAddress;
+        string nftName;
+        string nftSymbol;
         address payable minter;
         uint256 tokenId;
         string tokenURI;
@@ -26,13 +28,11 @@ contract Marketplace is ReentrancyGuard, ERC721Holder {
 
     using Counters for Counters.Counter;
 
-    address payable public immutable deployer;
     uint256 public immutable feePercent;
     Counters.Counter public idCounter;
     mapping(uint256 => MarketItem) public marketItemsMapping;
 
     constructor(uint256 _feePercent) {
-        deployer = payable(msg.sender);
         feePercent = _feePercent;
     }
 
@@ -43,11 +43,11 @@ contract Marketplace is ReentrancyGuard, ERC721Holder {
     ) public nonReentrant {
         require(_price > 0, "Price must be greater than zero");
         require(
-            IERC721Metadata(_nftAddress).ownerOf(_tokenId) == msg.sender,
+            NFT(_nftAddress).ownerOf(_tokenId) == msg.sender,
             "Not the owner of token"
         ); // check token exists
 
-        IERC721Metadata(_nftAddress).safeTransferFrom(
+        NFT(_nftAddress).safeTransferFrom(
             msg.sender,
             address(this),
             _tokenId
@@ -58,8 +58,10 @@ contract Marketplace is ReentrancyGuard, ERC721Holder {
         uint256 _newItemId = idCounter.current();
 
         // getting NFT details
-        address payable _minter = NFT(_nftAddress).deployer();
-        string memory _tokenURI = IERC721Metadata(_nftAddress).tokenURI(
+        string memory _nftName = NFT(_nftAddress).name();
+        string memory _nftSymbol = NFT(_nftAddress).symbol();
+        address payable _minter = payable(NFT(_nftAddress).owner());
+        string memory _tokenURI = NFT(_nftAddress).tokenURI(
             _tokenId
         );
 
@@ -74,6 +76,8 @@ contract Marketplace is ReentrancyGuard, ERC721Holder {
             _marketPrice,
             false,
             _nftAddress,
+            _nftName,
+            _nftSymbol,
             _minter,
             _tokenId,
             _tokenURI
@@ -100,12 +104,12 @@ contract Marketplace is ReentrancyGuard, ERC721Holder {
 
         // pay seller and marketplace
         _seller.transfer(_currMarketItem.price);
-        deployer.transfer(_totalPrice - _currMarketItem.price);
+        payable(this.owner()).transfer(_totalPrice - _currMarketItem.price);
 
         // update item
         _currMarketItem.sold = true;
         _currMarketItem.owner = payable(msg.sender);
-        IERC721Metadata(_currMarketItem.nftAddress).safeTransferFrom(
+        NFT(_currMarketItem.nftAddress).safeTransferFrom(
             address(this),
             msg.sender,
             _currMarketItem.tokenId
@@ -139,7 +143,40 @@ contract Marketplace is ReentrancyGuard, ERC721Holder {
         return _items;
     }
 
-    function fetchUserItems(address user)
+    function fetchCollectionItems(address _collection)
+        public
+        view
+        returns (MarketItem[] memory) 
+    {
+        uint256 _totalCount = idCounter.current();
+
+        // get array of active listings
+        uint256 _listedCount = 0;
+        uint256 _listedIndex = 0;
+
+        for (uint256 i = 1; i < _totalCount + 1; i++) {
+            MarketItem storage _currItem = marketItemsMapping[i];
+
+            if (_currItem.nftAddress == _collection) {
+                _listedCount++;
+            }
+        }
+
+        MarketItem[] memory _listedItems = new MarketItem[](_listedCount);
+
+        for (uint256 i = 1; i < _totalCount + 1; i++) {
+            MarketItem storage _currItem = marketItemsMapping[i];
+
+            if (_currItem.nftAddress == _collection && !_currItem.sold) {
+                _listedItems[_listedIndex] = _currItem;
+                _listedIndex++;
+            }
+        }
+
+        return _listedItems;
+    }
+
+    function fetchUserItems(address _user)
         public
         view
         returns (MarketItem[] memory listed, MarketItem[] memory owned)
@@ -153,7 +190,7 @@ contract Marketplace is ReentrancyGuard, ERC721Holder {
         for (uint256 i = 1; i < _totalCount + 1; i++) {
             MarketItem storage _currItem = marketItemsMapping[i];
 
-            if (_currItem.seller == user && !_currItem.sold) {
+            if (_currItem.seller == _user && !_currItem.sold) {
                 _listedCount++;
             }
         }
@@ -163,7 +200,7 @@ contract Marketplace is ReentrancyGuard, ERC721Holder {
         for (uint256 i = 1; i < _totalCount + 1; i++) {
             MarketItem storage _currItem = marketItemsMapping[i];
 
-            if (_currItem.seller == user && !_currItem.sold) {
+            if (_currItem.seller == _user && !_currItem.sold) {
                 _listedItems[_listedIndex] = _currItem;
                 _listedIndex++;
             }
@@ -176,7 +213,7 @@ contract Marketplace is ReentrancyGuard, ERC721Holder {
         for (uint256 i = 1; i < _totalCount + 1; i++) {
             MarketItem storage _currItem = marketItemsMapping[i];
 
-            if (_currItem.owner == user && _currItem.sold) {
+            if (_currItem.owner == _user && _currItem.sold) {
                 _ownedCount++;
             }
         }
@@ -186,7 +223,7 @@ contract Marketplace is ReentrancyGuard, ERC721Holder {
         for (uint256 i = 1; i < _totalCount + 1; i++) {
             MarketItem storage _currItem = marketItemsMapping[i];
 
-            if (_currItem.owner == user && _currItem.sold) {
+            if (_currItem.owner == _user && _currItem.sold) {
                 _ownedItems[_ownedIndex] = _currItem;
                 _ownedIndex++;
             }

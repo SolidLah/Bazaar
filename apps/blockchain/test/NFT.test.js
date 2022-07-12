@@ -1,13 +1,14 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
+const toWei = (num) => ethers.utils.parseEther(num.toString());
+
 describe("NFT contract", function () {
   let NFT;
   let MARKETPLACE;
   let nft;
   let marketplace;
   let deployer;
-  let addr1;
   let URI = "Sample URI";
   let NAME = "Bazaar NFT";
   let SYMBOL = "BFT";
@@ -15,7 +16,7 @@ describe("NFT contract", function () {
 
   beforeEach(async function () {
     // signers
-    [deployer, addr1] = await ethers.getSigners();
+    [deployer] = await ethers.getSigners();
 
     // contract factories
     MARKETPLACE = await ethers.getContractFactory("Marketplace");
@@ -31,17 +32,52 @@ describe("NFT contract", function () {
     expect(await nft.symbol()).to.equal(SYMBOL);
   });
 
-  it("Check balance of minter", async function () {
-    // balance
-    await nft.connect(addr1).mint(URI);
-    await nft.connect(addr1).mint(URI);
-    expect(await nft.balanceOf(addr1.address)).to.equal(2);
+  describe("Mint", async function () {
+    beforeEach(async function () {
+      await nft.connect(deployer).mint(URI);
+      await nft.connect(deployer).mint(URI);
+    });
+
+    it("Check balance of minter", async function () {
+      // balance
+      expect(await nft.balanceOf(deployer.address)).to.equal(2);
+    });
+
+    it("Check details of minted NFT", async function () {
+      // URI
+      expect(await nft.tokenURI(1)).to.equal(URI);
+      expect(await nft.owner()).to.equal(deployer.address);
+    });
   });
 
-  it("Check details of minted NFT", async function () {
-    // URI
-    await nft.connect(addr1).mint(URI);
-    expect(await nft.tokenURI(1)).to.equal(URI);
-    expect(await nft.deployer()).to.equal(deployer.address);
+  describe("MintMany", async function () {
+    beforeEach(async function () {
+      await nft.connect(deployer).mintMany([URI, URI]);
+      await nft.connect(deployer).mintMany([URI, URI]);
+    });
+
+    it("Check balance of minter", async function () {
+      // balance
+      expect(await nft.balanceOf(deployer.address)).to.equal(4);
+    });
+
+    it("Check details of minted NFT", async function () {
+      // URI
+      expect(await nft.tokenURI(3)).to.equal(URI);
+      expect(await nft.owner()).to.equal(deployer.address);
+    });
+  });
+
+  describe("Fetch user items", async function () {
+    it("Get correct number of unlisted items", async function () {
+      await nft.connect(deployer).mintMany([URI, URI]);
+      await marketplace
+        .connect(deployer)
+        .createMarketItem(nft.address, 1, toWei(1));
+
+      const tokens = await nft.fetchUserTokens(deployer.address);
+      console.log(tokens);
+      expect(tokens.length).to.equal(1);
+    });
   });
 });

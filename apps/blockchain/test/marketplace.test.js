@@ -8,7 +8,8 @@ const toWei = (num) => ethers.utils.parseEther(num.toString());
 describe("Marketplace contract", function () {
   let NFT;
   let MARKETPLACE;
-  let nft;
+  let nft1;
+  let nft2;
   let marketplace;
   let deployer;
   let addr1;
@@ -28,7 +29,8 @@ describe("Marketplace contract", function () {
 
     // deploy contracts
     marketplace = await MARKETPLACE.deploy(FEE_PERCENT);
-    nft = await NFT.deploy(NAME, SYMBOL, marketplace.address);
+    nft1 = await NFT.connect(addr1).deploy(NAME, SYMBOL, marketplace.address);
+    nft2 = await NFT.connect(addr2).deploy(NAME, SYMBOL, marketplace.address);
   });
 
   it("Fee percent for marketplace", async function () {
@@ -37,27 +39,27 @@ describe("Marketplace contract", function () {
 
   describe("Create market item", async function () {
     beforeEach(async function () {
-      await nft.connect(addr1).mint(URI);
-      await nft.connect(addr2).mint(URI);
+      await nft1.connect(addr1).mint(URI);
+      await nft2.connect(addr2).mint(URI);
     });
 
     it("Transfer ownership of nft", async function () {
       await marketplace
         .connect(addr1)
-        .createMarketItem(nft.address, 1, toWei(1));
+        .createMarketItem(nft1.address, 1, toWei(1));
 
       // check ownership
-      expect(await nft.ownerOf(1)).to.equal(marketplace.address);
+      expect(await nft1.ownerOf(1)).to.equal(marketplace.address);
 
       // check balances
-      expect(await nft.balanceOf(addr1.address)).to.equal(0);
-      expect(await nft.balanceOf(marketplace.address)).to.equal(1);
+      expect(await nft1.balanceOf(addr1.address)).to.equal(0);
+      expect(await nft1.balanceOf(marketplace.address)).to.equal(1);
     });
 
     it("Check details of created MarketItem", async function () {
       await marketplace
         .connect(addr1)
-        .createMarketItem(nft.address, 1, toWei(1));
+        .createMarketItem(nft1.address, 1, toWei(1));
 
       // check details
       const item = await marketplace.marketItemsMapping(1);
@@ -66,21 +68,23 @@ describe("Marketplace contract", function () {
       expect(item.owner).to.equal(ethers.constants.AddressZero);
       expect(item.price).to.equal(toWei(1));
       expect(item.sold).to.equal(false);
-      expect(item.nftAddress).to.equal(nft.address);
-      expect(item.minter).to.equal(await nft.deployer());
+      expect(item.nftAddress).to.equal(nft1.address);
+      expect(item.nftName).to.equal(NAME);
+      expect(item.nftSymbol).to.equal(SYMBOL);
+      expect(item.minter).to.equal(await nft1.owner());
       expect(item.tokenId).to.equal(1);
       expect(item.tokenURI).to.equal(URI);
     });
 
     it("Revert if price is set to zero", async function () {
       await expect(
-        marketplace.connect(addr1).createMarketItem(nft.address, 1, 0)
+        marketplace.connect(addr1).createMarketItem(nft1.address, 1, 0)
       ).to.be.revertedWith("Price must be greater than zero");
     });
 
     it("Revert if NFT not owned by message sender", async function () {
       await expect(
-        marketplace.connect(addr1).createMarketItem(nft.address, 2, 1)
+        marketplace.connect(addr1).createMarketItem(nft2.address, 1, 1)
       ).to.be.revertedWith("Not the owner of token");
     });
   });
@@ -92,10 +96,10 @@ describe("Marketplace contract", function () {
     const feeInWei = totalPriceInWei.sub(priceInWei);
 
     beforeEach(async function () {
-      await nft.connect(addr1).mint(URI);
+      await nft1.connect(addr1).mint(URI);
       await marketplace
         .connect(addr1)
-        .createMarketItem(nft.address, 1, priceInWei);
+        .createMarketItem(nft1.address, 1, priceInWei);
     });
 
     it("Ownership of NFT transferred correctly", async function () {
@@ -103,7 +107,7 @@ describe("Marketplace contract", function () {
         .connect(addr2)
         .purchaseMarketItem(1, { value: totalPriceInWei });
 
-      expect(await nft.ownerOf(1)).to.equal(addr2.address);
+      expect(await nft1.ownerOf(1)).to.equal(addr2.address);
     });
 
     it("NFT Balances of parties set correctly", async function () {
@@ -111,8 +115,8 @@ describe("Marketplace contract", function () {
         .connect(addr2)
         .purchaseMarketItem(1, { value: totalPriceInWei });
 
-      expect(await nft.balanceOf(addr2.address)).to.equal(1);
-      expect(await nft.balanceOf(marketplace.address)).to.equal(0);
+      expect(await nft1.balanceOf(addr2.address)).to.equal(1);
+      expect(await nft1.balanceOf(marketplace.address)).to.equal(0);
     });
 
     describe("Check details of transaction", async function () {
@@ -190,52 +194,46 @@ describe("Marketplace contract", function () {
     const priceInWei = toWei(priceInEth);
 
     beforeEach(async function () {
-      await nft.connect(addr1).mint(URI);
-      await nft.connect(addr1).mint(URI);
-      await nft.connect(addr2).mint(URI);
+      await nft1.connect(addr1).mint(URI);
+      await nft1.connect(addr1).mint(URI);
+      await nft2.connect(addr2).mint(URI);
 
       await marketplace
         .connect(addr1)
-        .createMarketItem(nft.address, 1, priceInWei);
+        .createMarketItem(nft1.address, 1, priceInWei);
       await marketplace
         .connect(addr1)
-        .createMarketItem(nft.address, 2, priceInWei);
+        .createMarketItem(nft1.address, 2, priceInWei);
       await marketplace
         .connect(addr2)
-        .createMarketItem(nft.address, 3, priceInWei);
+        .createMarketItem(nft2.address, 1, priceInWei);
     });
 
     it("Fetch market items", async function () {
       const marketItemsArray = await marketplace.fetchMarketItems();
-      const item = marketItemsArray[0];
-
       expect(marketItemsArray.length).to.equal(3);
-      expect(item.itemId).to.equal(1);
-      expect(item.seller).to.equal(addr1.address);
-      expect(item.owner).to.equal(ethers.constants.AddressZero);
-      expect(item.price).to.equal(toWei(1));
-      expect(item.sold).to.equal(false);
-      expect(item.nftAddress).to.equal(nft.address);
-      expect(item.minter).to.equal(await nft.deployer());
-      expect(item.tokenId).to.equal(1);
-      expect(item.tokenURI).to.equal(URI);
+    });
+
+    it("Fetch collection items", async function () {
+      const marketItemsArray = await marketplace.fetchCollectionItems(
+        nft1.address
+      );
+      expect(marketItemsArray.length).to.equal(2);
     });
 
     it("Fetch user items", async function () {
-      const marketItemsArray = await marketplace.fetchUserItems(addr1.address);
-      const listed = marketItemsArray.listed;
-      const item = listed[0];
+      const item3 = await marketplace.marketItemsMapping(3);
+      await marketplace
+        .connect(addr1)
+        .purchaseMarketItem(3, { value: item3.marketPrice });
 
+      const marketItemsArray = await marketplace.fetchUserItems(addr1.address);
+
+      const listed = marketItemsArray.listed;
       expect(listed.length).to.equal(2);
-      expect(item.itemId).to.equal(1);
-      expect(item.seller).to.equal(addr1.address);
-      expect(item.owner).to.equal(ethers.constants.AddressZero);
-      expect(item.price).to.equal(toWei(1));
-      expect(item.sold).to.equal(false);
-      expect(item.nftAddress).to.equal(nft.address);
-      expect(item.minter).to.equal(await nft.deployer());
-      expect(item.tokenId).to.equal(1);
-      expect(item.tokenURI).to.equal(URI);
+
+      const owned = marketItemsArray.owned;
+      expect(owned.length).to.equal(1);
     });
   });
 });
