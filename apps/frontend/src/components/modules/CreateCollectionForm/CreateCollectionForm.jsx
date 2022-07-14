@@ -92,7 +92,11 @@ const CreateCollectionForm = () => {
           placeholder="collection symbol"
           variant="filled"
         />
-        <Button onClick={buttonCallback} isLoading={loading} colorScheme="teal">
+        <Button
+          onClick={buttonCallback}
+          isLoading={loading}
+          colorScheme="purple"
+        >
           Create collection
         </Button>
       </Flex>

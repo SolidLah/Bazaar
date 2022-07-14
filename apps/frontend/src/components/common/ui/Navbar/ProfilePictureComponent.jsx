@@ -43,7 +43,7 @@ const ProfilePictureComponent = ({ user }) => {
                     </Flex>
                   )}
                   <Link href="/user" passHref>
-                    <Button as="a" colorScheme="teal" onClick={onClose}>
+                    <Button as="a" colorScheme="purple" onClick={onClose}>
                       {user ? "User profile" : "Login"}
                     </Button>
                   </Link>
