@@ -1,10 +1,10 @@
-import { Center, Text } from "@chakra-ui/react";
+import { Container, Text } from "@chakra-ui/react";
 
 const ErrorLayout = () => {
   return (
-    <Center p={10}>
+    <Container mt={20} centerContent>
       <Text>Error has occurred...</Text>
-    </Center>
+    </Container>
   );
 };
 

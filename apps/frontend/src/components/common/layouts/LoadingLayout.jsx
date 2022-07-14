@@ -1,10 +1,10 @@
-import { Center, Spinner } from "@chakra-ui/react";
+import { Container, Spinner } from "@chakra-ui/react";
 
 const LoadingLayout = () => {
   return (
-    <Center p={10}>
+    <Container mt={20} centerContent>
       <Spinner size="xl" color="gray" />
-    </Center>
+    </Container>
   );
 };
 export default LoadingLayout;
