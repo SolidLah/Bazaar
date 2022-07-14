@@ -7,19 +7,21 @@ export default async function formatItem(item) {
   }
 
   return {
-    itemId: item.itemId.toNumber(),
-    seller: item.seller,
-    owner: item.owner,
-    price: ethers.utils.formatEther(item.price),
-    marketPrice: ethers.utils.formatEther(item.marketPrice),
-    marketPriceWei: item.marketPrice,
-    sold: item.sold,
-    collectionAddress: item.nftAddress,
-    collectionName: item.nftName,
-    collectionSymbol: item.nftSymbol,
-    minter: item.minter,
-    tokenId: item.tokenId.toNumber(),
-    tokenURI: item.tokenURI,
+    itemId: item.itemId?.toNumber(),
+    seller: item.seller ?? null,
+    owner: item.owner ?? null,
+    price: item.price ? ethers.utils.formatEther(item.price) : null,
+    marketPrice: item.marketPrice
+      ? ethers.utils.formatEther(item.marketPrice)
+      : null,
+    marketPriceWei: item.marketPrice ?? null,
+    sold: item.sold ?? null,
+    collectionAddress: item.nftAddress ?? null,
+    collectionName: item.nftName ?? null,
+    collectionSymbol: item.nftSymbol ?? null,
+    minter: item.minter ?? null,
+    tokenId: item.tokenId?.toNumber(),
+    tokenURI: item.tokenURI ?? null,
     nftData: (await axios.get(item.tokenURI)).data,
   };
 }
