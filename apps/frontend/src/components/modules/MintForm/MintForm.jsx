@@ -9,7 +9,7 @@ import {
 import BatchMintForm from "./BatchMintForm";
 import SingleMintForm from "./SingleMintForm";
 
-const NewMintForm = ({ address }) => {
+const MintForm = ({ address }) => {
   return (
     <Container maxW="container.xl" mt={20}>
       <Tabs variant="soft-rounded" colorScheme="purple" align="center">
@@ -30,4 +30,4 @@ const NewMintForm = ({ address }) => {
   );
 };
 
-export default NewMintForm;
+export default MintForm;
