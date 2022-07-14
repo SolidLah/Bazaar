@@ -236,16 +236,16 @@ describe("Marketplace contract", function () {
       await nft2.connect(addr2).mint(URI);
 
       await marketplace.connect(addr1).createMarketItem(nft1.address, 1);
-      await marketplace.connect(addr1).listMarketItem(1, priceInWei);
       await marketplace.connect(addr1).createMarketItem(nft1.address, 2);
-      await marketplace.connect(addr1).listMarketItem(2, priceInWei);
+      await marketplace.connect(addr1).listMarketItem(1, priceInWei);
+
       await marketplace.connect(addr2).createMarketItem(nft2.address, 1);
       await marketplace.connect(addr2).listMarketItem(3, priceInWei);
     });
 
     it("Fetch market items", async function () {
       const marketItemsArray = await marketplace.fetchMarketItems();
-      expect(marketItemsArray.length).to.equal(3);
+      expect(marketItemsArray.length).to.equal(2);
     });
 
     it("Fetch collection items", async function () {
@@ -264,10 +264,10 @@ describe("Marketplace contract", function () {
       const marketItemsArray = await marketplace.fetchUserItems(addr1.address);
 
       const listed = marketItemsArray.listed;
-      expect(listed.length).to.equal(2);
+      expect(listed.length).to.equal(1);
 
       const owned = marketItemsArray.owned;
-      expect(owned.length).to.equal(1);
+      expect(owned.length).to.equal(2);
     });
   });
 });
