@@ -41,7 +41,7 @@ const ResetForm = () => {
           Password Reset
         </Heading>
         <Input ref={emailRef} placeholder="email" variant="filled" mb={3} />
-        <Button colorScheme="teal" mb={6} onClick={buttonCallback}>
+        <Button colorScheme="purple" mb={6} onClick={buttonCallback}>
           Send Reset Link to Email
         </Button>
         <Link href="/user/signup" passHref>
