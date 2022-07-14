@@ -15,7 +15,7 @@ const CollectionDetailsPage = ({ address }) => {
   const fetcher = (url) => axios.get(url).then((res) => res.data.msg);
 
   const { data: collection, error } = useSWR(
-    `/api/collections/${address}`,
+    address ? `/api/collections/${address}` : null,
     fetcher
   );
 

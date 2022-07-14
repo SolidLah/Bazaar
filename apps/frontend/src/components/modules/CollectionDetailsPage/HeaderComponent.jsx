@@ -22,8 +22,8 @@ const HeaderComponent = ({ address, name, symbol }) => {
       <Heading>{name}</Heading>
       <Text>{symbol}</Text>
       <Spacer />
-      <ButtonGroup colorScheme="teal" size="lg">
-        <Link href={`/marketplace/create/nft/${address}`} passHref>
+      <ButtonGroup colorScheme="purple" size="lg">
+        <Link href={`/collection/${address}/mint`} passHref>
           <Button as="a">Mint</Button>
         </Link>
         <Button>List</Button>
