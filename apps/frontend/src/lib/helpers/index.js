@@ -8,6 +8,8 @@ import removeFromWatchlist from "./removeFromWatchlist";
 import updateWalletAddress from "./updateWalletAddress";
 import formatAddress from "./formatAddress";
 import getWeb3 from "./getWeb3";
+import mintManyNFTs from "./mintManyNFTs";
+import uploadManyNFTs from "./uploadManyNFTs";
 
 export {
   formatItem,
@@ -20,4 +22,6 @@ export {
   updateWalletAddress,
   formatAddress,
   getWeb3,
+  mintManyNFTs,
+  uploadManyNFTs,
 };

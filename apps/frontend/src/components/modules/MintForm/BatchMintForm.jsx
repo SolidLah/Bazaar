@@ -1,8 +1,6 @@
 import { Button, Flex, Heading, Input } from "@chakra-ui/react";
 import { useRef, useState } from "react";
-import { getWeb3 } from "src/lib/helpers";
-import mintManyNFTs from "src/lib/helpers/mintManyNFTs";
-import uploadManyNFTs from "src/lib/helpers/uploadManyNFTs";
+import { getWeb3, mintManyNFTs, uploadManyNFTs } from "src/lib/helpers";
 import { useErrorToast, useSuccessToast } from "src/lib/hooks";
 import useEthersStore from "src/stores/ethersStore";
 
@@ -86,7 +84,7 @@ const BatchMintForm = ({ address }) => {
       mx="auto"
     >
       <Heading align="center">Mint multiple NFT</Heading>
-      <Input ref={zipRef} type="file" />
+      <Input ref={zipRef} type="file" accept=".zip" />
       <Input ref={descriptionRef} placeholder="description" variant="filled" />
       <Button
         onClick={buttonCallback}

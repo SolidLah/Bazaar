@@ -1,7 +1,6 @@
 import { Button, Flex, Heading, Input } from "@chakra-ui/react";
 import { useRef, useState } from "react";
-import { getWeb3, uploadNFT } from "src/lib/helpers";
-import newMintNFT from "src/lib/helpers/newMintNFT";
+import { getWeb3, mintNFT, uploadNFT } from "src/lib/helpers";
 import { useErrorToast, useSuccessToast } from "src/lib/hooks";
 import useEthersStore from "src/stores/ethersStore";
 
@@ -58,7 +57,7 @@ const SingleMintForm = ({ address }) => {
     // mint NFT
     try {
       setLoading("Minting NFT");
-      await newMintNFT(address, url);
+      await mintNFT(address, url);
       successToast({
         description: "Minting success",
       });
@@ -88,7 +87,7 @@ const SingleMintForm = ({ address }) => {
       mx="auto"
     >
       <Heading align="center">Mint single NFT</Heading>
-      <Input ref={imageRef} type="file" />
+      <Input ref={imageRef} type="file" accept="image/*" />
       <Input ref={nameRef} placeholder="name" variant="filled" />
       <Input ref={descriptionRef} placeholder="description" variant="filled" />
       <Button
