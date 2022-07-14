@@ -51,7 +51,8 @@ contract NFT is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
         }
     }
 
-    function fetchUserTokens(address _user) public view returns (Token[] memory) {
+    function fetchUserTokens() public view returns (Token[] memory) {
+        address _user = this.owner();
         uint256 _userCount = this.balanceOf(_user);
         Token[] memory _userTokens = new Token[](_userCount);
 

@@ -68,14 +68,14 @@ describe("NFT contract", function () {
     });
   });
 
-  describe("Fetch user items", async function () {
+  describe("Fetch user tokens", async function () {
     it("Get correct number of unlisted items", async function () {
       await nft.connect(deployer).mintMany([URI, URI]);
       await marketplace
         .connect(deployer)
         .createMarketItem(nft.address, 1, toWei(1));
 
-      const tokens = await nft.fetchUserTokens(deployer.address);
+      const tokens = await nft.fetchUserTokens();
       expect(tokens.length).to.equal(1);
     });
   });
