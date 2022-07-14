@@ -31,12 +31,10 @@ const LoginForm = () => {
       await signInWithEmailAndPassword(email, password);
       if (error) throw error;
 
-      if (user) {
-        if (router.query && router.query.from) {
-          router.push(router.query.from);
-        } else {
-          router.push("/user");
-        }
+      if (router.query && router.query.from) {
+        router.push(router.query.from);
+      } else {
+        router.push("/user");
       }
     } catch (error) {
       errorToast({
