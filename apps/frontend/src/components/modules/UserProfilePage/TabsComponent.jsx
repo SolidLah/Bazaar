@@ -4,7 +4,7 @@ import UserListingsComponent from "./UserListingsComponent";
 import UserOwnedComponent from "./UserOwnedComponent";
 import WatchListComponent from "./WatchlistComponent";
 
-const TabsComponent = ({ watchlist, items, collections }) => {
+const TabsComponent = ({ userData }) => {
   return (
     <Tabs variant="soft-rounded" colorScheme="purple">
       <TabList gap={3}>
@@ -13,19 +13,18 @@ const TabsComponent = ({ watchlist, items, collections }) => {
         <Tab>Owned NFTs</Tab>
         <Tab>Collections</Tab>
       </TabList>
-
       <TabPanels>
         <TabPanel>
-          <WatchListComponent watchlist={watchlist} />
+          <WatchListComponent userData={userData} />
         </TabPanel>
         <TabPanel>
-          <UserListingsComponent listed={items.listed} />
+          <UserListingsComponent userData={userData} />
         </TabPanel>
         <TabPanel>
-          <UserOwnedComponent owned={items.owned} />
+          <UserOwnedComponent userData={userData} />
         </TabPanel>
         <TabPanel>
-          <UserCollectionsComponent collections={collections} />
+          <UserCollectionsComponent userData={userData} />
         </TabPanel>
       </TabPanels>
     </Tabs>
