@@ -1,6 +1,6 @@
 import { Flex } from "@chakra-ui/react";
 import AddToWatchListButton from "src/components/common/ui/AddToWatchlistButton/AddToWatchlistButton";
-import BuyButton from "src/components/common/ui/BuyButton/BuyButton";
+import BuyButton from "./BuyButton";
 
 const ButtonArray = ({ item, user }) => {
   return (

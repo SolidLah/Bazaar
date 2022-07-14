@@ -42,7 +42,7 @@ const BuyButton = ({ item, ...props }) => {
     <Button
       onClick={buttonCallback}
       isLoading={loading}
-      colorScheme="teal"
+      colorScheme="purple"
       {...props}
     >
       Buy
