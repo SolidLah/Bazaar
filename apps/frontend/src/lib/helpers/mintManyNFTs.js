@@ -20,5 +20,7 @@ export default async function mintManyNFTs(address, urls) {
     tokenIds.push(i + beforeTokenId);
   }
 
-  await (await mktContract.createManyMarketItems(tokenIds)).wait();
+  console.log("tokenIds:", tokenIds);
+
+  await (await mktContract.createManyMarketItems(address, tokenIds)).wait();
 }

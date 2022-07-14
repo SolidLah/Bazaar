@@ -19,5 +19,5 @@ export default async function getCollectionInfo(address) {
   ];
   const [name, symbol, owner] = await Promise.all(promises);
 
-  return { name, symbol, owner };
+  return { address, name, symbol, owner };
 }

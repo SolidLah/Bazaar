@@ -13,5 +13,6 @@ export default async function mintNFT(address, url) {
 
   await (await nftContract.mint(url)).wait();
   const tokenId = await nftContract.idCounter();
-  await (await mktContract.createMarketItem(tokenId)).wait();
+  console.log("tokenId:", tokenId);
+  await (await mktContract.createMarketItem(address, tokenId)).wait();
 }
