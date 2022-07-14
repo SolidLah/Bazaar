@@ -1,19 +1,16 @@
-import { Button, Heading, HStack, ButtonGroup } from "@chakra-ui/react";
+import { Button, Flex, Heading } from "@chakra-ui/react";
 import Link from "next/link";
 
 const Header = () => {
   return (
-    <HStack w="100%" justify="space-between">
+    <Flex w="100%" justify="space-between" px={10}>
       <Heading>Marketplace</Heading>
-      <ButtonGroup size="lg" colorScheme="teal" pr={10} gap={3}>
-        <Link href="/marketplace/mint" passHref>
-          <Button>Mint</Button>
-        </Link>
-        <Link href="/marketplace/mint" passHref>
-          <Button>List</Button>
-        </Link>
-      </ButtonGroup>
-    </HStack>
+      <Link href="/collection/new" passHref>
+        <Button as="a" size="lg" colorScheme="purple">
+          New Collection
+        </Button>
+      </Link>
+    </Flex>
   );
 };
 

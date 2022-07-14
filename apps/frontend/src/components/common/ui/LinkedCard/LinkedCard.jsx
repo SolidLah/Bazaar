@@ -69,7 +69,7 @@ const LinkedCard = ({ item, watchlistEnabled }) => {
             align="center"
           >
             <Heading size="md">
-              <Link href={`/marketplace/details/${item.itemId}`} passHref>
+              <Link href={`/marketplace/${item.itemId}`} passHref>
                 <LinkOverlay>{item.nftData.name}</LinkOverlay>
               </Link>
             </Heading>
