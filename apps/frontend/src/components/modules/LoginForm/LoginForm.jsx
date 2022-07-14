@@ -1,8 +1,9 @@
-import { Flex, Heading, Input, Button, Center } from "@chakra-ui/react";
+import { Button, Center, Flex, Heading, Input } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useRef } from "react";
-import { logInWithEmailAndPassword } from "src/lib/firebase";
+import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { auth } from "src/lib/firebase";
 import useErrorToast from "src/lib/hooks/useErrorToast";
 
 const LoginForm = () => {
@@ -10,6 +11,8 @@ const LoginForm = () => {
   const passwordRef = useRef();
   const errorToast = useErrorToast("Login");
   const router = useRouter();
+  const [signInWithEmailAndPassword, user, loading, error] =
+    useSignInWithEmailAndPassword(auth);
 
   const buttonCallback = async (event) => {
     event.preventDefault();
@@ -25,11 +28,15 @@ const LoginForm = () => {
     }
 
     try {
-      await logInWithEmailAndPassword(email, password);
-      if (router.query && router.query.from) {
-        router.push(router.query.from);
-      } else {
-        router.push("/user");
+      await signInWithEmailAndPassword(email, password);
+      if (error) throw error;
+
+      if (user) {
+        if (router.query && router.query.from) {
+          router.push(router.query.from);
+        } else {
+          router.push("/user");
+        }
       }
     } catch (error) {
       errorToast({
@@ -52,7 +59,12 @@ const LoginForm = () => {
           mb={6}
           type="password"
         />
-        <Button colorScheme="teal" mb={6} onClick={buttonCallback}>
+        <Button
+          colorScheme="purple"
+          mb={6}
+          onClick={buttonCallback}
+          isLoading={loading}
+        >
           Log In
         </Button>
 
