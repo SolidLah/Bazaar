@@ -47,11 +47,7 @@ contract Marketplace is ReentrancyGuard, ERC721Holder, Ownable {
             "Not the owner of token"
         ); // check token exists
 
-        NFT(_nftAddress).safeTransferFrom(
-            msg.sender,
-            address(this),
-            _tokenId
-        );
+        NFT(_nftAddress).safeTransferFrom(msg.sender, address(this), _tokenId);
 
         // getting new itemId
         idCounter.increment();
@@ -61,9 +57,7 @@ contract Marketplace is ReentrancyGuard, ERC721Holder, Ownable {
         string memory _nftName = NFT(_nftAddress).name();
         string memory _nftSymbol = NFT(_nftAddress).symbol();
         address payable _minter = payable(NFT(_nftAddress).owner());
-        string memory _tokenURI = NFT(_nftAddress).tokenURI(
-            _tokenId
-        );
+        string memory _tokenURI = NFT(_nftAddress).tokenURI(_tokenId);
 
         // getting market price
         uint256 _marketPrice = (_price * (100 + feePercent)) / 100;
@@ -146,7 +140,7 @@ contract Marketplace is ReentrancyGuard, ERC721Holder, Ownable {
     function fetchCollectionItems(address _collection)
         public
         view
-        returns (MarketItem[] memory) 
+        returns (MarketItem[] memory)
     {
         uint256 _totalCount = idCounter.current();
 
