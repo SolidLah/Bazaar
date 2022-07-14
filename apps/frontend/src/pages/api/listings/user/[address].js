@@ -4,7 +4,7 @@ import { formatItem } from "src/lib/helpers";
 
 export default async function handler(req, res) {
   if (req.method === "GET") {
-    const { id } = req.query;
+    const { address } = req.query;
 
     try {
       const provider = new ethers.providers.JsonRpcProvider(
@@ -17,7 +17,7 @@ export default async function handler(req, res) {
         provider
       );
 
-      let userItems = await mktContractReader.fetchUserItems(id);
+      let userItems = await mktContractReader.fetchUserItems(address);
       let listed = await Promise.all(
         userItems.listed.map(async (item) => formatItem(item))
       );
@@ -32,14 +32,14 @@ export default async function handler(req, res) {
       console.log(userItems);
 
       res.status(200).json({
-        route: `api/listings/user/${id}`,
+        route: `api/listings/user/${address}`,
         success: true,
         msg: userItems,
       });
     } catch (error) {
       res
         .status(500)
-        .json({ route: `api/listings/user/${id}`, success: false, msg: error });
+        .json({ route: `api/listings/user/${address}`, success: false, msg: error });
     }
   }
 }
