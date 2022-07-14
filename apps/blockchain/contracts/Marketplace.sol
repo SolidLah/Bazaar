@@ -44,8 +44,6 @@ contract Marketplace is ReentrancyGuard, ERC721Holder, Ownable {
             "Not the owner of token"
         );
 
-        NFT(_nftAddress).safeTransferFrom(msg.sender, address(this), _tokenId);
-
         // getting new itemId
         idCounter.increment();
         uint256 _newItemId = idCounter.current();
@@ -58,8 +56,8 @@ contract Marketplace is ReentrancyGuard, ERC721Holder, Ownable {
 
         marketItemsMapping[_newItemId] = MarketItem(
             _newItemId,
-            payable(msg.sender), // seller
-            payable(address(0)), // owner
+            payable(address(0)), // seller
+            payable(msg.sender), // owner
             0, // price
             0, // marketPrice
             false, // active
@@ -82,8 +80,6 @@ contract Marketplace is ReentrancyGuard, ERC721Holder, Ownable {
                 "Not the owner of token"
             );
 
-            NFT(_nftAddress).safeTransferFrom(msg.sender, address(this), _tokenId);
-
             // getting new itemId
             idCounter.increment();
             uint256 _newItemId = idCounter.current();
@@ -96,8 +92,8 @@ contract Marketplace is ReentrancyGuard, ERC721Holder, Ownable {
 
             marketItemsMapping[_newItemId] = MarketItem(
                 _newItemId,
-                payable(msg.sender), // seller
-                payable(address(0)), // owner
+                payable(address(0)), // seller
+                payable(msg.sender), // owner
                 0, // price
                 0, // marketPrice
                 false, // active
@@ -122,9 +118,17 @@ contract Marketplace is ReentrancyGuard, ERC721Holder, Ownable {
 
         // update market item
         MarketItem storage _currMarketItem = marketItemsMapping[_itemId];
-        _currMarketItem.active = true;
+
+        require(_currMarketItem.owner == msg.sender, "Not the owner of item");
+
+        address _nftAddress = _currMarketItem.nftAddress;
+        uint256 _tokenId = _currMarketItem.tokenId;
+        NFT(_nftAddress).safeTransferFrom(msg.sender, address(this), _tokenId);
+
+        _currMarketItem.seller = payable(msg.sender);
         _currMarketItem.price = _price;
         _currMarketItem.marketPrice = _marketPrice;
+        _currMarketItem.active = true;
     }
 
     function purchaseMarketItem(uint256 _soldItemId)

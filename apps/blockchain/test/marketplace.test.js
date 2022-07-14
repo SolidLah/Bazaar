@@ -40,19 +40,7 @@ describe("Marketplace contract", function () {
   describe("Create market item", async function () {
     beforeEach(async function () {
       await nft1.connect(addr1).mint(URI);
-      await nft1.connect(addr1).mint(URI);
       await nft2.connect(addr2).mint(URI);
-    });
-
-    it("Transfer ownership of nft", async function () {
-      await marketplace.connect(addr1).createMarketItem(nft1.address, 1);
-
-      // check ownership
-      expect(await nft1.ownerOf(1)).to.equal(marketplace.address);
-
-      // check balances
-      expect(await nft1.balanceOf(addr1.address)).to.equal(1);
-      expect(await nft1.balanceOf(marketplace.address)).to.equal(1);
     });
 
     it("Check details of created MarketItem", async function () {
@@ -61,8 +49,8 @@ describe("Marketplace contract", function () {
       const item = await marketplace.marketItemsMapping(1);
 
       expect(item.itemId).to.equal(1);
-      expect(item.seller).to.equal(addr1.address);
-      expect(item.owner).to.equal(ethers.constants.AddressZero);
+      expect(item.seller).to.equal(ethers.constants.AddressZero);
+      expect(item.owner).to.equal(addr1.address);
       expect(item.price).to.equal(0);
       expect(item.marketPrice).to.equal(0);
       expect(item.active).to.equal(false);
@@ -85,16 +73,13 @@ describe("Marketplace contract", function () {
     it("Correct number of market items are created", async function () {
       await nft1.connect(addr1).mint(URI);
       await nft1.connect(addr1).mint(URI);
+
+      const before = await marketplace.idCounter();
       await marketplace
         .connect(addr1)
         .createManyMarketItems(nft1.address, [1, 2]);
-
-      // check ownership
-      expect(await nft1.ownerOf(1)).to.equal(marketplace.address);
-
-      // check balances
-      expect(await nft1.balanceOf(addr1.address)).to.equal(0);
-      expect(await nft1.balanceOf(marketplace.address)).to.equal(2);
+      const after = await marketplace.idCounter();
+      expect(after - before).to.equal(2);
     });
   });
 
@@ -105,9 +90,18 @@ describe("Marketplace contract", function () {
 
     beforeEach(async function () {
       await nft1.connect(addr1).mint(URI);
-      await nft2.connect(addr2).mint(URI);
-
       await marketplace.connect(addr1).createMarketItem(nft1.address, 1);
+    });
+
+    it("Transfer ownership of nft", async function () {
+      await marketplace.connect(addr1).listMarketItem(1, priceInWei);
+
+      // check ownership
+      expect(await nft1.ownerOf(1)).to.equal(marketplace.address);
+
+      // check balances
+      expect(await nft1.balanceOf(addr1.address)).to.equal(0);
+      expect(await nft1.balanceOf(marketplace.address)).to.equal(1);
     });
 
     it("Check details of listed MarketItem", async function () {
@@ -118,6 +112,12 @@ describe("Marketplace contract", function () {
       expect(item.price).to.equal(priceInWei);
       expect(item.marketPrice).to.equal(totalPriceInWei);
       expect(item.active).to.equal(true);
+    });
+
+    it("Revert if market item not owned by message sender", async function () {
+      await expect(
+        marketplace.connect(addr2).listMarketItem(1, priceInWei)
+      ).to.be.revertedWith("Not the owner of item");
     });
 
     it("Revert if price is set to zero", async function () {
