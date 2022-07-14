@@ -5,7 +5,6 @@ import "@openzeppelin/contracts/token/ERC721/utils/ERC721Holder.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-import "hardhat/console.sol";
 import "./NFT.sol";
 
 contract Marketplace is ReentrancyGuard, ERC721Holder, Ownable {
@@ -16,7 +15,7 @@ contract Marketplace is ReentrancyGuard, ERC721Holder, Ownable {
         address payable owner;
         uint256 price;
         uint256 marketPrice;
-        bool sold;
+        bool active;
         // NFT properties
         address nftAddress;
         string nftName;
@@ -36,16 +35,14 @@ contract Marketplace is ReentrancyGuard, ERC721Holder, Ownable {
         feePercent = _feePercent;
     }
 
-    function createMarketItem(
-        address _nftAddress,
-        uint256 _tokenId,
-        uint256 _price
-    ) public nonReentrant {
-        require(_price > 0, "Price must be greater than zero");
+    function createMarketItem(address _nftAddress, uint256 _tokenId)
+        public
+    {
+        // check token exists
         require(
             NFT(_nftAddress).ownerOf(_tokenId) == msg.sender,
             "Not the owner of token"
-        ); // check token exists
+        );
 
         NFT(_nftAddress).safeTransferFrom(msg.sender, address(this), _tokenId);
 
@@ -59,16 +56,13 @@ contract Marketplace is ReentrancyGuard, ERC721Holder, Ownable {
         address payable _minter = payable(NFT(_nftAddress).owner());
         string memory _tokenURI = NFT(_nftAddress).tokenURI(_tokenId);
 
-        // getting market price
-        uint256 _marketPrice = (_price * (100 + feePercent)) / 100;
-
         marketItemsMapping[_newItemId] = MarketItem(
             _newItemId,
-            payable(msg.sender),
-            payable(address(0)),
-            _price,
-            _marketPrice,
-            false,
+            payable(msg.sender), // seller
+            payable(address(0)), // owner
+            0, // price
+            0, // marketPrice
+            false, // active
             _nftAddress,
             _nftName,
             _nftSymbol,
@@ -76,6 +70,61 @@ contract Marketplace is ReentrancyGuard, ERC721Holder, Ownable {
             _tokenId,
             _tokenURI
         );
+    }
+
+    function createManyMarketItems(address _nftAddress, uint256[] memory _tokenIds) public {
+        for (uint256 i = 0; i < _tokenIds.length; i++) {
+            uint256 _tokenId = _tokenIds[i];
+
+            // check token exists
+            require(
+                NFT(_nftAddress).ownerOf(_tokenId) == msg.sender,
+                "Not the owner of token"
+            );
+
+            NFT(_nftAddress).safeTransferFrom(msg.sender, address(this), _tokenId);
+
+            // getting new itemId
+            idCounter.increment();
+            uint256 _newItemId = idCounter.current();
+
+            // getting NFT details
+            string memory _nftName = NFT(_nftAddress).name();
+            string memory _nftSymbol = NFT(_nftAddress).symbol();
+            address payable _minter = payable(NFT(_nftAddress).owner());
+            string memory _tokenURI = NFT(_nftAddress).tokenURI(_tokenId);
+
+            marketItemsMapping[_newItemId] = MarketItem(
+                _newItemId,
+                payable(msg.sender), // seller
+                payable(address(0)), // owner
+                0, // price
+                0, // marketPrice
+                false, // active
+                _nftAddress,
+                _nftName,
+                _nftSymbol,
+                _minter,
+                _tokenId,
+                _tokenURI
+            );
+        }
+    }
+
+    function listMarketItem(uint256 _itemId, uint256 _price)
+        public
+        nonReentrant
+    {
+        require(_price > 0, "Price must be greater than zero");
+
+        // getting market price
+        uint256 _marketPrice = (_price * (100 + feePercent)) / 100;
+
+        // update market item
+        MarketItem storage _currMarketItem = marketItemsMapping[_itemId];
+        _currMarketItem.active = true;
+        _currMarketItem.price = _price;
+        _currMarketItem.marketPrice = _marketPrice;
     }
 
     function purchaseMarketItem(uint256 _soldItemId)
@@ -91,7 +140,7 @@ contract Marketplace is ReentrancyGuard, ERC721Holder, Ownable {
         MarketItem storage _currMarketItem = marketItemsMapping[_soldItemId];
         uint256 _totalPrice = _currMarketItem.marketPrice;
 
-        require(!_currMarketItem.sold, "Market item already sold");
+        require(_currMarketItem.active, "Market item not listed");
         require(msg.value >= _totalPrice, "Insufficient funds");
 
         address payable _seller = _currMarketItem.seller;
@@ -101,7 +150,7 @@ contract Marketplace is ReentrancyGuard, ERC721Holder, Ownable {
         payable(this.owner()).transfer(_totalPrice - _currMarketItem.price);
 
         // update item
-        _currMarketItem.sold = true;
+        _currMarketItem.active = false;
         _currMarketItem.owner = payable(msg.sender);
         NFT(_currMarketItem.nftAddress).safeTransferFrom(
             address(this),
@@ -112,23 +161,23 @@ contract Marketplace is ReentrancyGuard, ERC721Holder, Ownable {
 
     function fetchMarketItems() public view returns (MarketItem[] memory) {
         uint256 _totalCount = idCounter.current();
-        uint256 _unsoldCount = 0;
+        uint256 _activeCount = 0;
         uint256 _currIndex = 0;
 
         for (uint256 i = 1; i < _totalCount + 1; i++) {
             MarketItem storage _currItem = marketItemsMapping[i];
 
-            if (!_currItem.sold) {
-                _unsoldCount++;
+            if (_currItem.active) {
+                _activeCount++;
             }
         }
 
-        MarketItem[] memory _items = new MarketItem[](_unsoldCount);
+        MarketItem[] memory _items = new MarketItem[](_activeCount);
 
         for (uint256 i = 1; i < _totalCount + 1; i++) {
             MarketItem storage _currItem = marketItemsMapping[i];
 
-            if (!_currItem.sold) {
+            if (_currItem.active) {
                 _items[_currIndex] = _currItem;
                 _currIndex++;
             }
@@ -143,37 +192,37 @@ contract Marketplace is ReentrancyGuard, ERC721Holder, Ownable {
         returns (MarketItem[] memory)
     {
         uint256 _totalCount = idCounter.current();
-
-        // get array of active listings
-        uint256 _listedCount = 0;
-        uint256 _listedIndex = 0;
+        uint256 _collectionCount = 0;
+        uint256 _collectionIndex = 0;
 
         for (uint256 i = 1; i < _totalCount + 1; i++) {
             MarketItem storage _currItem = marketItemsMapping[i];
 
             if (_currItem.nftAddress == _collection) {
-                _listedCount++;
+                _collectionCount++;
             }
         }
 
-        MarketItem[] memory _listedItems = new MarketItem[](_listedCount);
+        MarketItem[] memory _collectionItems = new MarketItem[](
+            _collectionCount
+        );
 
         for (uint256 i = 1; i < _totalCount + 1; i++) {
             MarketItem storage _currItem = marketItemsMapping[i];
 
-            if (_currItem.nftAddress == _collection && !_currItem.sold) {
-                _listedItems[_listedIndex] = _currItem;
-                _listedIndex++;
+            if (_currItem.nftAddress == _collection) {
+                _collectionItems[_collectionIndex] = _currItem;
+                _collectionIndex++;
             }
         }
 
-        return _listedItems;
+        return _collectionItems;
     }
 
-    function fetchUserItems(address _user)
+    function fetchUserListedItems(address _user)
         public
         view
-        returns (MarketItem[] memory listed, MarketItem[] memory owned)
+        returns (MarketItem[] memory)
     {
         uint256 _totalCount = idCounter.current();
 
@@ -184,7 +233,7 @@ contract Marketplace is ReentrancyGuard, ERC721Holder, Ownable {
         for (uint256 i = 1; i < _totalCount + 1; i++) {
             MarketItem storage _currItem = marketItemsMapping[i];
 
-            if (_currItem.seller == _user && !_currItem.sold) {
+            if (_currItem.seller == _user && _currItem.active) {
                 _listedCount++;
             }
         }
@@ -194,11 +243,21 @@ contract Marketplace is ReentrancyGuard, ERC721Holder, Ownable {
         for (uint256 i = 1; i < _totalCount + 1; i++) {
             MarketItem storage _currItem = marketItemsMapping[i];
 
-            if (_currItem.seller == _user && !_currItem.sold) {
+            if (_currItem.seller == _user && _currItem.active) {
                 _listedItems[_listedIndex] = _currItem;
                 _listedIndex++;
             }
         }
+
+        return _listedItems;
+    }
+
+    function fetchUserOwnedItems(address _user)
+        public
+        view
+        returns (MarketItem[] memory)
+    {
+        uint256 _totalCount = idCounter.current();
 
         // get array of owned items
         uint256 _ownedCount = 0;
@@ -207,7 +266,7 @@ contract Marketplace is ReentrancyGuard, ERC721Holder, Ownable {
         for (uint256 i = 1; i < _totalCount + 1; i++) {
             MarketItem storage _currItem = marketItemsMapping[i];
 
-            if (_currItem.owner == _user && _currItem.sold) {
+            if (_currItem.owner == _user && !_currItem.active) {
                 _ownedCount++;
             }
         }
@@ -217,11 +276,22 @@ contract Marketplace is ReentrancyGuard, ERC721Holder, Ownable {
         for (uint256 i = 1; i < _totalCount + 1; i++) {
             MarketItem storage _currItem = marketItemsMapping[i];
 
-            if (_currItem.owner == _user && _currItem.sold) {
+            if (_currItem.owner == _user && !_currItem.active) {
                 _ownedItems[_ownedIndex] = _currItem;
                 _ownedIndex++;
             }
         }
+
+        return _ownedItems;
+    }
+
+    function fetchUserItems(address _user)
+        public
+        view
+        returns (MarketItem[] memory listed, MarketItem[] memory owned)
+    {
+        MarketItem[] memory _listedItems = this.fetchUserListedItems(_user);
+        MarketItem[] memory _ownedItems = this.fetchUserOwnedItems(_user);
 
         return (_listedItems, _ownedItems);
     }
