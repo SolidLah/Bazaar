@@ -13,7 +13,7 @@ import {
 } from "src/lib/hooks";
 import useEthersStore from "src/stores/ethersStore";
 
-const CreateCollectionPage = () => {
+const CreateCollectionForm = () => {
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
   const [user] = useAuthState(auth);
   const { userData } = useFirestoreUserData(user);
@@ -100,4 +100,4 @@ const CreateCollectionPage = () => {
   );
 };
 
-export default CreateCollectionPage;
+export default CreateCollectionForm;
