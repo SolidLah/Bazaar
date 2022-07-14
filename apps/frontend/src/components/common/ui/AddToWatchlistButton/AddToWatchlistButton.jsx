@@ -14,7 +14,7 @@ import {
 const AddToWatchListButton = ({ item, ...props }) => {
   const errorToast = useErrorToast("Add to watchlist");
   const successToast = useSuccessToast("Add to watchlist");
-  const [user, authLoading, authError] = useAuthState(auth);
+  const [user] = useAuthState(auth);
   const { userData } = useFirestoreUserData(user);
   const watchlistArray = useWatchlist(userData);
 
