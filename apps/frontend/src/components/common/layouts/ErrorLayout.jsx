@@ -1,9 +1,9 @@
 import { Container, Text } from "@chakra-ui/react";
 
-const ErrorLayout = () => {
+const ErrorLayout = ({ message }) => {
   return (
     <Container mt={20} centerContent>
-      <Text>Error has occurred...</Text>
+      <Text>{message ?? "Error has occurred..."}</Text>
     </Container>
   );
 };
