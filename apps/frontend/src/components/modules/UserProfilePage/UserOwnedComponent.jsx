@@ -1,7 +1,7 @@
 import { Center, Flex, Spinner } from "@chakra-ui/react";
 import axios from "axios";
 import { useMemo } from "react";
-import Card from "src/components/common/ui/Card/Card";
+import LinkedCard from "src/components/common/ui/LinkedCard/LinkedCard";
 import { useStoredAddress } from "src/lib/hooks";
 import useSWR from "swr";
 
@@ -29,7 +29,7 @@ const UserOwnedComponent = ({ userData }) => {
   return (
     <Flex wrap="wrap" justify="flex-start" gap={6}>
       {owned.map((item) => (
-        <Card key={item.itemId} item={item} />
+        <LinkedCard key={item.itemId} item={item} />
       ))}
     </Flex>
   );
