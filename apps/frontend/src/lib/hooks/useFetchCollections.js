@@ -11,12 +11,19 @@ export default function useFetchCollections(collectionsArray) {
         return;
       }
       const res = await Promise.all(
-        collectionsArray.map(
-          async (address) =>
-            (
-              await axios.get(`/api/collections/${address}/info`)
-            ).data.msg
-        )
+        collectionsArray.map(async (address) => {
+          let res;
+
+          try {
+            res = (await axios.get(`/api/collections/${address}/info`)).data
+              .msg;
+          } catch (error) {
+            console.log(error);
+            res = null;
+          }
+
+          return res;
+        })
       );
       if (!active) {
         return;

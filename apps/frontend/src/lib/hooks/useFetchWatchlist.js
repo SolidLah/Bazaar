@@ -11,9 +11,18 @@ export default function useFetchWatchlist(watchlistArray) {
         return;
       }
       const res = await Promise.all(
-        watchlistArray.map(
-          async (id) => (await axios.get(`/api/listings/${id}`)).data.msg
-        )
+        watchlistArray.map(async (id) => {
+          let res;
+
+          try {
+            res = (await axios.get(`/api/listings/${id}`)).data.msg;
+          } catch (error) {
+            console.log(error);
+            res = null;
+          }
+
+          return res;
+        })
       );
       if (!active) {
         return;
