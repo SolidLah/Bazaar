@@ -1,15 +1,11 @@
 import { ethers } from "ethers";
-import { MarketplaceContractData, NFTContractData } from "src/contracts";
+import { NFTContractData } from "src/contracts";
 import useEthersStore from "src/stores/ethersStore";
 
 export default async function mintManyNFTs(address, urls) {
   const signer = useEthersStore.getState().signer;
+  const mktContract = useEthersStore.getState().mktContract;
   const nftContract = new ethers.Contract(address, NFTContractData.abi, signer);
-  const mktContract = new ethers.Contract(
-    MarketplaceContractData.address,
-    MarketplaceContractData.abi,
-    signer
-  );
 
   const beforeTokenId = await nftContract.idCounter();
   await (await nftContract.mintMany(urls)).wait();

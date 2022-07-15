@@ -10,6 +10,8 @@ import formatAddress from "./formatAddress";
 import getWeb3 from "./getWeb3";
 import mintManyNFTs from "./mintManyNFTs";
 import uploadManyNFTs from "./uploadManyNFTs";
+import getCollectionInfo from "./getCollectionInfo";
+import getCollectionListed from "./getCollectionListed";
 
 export {
   formatItem,
@@ -24,4 +26,6 @@ export {
   getWeb3,
   mintManyNFTs,
   uploadManyNFTs,
+  getCollectionInfo,
+  getCollectionListed,
 };
