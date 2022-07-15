@@ -72,6 +72,10 @@ contract NFT is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
         return _userTokens;
     }
 
+    function giveApproval() public {
+        setApprovalForAll(contractAddress, true);
+    }
+
     // The following functions are overrides required by Solidity.
 
     function _beforeTokenTransfer(
