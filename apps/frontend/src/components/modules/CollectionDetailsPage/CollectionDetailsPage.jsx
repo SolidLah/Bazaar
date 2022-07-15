@@ -9,7 +9,6 @@ import { useCollections, useFirestoreUserData } from "src/lib/hooks";
 import useSWR from "swr";
 import HeaderComponent from "./HeaderComponent";
 import ListingsComponent from "./ListingsComponent";
-import MintedComponent from "./MintedComponent";
 
 const CollectionDetailsPage = ({ address }) => {
   const fetcher = (url) => axios.get(url).then((res) => res.data.msg);
@@ -49,8 +48,7 @@ const CollectionDetailsPage = ({ address }) => {
         name={collection.info.name}
         symbol={collection.info.symbol}
       />
-      <ListingsComponent listings={collection.listed} />
-      {isOwner && <MintedComponent minted={collection.unlisted} />}
+      <ListingsComponent isOwner={isOwner} items={collection.listed} />
     </Container>
   );
 };
