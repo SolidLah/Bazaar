@@ -6,17 +6,24 @@ import {
   InputGroup,
   InputRightAddon,
 } from "@chakra-ui/react";
-import { useRef, useState } from "react";
+import { useRouter } from "next/router";
+import { useMemo, useRef, useState } from "react";
 import { getWeb3, listNFT } from "src/lib/helpers";
 import { useErrorToast, useSuccessToast } from "src/lib/hooks";
 import useEthersStore from "src/stores/ethersStore";
 
-const ListComponent = ({ item }) => {
+const ListComponent = ({ item, walletAddress }) => {
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
   const priceRef = useRef("");
   const [loading, setLoading] = useState(false);
-  const errorToast = useErrorToast("Minting NFT");
-  const successToast = useSuccessToast("Minting NFT");
+  const errorToast = useErrorToast("Listing NFT");
+  const successToast = useSuccessToast("Listing NFT");
+  const router = useRouter();
+
+  const isOwner = useMemo(
+    () => (walletAddress && item ? walletAddress === item.owner : false),
+    [walletAddress, item]
+  );
 
   const buttonCallback = async () => {
     const price = priceRef.current?.value;
@@ -39,8 +46,9 @@ const ListComponent = ({ item }) => {
     setLoading(true);
 
     try {
-      await listNFT(item.itemId, price);
+      await listNFT(item.collectionAddress, item.itemId, price);
       successToast();
+      router.reload();
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -67,6 +75,7 @@ const ListComponent = ({ item }) => {
         isLoading={loading}
         colorScheme="purple"
         px={6}
+        isDisabled={!isOwner}
       >
         List
       </Button>

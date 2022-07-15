@@ -5,7 +5,7 @@ import BuyComponent from "./BuyComponent";
 import DetailsCard from "./DetailsCard";
 import ListComponent from "./ListComponent";
 
-const ListingDetailsElement = ({ user, item, active }) => {
+const ListingDetailsElement = ({ user, item, active, walletAddress }) => {
   return (
     <Container centerContent maxW="container.xl" mt={20}>
       <Flex w="100%" justify="space-around" align="flex-start">
@@ -24,7 +24,7 @@ const ListingDetailsElement = ({ user, item, active }) => {
           {active ? (
             <BuyComponent item={item} user={user} />
           ) : (
-            <ListComponent item={item} />
+            <ListComponent item={item} walletAddress={walletAddress} />
           )}
         </Flex>
       </Flex>

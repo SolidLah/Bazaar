@@ -4,11 +4,13 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import ErrorLayout from "src/components/common/layouts/ErrorLayout";
 import LoadingLayout from "src/components/common/layouts/LoadingLayout";
 import { auth } from "src/lib/firebase";
+import useEthersStore from "src/stores/ethersStore";
 import useSWR from "swr";
 import ListingDetailsElement from "./ListingDetailsElement";
 
 const ListingDetailsPage = ({ id }) => {
   const [user] = useAuthState(auth);
+  const walletAddress = useEthersStore((state) => state.address);
   const { data: item, error } = useSWR(`/api/listings/${id}`, (url) =>
     axios.get(url).then((res) => res.data.msg)
   );
@@ -23,7 +25,14 @@ const ListingDetailsPage = ({ id }) => {
     return <ErrorLayout />;
   }
 
-  return <ListingDetailsElement user={user} item={item} active={active} />;
+  return (
+    <ListingDetailsElement
+      user={user}
+      item={item}
+      active={active}
+      walletAddress={walletAddress}
+    />
+  );
 };
 
 export default ListingDetailsPage;

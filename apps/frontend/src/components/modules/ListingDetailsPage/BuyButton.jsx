@@ -3,12 +3,14 @@ import { useState } from "react";
 import useEthersStore from "src/stores/ethersStore";
 import useErrorToast from "src/lib/hooks/useErrorToast";
 import { getWeb3 } from "src/lib/helpers";
+import { useRouter } from "next/router";
 
 const BuyButton = ({ item, ...props }) => {
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
   const mktContract = useEthersStore((state) => state.mktContract);
   const errorToast = useErrorToast("Buying NFT");
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const buttonCallback = async () => {
     const web3Error = getWeb3(ethersInitialised);
@@ -28,6 +30,7 @@ const BuyButton = ({ item, ...props }) => {
         })
       ).wait();
       setLoading(false);
+      router.reload();
     } catch (error) {
       setLoading(false);
       errorToast({
