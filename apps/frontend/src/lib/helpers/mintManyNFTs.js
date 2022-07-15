@@ -12,7 +12,7 @@ export default async function mintManyNFTs(address, urls) {
   const afterTokenId = await nftContract.idCounter();
 
   let tokenIds = [];
-  for (i = 1; i <= afterTokenId; i++) {
+  for (let i = 1; i <= afterTokenId; i++) {
     tokenIds.push(i + beforeTokenId);
   }
 
