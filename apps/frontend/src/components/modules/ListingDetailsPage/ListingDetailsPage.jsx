@@ -1,5 +1,8 @@
 import axios from "axios";
+import { useMemo } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import ErrorLayout from "src/components/common/layouts/ErrorLayout";
+import LoadingLayout from "src/components/common/layouts/LoadingLayout";
 import { auth } from "src/lib/firebase";
 import useSWR from "swr";
 import ListingDetailsElement from "./ListingDetailsElement";
@@ -10,7 +13,17 @@ const ListingDetailsPage = ({ id }) => {
     axios.get(url).then((res) => res.data.msg)
   );
 
-  return <ListingDetailsElement user={user} item={item} error={error} />;
+  const active = useMemo(() => (item ? item.active : null), [item]);
+
+  if (!item && !error) {
+    return <LoadingLayout />;
+  }
+
+  if (error) {
+    return <ErrorLayout />;
+  }
+
+  return <ListingDetailsElement user={user} item={item} active={active} />;
 };
 
 export default ListingDetailsPage;
