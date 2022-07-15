@@ -42,11 +42,19 @@ const ProfilePictureComponent = ({ user }) => {
                       </Flex>
                     </Flex>
                   )}
-                  <Link href="/user" passHref>
-                    <Button as="a" colorScheme="purple" onClick={onClose}>
-                      {user ? "User profile" : "Login"}
-                    </Button>
-                  </Link>
+                  {user ? (
+                    <Link href="/user" passHref>
+                      <Button as="a" colorScheme="purple" onClick={onClose}>
+                        User profile
+                      </Button>
+                    </Link>
+                  ) : (
+                    <Link href="/user/login" passHref>
+                      <Button as="a" colorScheme="purple" onClick={onClose}>
+                        Login
+                      </Button>
+                    </Link>
+                  )}
                 </Flex>
               </PopoverBody>
             </PopoverContent>
