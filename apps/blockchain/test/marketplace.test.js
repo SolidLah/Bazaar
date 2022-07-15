@@ -270,4 +270,21 @@ describe("Marketplace contract", function () {
       expect(owned.length).to.equal(2);
     });
   });
+
+  describe("End to end", async function () {
+    it("e2e test", async function () {
+      const priceInEth = 1;
+      const priceInWei = toWei(priceInEth);
+      const totalPriceInWei = toWei(priceInEth * ((100 + FEE_PERCENT) / 100));
+
+      await nft1.connect(addr1).mint(URI);
+      await marketplace.connect(addr1).createMarketItem(nft1.address, 1);
+      await marketplace.connect(addr1).listMarketItem(1, priceInWei);
+      await marketplace
+        .connect(addr2)
+        .purchaseMarketItem(1, { value: totalPriceInWei });
+      await nft1.connect(addr2).giveApproval();
+      await marketplace.connect(addr2).listMarketItem(1, priceInWei);
+    });
+  });
 });
