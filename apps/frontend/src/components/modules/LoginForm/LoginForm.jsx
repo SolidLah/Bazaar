@@ -24,6 +24,14 @@ const LoginForm = () => {
     }
   }, [user]);
 
+  useEffect(() => {
+    if (error) {
+      errorToast({
+        description: error.message,
+      });
+    }
+  }, [errorToast, error]);
+
   const buttonCallback = async (event) => {
     event.preventDefault();
     const email = emailRef.current?.value;
@@ -37,14 +45,9 @@ const LoginForm = () => {
       return;
     }
 
-    try {
-      await signInWithEmailAndPassword(email, password);
-      if (error) throw error;
-    } catch (error) {
-      errorToast({
-        description: error.message,
-      });
-    }
+    await signInWithEmailAndPassword(email, password);
+    emailRef.current.value = null;
+    passwordRef.current.value = null;
   };
 
   return (
