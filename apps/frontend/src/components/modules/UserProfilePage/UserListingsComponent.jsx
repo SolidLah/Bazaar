@@ -7,7 +7,7 @@ import useSWR from "swr";
 
 const UserListingsComponent = ({ userData }) => {
   const storedAddress = useStoredAddress(userData);
-  const { data: userItems } = useSWR(
+  const { data: userItems, error } = useSWR(
     storedAddress ? "/api/listings/user/" + storedAddress : null,
     (url) => axios.get(url).then((res) => res.data.msg),
     { revalidateOnFocus: false }
@@ -18,11 +18,11 @@ const UserListingsComponent = ({ userData }) => {
     [userItems]
   );
 
-  if (!listed) {
+  if (!listed && !error) {
     return <Spinner color="gray" size="xl" />;
   }
 
-  if (listed.length <= 0) {
+  if (error || listed.length <= 0) {
     return <Center>No listings</Center>;
   }
 

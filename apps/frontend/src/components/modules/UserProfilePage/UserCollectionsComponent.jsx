@@ -6,8 +6,12 @@ const UserCollectionsComponent = ({ userData }) => {
   const collectionsArray = useCollections(userData);
   const { collections, loading } = useFetchCollections(collectionsArray);
 
-  if (!collections || loading) {
+  if (loading) {
     return <Spinner color="gray" size="xl" />;
+  }
+
+  if (!collections && !loading) {
+    return <Center>No collections</Center>;
   }
 
   if (collections.length <= 0) {

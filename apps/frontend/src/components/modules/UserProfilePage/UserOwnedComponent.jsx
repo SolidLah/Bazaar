@@ -7,7 +7,7 @@ import useSWR from "swr";
 
 const UserOwnedComponent = ({ userData }) => {
   const storedAddress = useStoredAddress(userData);
-  const { data: userItems } = useSWR(
+  const { data: userItems, error } = useSWR(
     storedAddress ? "/api/listings/user/" + storedAddress : null,
     (url) => axios.get(url).then((res) => res.data.msg),
     { revalidateOnFocus: false }
@@ -18,11 +18,11 @@ const UserOwnedComponent = ({ userData }) => {
     [userItems]
   );
 
-  if (!owned) {
+  if (!owned && !error) {
     return <Spinner color="gray" size="xl" />;
   }
 
-  if (owned.length <= 0) {
+  if (error || owned.length <= 0) {
     return <Center>No NFTs owned</Center>;
   }
 

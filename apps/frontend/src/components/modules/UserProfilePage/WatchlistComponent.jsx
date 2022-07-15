@@ -6,8 +6,12 @@ const WatchListComponent = ({ userData }) => {
   const watchlistArray = useWatchlist(userData);
   const { watchlist, loading } = useFetchWatchlist(watchlistArray);
 
-  if (!watchlist || loading) {
+  if (loading) {
     return <Spinner color="gray" size="xl" />;
+  }
+
+  if (!watchlist && !loading) {
+    return <Center>Watchlist empty</Center>;
   }
 
   if (watchlist.length <= 0) {
