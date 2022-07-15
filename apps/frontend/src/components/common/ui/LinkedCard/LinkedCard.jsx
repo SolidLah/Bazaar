@@ -73,9 +73,11 @@ const LinkedCard = ({ item, watchlistEnabled }) => {
                 <LinkOverlay>{item.nftData.name}</LinkOverlay>
               </Link>
             </Heading>
-            <Badge colorScheme="green" variant="subtle" fontSize="sm">
-              {item.marketPrice} MATIC
-            </Badge>
+            {item.active && (
+              <Badge colorScheme="green" variant="subtle" fontSize="sm">
+                {item.marketPrice} MATIC
+              </Badge>
+            )}
           </Flex>
         </Flex>
       </Square>
