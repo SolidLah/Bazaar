@@ -9,7 +9,7 @@ let ethersStore = (set, get) => ({
   address: null,
   mktContract: null,
   ethersInitialised: false,
-  initialiseEthers: async () => {
+  connectEthers: async () => {
     if (get().ethersInitialised) {
       throw new Error("Wallet already connected");
     }
@@ -35,6 +35,23 @@ let ethersStore = (set, get) => ({
       address: currAddress,
       mktContract: currMktContract,
       ethersInitialised: true,
+    });
+  },
+  disconnectEthers: async () => {
+    if (!get().ethersInitialised) {
+      throw new Error("Wallet not connected");
+    }
+
+    if (typeof window.ethereum === "undefined") {
+      throw new Error("Metamask not installed");
+    }
+
+    set({
+      provider: null,
+      signer: null,
+      address: null,
+      mktContract: null,
+      ethersInitialised: false,
     });
   },
 });

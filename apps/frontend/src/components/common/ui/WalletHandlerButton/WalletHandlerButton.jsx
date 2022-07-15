@@ -7,15 +7,17 @@ import { formatAddress } from "src/lib/helpers";
 
 const WalletHandlerButton = (props) => {
   const address = useEthersStore((state) => state.address);
-  const initialiseEthers = useEthersStore((state) => state.initialiseEthers);
+  const connectEthers = useEthersStore((state) => state.connectEthers);
+  const disconnectEthers = useEthersStore((state) => state.disconnectEthers);
+  const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
   const errorToast = useErrorToast("Connect wallet");
   const successToast = useSuccessToast("Connect wallet");
   const [loading, setLoading] = useState(false);
 
-  const buttonCallback = async () => {
+  const connect = async () => {
     try {
       setLoading(true);
-      await initialiseEthers();
+      await connectEthers();
       successToast({
         description: "Wallet connected successfully",
       });
@@ -28,8 +30,28 @@ const WalletHandlerButton = (props) => {
     }
   };
 
+  const disconnect = async () => {
+    try {
+      setLoading(true);
+      await disconnectEthers();
+      successToast({
+        description: "Wallet disconnected successfully",
+      });
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      errorToast({
+        description: error.message,
+      });
+    }
+  };
+
   return (
-    <Button onClick={buttonCallback} isLoading={loading} {...props}>
+    <Button
+      onClick={ethersInitialised ? disconnect : connect}
+      isLoading={loading}
+      {...props}
+    >
       {address ? formatAddress(address) : "Connect Wallet"}
     </Button>
   );
