@@ -1,7 +1,7 @@
 import { Button, Center, Flex, Heading, Input } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth } from "src/lib/firebase";
 import useErrorToast from "src/lib/hooks/useErrorToast";
@@ -13,6 +13,16 @@ const LoginForm = () => {
   const router = useRouter();
   const [signInWithEmailAndPassword, user, loading, error] =
     useSignInWithEmailAndPassword(auth);
+
+  useEffect(() => {
+    if (user) {
+      if (router.query && router.query.from) {
+        router.push(router.query.from);
+      } else {
+        router.push("/user");
+      }
+    }
+  }, [user]);
 
   const buttonCallback = async (event) => {
     event.preventDefault();
@@ -30,12 +40,6 @@ const LoginForm = () => {
     try {
       await signInWithEmailAndPassword(email, password);
       if (error) throw error;
-
-      if (router.query && router.query.from) {
-        router.push(router.query.from);
-      } else {
-        router.push("/user");
-      }
     } catch (error) {
       errorToast({
         description: error.message,
