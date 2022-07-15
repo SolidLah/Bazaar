@@ -1,13 +1,12 @@
 import create from "zustand";
 // import { persist } from "zustand/middleware";
 import { ethers } from "ethers";
-import { NFTContractData, MarketplaceContractData } from "src/contracts";
+import { MarketplaceContractData } from "src/contracts";
 
 let ethersStore = (set, get) => ({
   provider: null,
   signer: null,
   address: null,
-  nftContract: null,
   mktContract: null,
   ethersInitialised: false,
   initialiseEthers: async () => {
@@ -24,12 +23,6 @@ let ethersStore = (set, get) => ({
     const currSigner = currProvider.getSigner();
     const currAddress = await currSigner.getAddress();
 
-    const currNftContract = new ethers.Contract(
-      NFTContractData.address,
-      NFTContractData.abi,
-      currSigner
-    );
-
     const currMktContract = new ethers.Contract(
       MarketplaceContractData.address,
       MarketplaceContractData.abi,
@@ -40,7 +33,6 @@ let ethersStore = (set, get) => ({
       provider: currProvider,
       signer: currSigner,
       address: currAddress,
-      nftContract: currNftContract,
       mktContract: currMktContract,
       ethersInitialised: true,
     });
