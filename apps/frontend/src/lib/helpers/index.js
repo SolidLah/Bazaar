@@ -12,6 +12,7 @@ import mintManyNFTs from "./mintManyNFTs";
 import uploadManyNFTs from "./uploadManyNFTs";
 import getCollectionInfo from "./getCollectionInfo";
 import getCollectionListed from "./getCollectionListed";
+import createCollection from "./createCollection";
 
 export {
   formatItem,
@@ -28,4 +29,5 @@ export {
   uploadManyNFTs,
   getCollectionInfo,
   getCollectionListed,
+  createCollection,
 };

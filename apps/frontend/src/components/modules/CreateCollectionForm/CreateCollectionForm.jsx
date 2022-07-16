@@ -3,8 +3,7 @@ import Link from "next/link";
 import { useRef, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "src/lib/firebase";
-import { getWeb3 } from "src/lib/helpers";
-import createCollection from "src/lib/helpers/createCollection";
+import { getWeb3, createCollection } from "src/lib/helpers";
 import {
   useErrorToast,
   useFirestoreUserData,
