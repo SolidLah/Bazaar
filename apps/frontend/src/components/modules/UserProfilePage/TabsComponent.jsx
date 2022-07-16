@@ -9,9 +9,9 @@ const TabsComponent = ({ userData }) => {
     <Tabs variant="soft-rounded" colorScheme="purple">
       <TabList gap={3}>
         <Tab>Watchlist</Tab>
-        <Tab>Current listings</Tab>
+        <Tab>Active listings</Tab>
         <Tab>Owned NFTs</Tab>
-        <Tab>Collections</Tab>
+        <Tab>My collections</Tab>
       </TabList>
       <TabPanels>
         <TabPanel>
