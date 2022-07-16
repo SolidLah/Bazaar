@@ -1,11 +1,7 @@
 import { Container } from "@chakra-ui/react";
 import axios from "axios";
-import { useMemo } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
 import ErrorLayout from "src/components/common/layouts/ErrorLayout";
 import LoadingLayout from "src/components/common/layouts/LoadingLayout";
-import { auth } from "src/lib/firebase";
-import { useCollections, useFirestoreUserData } from "src/lib/hooks";
 import useSWR from "swr";
 import HeaderComponent from "./HeaderComponent";
 import ListingsComponent from "./ListingsComponent";
@@ -16,14 +12,6 @@ const CollectionDetailsPage = ({ address }) => {
   const { data: collection, error } = useSWR(
     address ? `/api/collections/${address}` : null,
     fetcher
-  );
-
-  const [user] = useAuthState(auth);
-  const { userData } = useFirestoreUserData(user);
-  const userCollections = useCollections(userData);
-  const isOwner = useMemo(
-    () => (userCollections ? userCollections.includes(address) : null),
-    [address, userCollections]
   );
 
   if (!collection && !error) {
@@ -48,7 +36,7 @@ const CollectionDetailsPage = ({ address }) => {
         name={collection.info.name}
         symbol={collection.info.symbol}
       />
-      <ListingsComponent isOwner={isOwner} items={collection.listed} />
+      <ListingsComponent items={collection.listed} />
     </Container>
   );
 };
