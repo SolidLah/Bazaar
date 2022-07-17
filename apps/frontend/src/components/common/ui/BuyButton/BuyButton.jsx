@@ -2,6 +2,7 @@ import { Button } from "@chakra-ui/react";
 import { useState } from "react";
 import useEthersStore from "src/stores/ethersStore";
 import useErrorToast from "src/lib/hooks/useErrorToast";
+import { getWeb3 } from "src/lib/helpers";
 
 const BuyButton = ({ item, ...props }) => {
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
@@ -10,19 +11,11 @@ const BuyButton = ({ item, ...props }) => {
   const [loading, setLoading] = useState(false);
 
   const buttonCallback = async () => {
-    if (typeof window.ethereum === "undefined") {
+    const web3Error = getWeb3(ethersInitialised);
+    if (web3Error !== "") {
       errorToast({
-        description: "Metamask is not installed",
+        description: web3Error,
       });
-
-      return;
-    }
-
-    if (!ethersInitialised) {
-      errorToast({
-        description: "Connect a Metamask wallet",
-      });
-
       return;
     }
 

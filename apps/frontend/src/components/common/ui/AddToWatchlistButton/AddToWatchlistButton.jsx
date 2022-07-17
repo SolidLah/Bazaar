@@ -30,12 +30,12 @@ const AddToWatchListButton = ({ item, ...props }) => {
       }
 
       if (itemInWatchlist) {
-        await removeFromWatchlist({ uid: user.uid, itemId: item.itemId });
+        await removeFromWatchlist(user.uid, item.itemId);
         successToast({
           description: "Removed from watchlist",
         });
       } else {
-        await addToWatchlist({ uid: user.uid, itemId: item.itemId });
+        await addToWatchlist(user.uid, item.itemId);
         successToast({
           description: "Added to watchlist",
         });

@@ -4,7 +4,7 @@ import { blurImage } from "src/lib/blurImage";
 
 const Card = ({ item }) => {
   return (
-    <Square size={60} bg="gray.100" m={3} borderRadius={10}>
+    <Square size={56} bg="gray.100" rounded={10}>
       <Flex
         w="100%"
         h="100%"
@@ -12,14 +12,13 @@ const Card = ({ item }) => {
         align="center"
         justify="flex-end"
       >
-        <Box w="100%" h="100%" pos="relative">
+        <Box w="100%" h="100%" roundedTop={10} overflow="hidden" pos="relative">
           <Image
             src={item.nftData.image}
             alt="NFT here"
             priority="true"
             layout="fill"
             objectFit="cover"
-            style={{ borderTopRightRadius: 10, borderTopLeftRadius: 10 }}
             placeholder="blur"
             blurDataURL={blurImage}
           />
@@ -28,11 +27,12 @@ const Card = ({ item }) => {
           bg="gray.200"
           w="100%"
           p={3}
-          borderBottomRadius={10}
+          roundedBottom={10}
           direction="row"
           justify="space-between"
+          align="center"
         >
-          <Heading size="sm">{item.nftData.name}</Heading>
+          <Heading size="md">{item.nftData.name}</Heading>
         </Flex>
       </Flex>
     </Square>

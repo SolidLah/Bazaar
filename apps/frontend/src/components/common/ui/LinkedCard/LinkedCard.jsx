@@ -18,10 +18,9 @@ const LinkedCard = ({ item, watchlistEnabled }) => {
     <LinkBox>
       <Square
         as={motion.div}
-        size={60}
+        size={56}
         bg="gray.100"
-        m={3}
-        borderRadius={10}
+        rounded={10}
         _hover={{ shadow: "outline" }}
         cursor="pointer"
         whileHover={{ y: -3, scale: 1.02 }}
@@ -36,7 +35,7 @@ const LinkedCard = ({ item, watchlistEnabled }) => {
           <Box
             w="100%"
             h="100%"
-            borderTopRadius={10}
+            roundedTop={10}
             overflow="hidden"
             pos="relative"
           >
@@ -64,16 +63,17 @@ const LinkedCard = ({ item, watchlistEnabled }) => {
             bg="gray.200"
             w="100%"
             p={3}
-            borderBottomRadius={10}
+            roundedBottom={10}
             direction="row"
             justify="space-between"
+            align="center"
           >
-            <Heading size="sm">
-              <Link href={`/marketplace/details/${item.itemId}`} passHref>
+            <Heading size="md">
+              <Link href={`/marketplace/${item.itemId}`} passHref>
                 <LinkOverlay>{item.nftData.name}</LinkOverlay>
               </Link>
             </Heading>
-            <Badge colorScheme="green" variant="subtle" fontSize={12}>
+            <Badge colorScheme="green" variant="subtle" fontSize="sm">
               {item.marketPrice} MATIC
             </Badge>
           </Flex>

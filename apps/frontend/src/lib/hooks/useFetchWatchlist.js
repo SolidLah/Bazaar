@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function useFetchWatchlist(watchlistArray) {
-  const [watchlist, setWatchlist] = useState([]);
+  const [watchlist, setWatchlist] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {

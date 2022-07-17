@@ -2,14 +2,14 @@ import axios from "axios";
 
 export default async function uploadNFT(image, name, description) {
   // initialise FormData object
-  let imageData = new FormData();
-  imageData.append("image", image);
-  imageData.append("name", name);
-  imageData.append("description", description);
+  let data = new FormData();
+  data.append("image", image);
+  data.append("name", name);
+  data.append("description", description);
 
   // POST request to API
-  const imageUploadRes = await axios.post("/api/image", imageData);
-  const nftURI = imageUploadRes.data.msg;
+  const res = await axios.post("/api/image", data);
+  const url = res.data.msg;
 
-  return nftURI;
+  return url;
 }

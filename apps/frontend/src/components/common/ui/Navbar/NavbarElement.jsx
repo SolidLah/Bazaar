@@ -1,9 +1,10 @@
-import { Heading, HStack, Button, Avatar } from "@chakra-ui/react";
+import { Button, Heading, HStack } from "@chakra-ui/react";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import Link from "next/link";
-import { logout } from "src/lib/firebase";
+import { useRouter } from "next/router";
 import WalletHandlerButton from "src/components/common/ui/WalletHandlerButton/WalletHandlerButton";
+import { logout } from "src/lib/firebase";
+import ProfilePictureComponent from "./ProfilePictureComponent";
 
 const NavbarElement = ({ user }) => {
   const router = useRouter();
@@ -19,6 +20,9 @@ const NavbarElement = ({ user }) => {
       justify="space-between"
       p={5}
       bgGradient="linear(to-r, #E5618D, #7667BB)"
+      position="sticky"
+      top="0"
+      zIndex="10"
     >
       <Link href="/" passHref>
         <HStack spacing={0} cursor="pointer">
@@ -26,7 +30,7 @@ const NavbarElement = ({ user }) => {
             Bazaar
           </Heading>
           <Image
-            src="/bazaar_icon_alpha.png"
+            src="/images/bazaar_icon_alpha.png"
             alt="Bazaar Icon"
             width="30px"
             height="30px"
@@ -39,7 +43,13 @@ const NavbarElement = ({ user }) => {
             Marketplace
           </Button>
         </Link>
-        <Button as="a" colorScheme="blackAlpha" variant="ghost" color="white">
+        <Button
+          as="a"
+          colorScheme="blackAlpha"
+          variant="ghost"
+          color="white"
+          isDisabled={true}
+        >
           Trending
         </Button>
         <Link href="/creators" passHref>
@@ -47,12 +57,17 @@ const NavbarElement = ({ user }) => {
             Creators
           </Button>
         </Link>
-        <Button as="a" colorScheme="blackAlpha" variant="ghost" color="white">
+        <Button
+          as="a"
+          colorScheme="blackAlpha"
+          variant="ghost"
+          color="white"
+          isDisabled={true}
+        >
           Albums
         </Button>
         {user ? (
           <Button
-            as="a"
             onClick={logoutCallback}
             colorScheme="blackAlpha"
             variant="ghost"
@@ -73,9 +88,7 @@ const NavbarElement = ({ user }) => {
           </Link>
         )}
         <WalletHandlerButton />
-        <Link href="/user" passHref>
-          <Avatar as="a" cursor="pointer" />
-        </Link>
+        <ProfilePictureComponent user={user} />
       </HStack>
     </HStack>
   );

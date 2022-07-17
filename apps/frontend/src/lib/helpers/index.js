@@ -7,6 +7,7 @@ import addToWatchlist from "./addToWatchlist";
 import removeFromWatchlist from "./removeFromWatchlist";
 import updateWalletAddress from "./updateWalletAddress";
 import formatAddress from "./formatAddress";
+import getWeb3 from "./getWeb3";
 
 export {
   formatItem,
@@ -18,4 +19,5 @@ export {
   removeFromWatchlist,
   updateWalletAddress,
   formatAddress,
+  getWeb3,
 };

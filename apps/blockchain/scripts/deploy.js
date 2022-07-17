@@ -11,7 +11,11 @@ function saveToFrontend(contract, name) {
     fs.writeFileSync(
       contractsDir + `${name}.json`,
       JSON.stringify(
-        { address: contract.address, abi: contractArtifact.abi },
+        {
+          address: contract.address,
+          abi: contractArtifact.abi,
+          bytecode: contractArtifact.bytecode,
+        },
         undefined,
         2
       )

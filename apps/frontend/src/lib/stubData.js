@@ -1,10 +1,9 @@
 const stubItems = {
-  userListings: [
+  listings: [
     {
       itemId: 1,
       nftData: {
-        image:
-          "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
+        image: "/images/ape.jpg",
         name: "stub-listing",
       },
       marketPrice: 10,
@@ -12,8 +11,7 @@ const stubItems = {
     {
       itemId: 2,
       nftData: {
-        image:
-          "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
+        image: "/images/ape.jpg",
         name: "stub-listing",
       },
       marketPrice: 10,
@@ -21,8 +19,7 @@ const stubItems = {
     {
       itemId: 3,
       nftData: {
-        image:
-          "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
+        image: "/images/ape.jpg",
         name: "stub-listing",
       },
       marketPrice: 10,
@@ -30,33 +27,96 @@ const stubItems = {
     {
       itemId: 4,
       nftData: {
-        image:
-          "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
+        image: "/images/ape.jpg",
+        name: "stub-listing",
+      },
+      marketPrice: 10,
+    },
+    {
+      itemId: 5,
+      nftData: {
+        image: "/images/ape.jpg",
+        name: "stub-listing",
+      },
+      marketPrice: 10,
+    },
+    {
+      itemId: 6,
+      nftData: {
+        image: "/images/ape.jpg",
         name: "stub-listing",
       },
       marketPrice: 10,
     },
   ],
-  userNFTs: [
+  owned: [
     {
-      image:
-        "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
-      name: "stub-owned",
+      itemId: 1,
+      nftData: {
+        image: "/images/ape.jpg",
+        name: "stub-owned",
+      },
     },
     {
-      image:
-        "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
-      name: "stub-owned",
+      itemId: 2,
+      nftData: {
+        image: "/images/ape.jpg",
+        name: "stub-owned",
+      },
     },
     {
-      image:
-        "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
-      name: "stub-owned",
+      itemId: 3,
+      nftData: {
+        image: "/images/ape.jpg",
+        name: "stub-owned",
+      },
     },
     {
-      image:
-        "https://gateway.pinata.cloud/ipfs/QmddQwKp51S5JXC4wiNEZxYLBkQjq3L3k9UizWAj3RqSAd",
-      name: "stub-owned",
+      itemId: 4,
+      nftData: {
+        image: "/images/ape.jpg",
+        name: "stub-owned",
+      },
+    },
+    {
+      itemId: 5,
+      nftData: {
+        image: "/images/ape.jpg",
+        name: "stub-owned",
+      },
+    },
+    {
+      itemId: 6,
+      nftData: {
+        image: "/images/ape.jpg",
+        name: "stub-owned",
+      },
+    },
+  ],
+  collections: [
+    {
+      name: "stub-collection",
+      symbol: "STUB",
+    },
+    {
+      name: "stub-collection",
+      symbol: "STUB",
+    },
+    {
+      name: "stub-collection",
+      symbol: "STUB",
+    },
+    {
+      name: "stub-collection",
+      symbol: "STUB",
+    },
+    {
+      name: "stub-collection",
+      symbol: "STUB",
+    },
+    {
+      name: "stub-collection",
+      symbol: "STUB",
     },
   ],
 };
