@@ -2,7 +2,7 @@ import { Button, Flex, Heading } from "@chakra-ui/react";
 import Link from "next/link";
 import SearchComponent from "./SearchComponent";
 
-const Header = ({ queryName, setQueryName, priceRange, setPriceRange }) => {
+const Header = () => {
   return (
     <Flex
       w="100%"
@@ -15,12 +15,7 @@ const Header = ({ queryName, setQueryName, priceRange, setPriceRange }) => {
     >
       <Heading>Marketplace</Heading>
       <Flex gap={3}>
-        <SearchComponent
-          queryName={queryName}
-          setQueryName={setQueryName}
-          priceRange={priceRange}
-          setPriceRange={setPriceRange}
-        />
+        <SearchComponent />
         <Link href="/collection/new" passHref>
           <Button as="a" size="lg" colorScheme="purple">
             New Collection

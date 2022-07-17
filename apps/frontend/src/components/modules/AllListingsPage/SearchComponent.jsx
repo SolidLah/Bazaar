@@ -9,12 +9,7 @@ import {
 import PriceRangeComponent from "./PriceRangeComponent";
 import QueryNameComponent from "./QueryNameComponent";
 
-const SearchComponent = ({
-  queryName,
-  setQueryName,
-  priceRange,
-  setPriceRange,
-}) => {
+const SearchComponent = () => {
   return (
     <Popover closeOnBlur={false} placement="left-start">
       <PopoverTrigger>
@@ -25,8 +20,8 @@ const SearchComponent = ({
       <PopoverContent>
         <PopoverBody>
           <Flex direction="column" gap={3}>
-            <QueryNameComponent query={queryName} setQuery={setQueryName} />
-            <PriceRangeComponent range={priceRange} setRange={setPriceRange} />
+            <QueryNameComponent />
+            <PriceRangeComponent />
           </Flex>
         </PopoverBody>
       </PopoverContent>

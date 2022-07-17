@@ -1,16 +1,20 @@
 import { Flex, FormControl, FormLabel, Input } from "@chakra-ui/react";
+import useSearchStore from "src/stores/searchStore";
 
-const QueryNameComponent = ({ query, setQuery }) => {
+const QueryNameComponent = () => {
+  const nameQuery = useSearchStore((state) => state.nameQuery);
+  const setNameQuery = useSearchStore((state) => state.setNameQuery);
+
   const handleChange = (e) => {
     e.preventDefault();
-    setQuery(e.target.value);
+    setNameQuery(e.target.value);
   };
 
   return (
     <Flex>
       <FormControl>
         <FormLabel>Name</FormLabel>
-        <Input value={query ?? null} onChange={handleChange} />
+        <Input value={nameQuery} onChange={handleChange} />
       </FormControl>
     </Flex>
   );
