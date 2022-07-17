@@ -1,20 +1,8 @@
-import { Search2Icon } from "@chakra-ui/icons";
-import {
-  Button,
-  Flex,
-  Heading,
-  Input,
-  InputGroup,
-  InputLeftElement,
-} from "@chakra-ui/react";
+import { Button, Flex, Heading } from "@chakra-ui/react";
 import Link from "next/link";
+import SearchComponent from "./SearchComponent";
 
-const Header = ({ query, setQuery }) => {
-  const searchInputHandler = (e) => {
-    e.preventDefault();
-    setQuery(e.target.value);
-  };
-
+const Header = ({ queryName, setQueryName, priceRange, setPriceRange }) => {
   return (
     <Flex
       w="100%"
@@ -26,25 +14,19 @@ const Header = ({ query, setQuery }) => {
       justify="space-between"
     >
       <Heading>Marketplace</Heading>
-      <Flex>
-        <InputGroup>
-          <InputLeftElement>
-            <Search2Icon color="gray.300" />
-          </InputLeftElement>
-          <Input
-            w="xs"
-            variant="flushed"
-            placeholder="Search"
-            value={query ?? null}
-            onChange={searchInputHandler}
-          />
-        </InputGroup>
+      <Flex gap={3}>
+        <SearchComponent
+          queryName={queryName}
+          setQueryName={setQueryName}
+          priceRange={priceRange}
+          setPriceRange={setPriceRange}
+        />
+        <Link href="/collection/new" passHref>
+          <Button as="a" size="lg" colorScheme="purple">
+            New Collection
+          </Button>
+        </Link>
       </Flex>
-      <Link href="/collection/new" passHref>
-        <Button as="a" size="lg" colorScheme="purple">
-          New Collection
-        </Button>
-      </Link>
     </Flex>
   );
 };

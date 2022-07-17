@@ -4,7 +4,9 @@ import useSWR from "swr";
 import ErrorLayout from "src/components/common/layouts/ErrorLayout";
 import Header from "./Header";
 import ListingsGrid from "./ListingsGrid";
-import { useMemo, useState } from "react";
+import { useState } from "react";
+import useQueryByName from "./useQueryByName";
+import useQueryByPrice from "./useQueryByPrice";
 
 const AllListingsPage = () => {
   const { data: items, error } = useSWR(
@@ -13,17 +15,10 @@ const AllListingsPage = () => {
     { revalidateOnFocus: false }
   );
 
-  const [query, setQuery] = useState("");
-  const queriedItems = useMemo(() => {
-    if (!query || !items) return items;
-
-    const capsQuery = query.toUpperCase();
-    const res = items.filter((item) => {
-      const capsName = item.nftData.name.toUpperCase();
-      return capsName.includes(capsQuery);
-    });
-    return res;
-  }, [query, items]);
+  const [queryName, setQueryName] = useState("");
+  const [priceRange, setPriceRange] = useState({ lower: null, upper: null });
+  const queriedByName = useQueryByName(queryName, items);
+  const queriedItems = useQueryByPrice(priceRange, queriedByName);
 
   if (error) {
     return <ErrorLayout />;
@@ -31,7 +26,12 @@ const AllListingsPage = () => {
 
   return (
     <Container maxW="container.xl" centerContent gap={6} mt={20}>
-      <Header query={query} setQuery={setQuery} />
+      <Header
+        queryName={queryName}
+        setQueryName={setQueryName}
+        priceRange={priceRange}
+        setPriceRange={setPriceRange}
+      />
       {!queriedItems ? (
         <Spinner size="xl" color="gray" />
       ) : (
