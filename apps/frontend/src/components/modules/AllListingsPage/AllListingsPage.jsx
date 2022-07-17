@@ -1,16 +1,27 @@
-import { Spinner, Container } from "@chakra-ui/react";
+import { Container, Spinner } from "@chakra-ui/react";
 import axios from "axios";
-import useSWR from "swr";
+import { useEffect } from "react";
 import ErrorLayout from "src/components/common/layouts/ErrorLayout";
+import useSearchStore from "src/stores/searchStore";
+import useSWR from "swr";
 import Header from "./Header";
 import ListingsGrid from "./ListingsGrid";
+import useQueriedItems from "./useQueriedItems";
 
 const AllListingsPage = () => {
-  const { data, error } = useSWR(
+  const { data: items, error } = useSWR(
     "/api/listings",
     (url) => axios.get(url).then((res) => res.data.msg),
     { revalidateOnFocus: false }
   );
+
+  const setItems = useSearchStore((state) => state.setItems);
+
+  useEffect(() => {
+    setItems(items);
+  }, [items]);
+
+  const queriedItems = useQueriedItems();
 
   if (error) {
     return <ErrorLayout />;
@@ -19,10 +30,10 @@ const AllListingsPage = () => {
   return (
     <Container maxW="container.xl" centerContent gap={6} mt={20}>
       <Header />
-      {!data ? (
+      {!queriedItems ? (
         <Spinner size="xl" color="gray" />
       ) : (
-        <ListingsGrid items={data} />
+        <ListingsGrid items={queriedItems} />
       )}
     </Container>
   );
