@@ -3,12 +3,14 @@ import useEthersStore from "src/stores/ethersStore";
 import useErrorToast from "src/lib/hooks/useErrorToast";
 import useSuccessToast from "src/lib/hooks/useSuccessToast";
 import { formatAddress, updateWalletAddress } from "src/lib/helpers";
+import { useStoredAddress } from "src/lib/hooks";
 
-const UserDetailsComponent = ({ user, fireStoredAddress }) => {
+const UserDetailsComponent = ({ user, userData }) => {
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
   const ethersStoredAddress = useEthersStore((state) => state.address);
   const errorToast = useErrorToast("Connect wallet to account");
   const successToast = useSuccessToast("Connect wallet to account");
+  const storedAddress = useStoredAddress(userData);
 
   const buttonCallback = async () => {
     if (!ethersInitialised) {
@@ -19,7 +21,7 @@ const UserDetailsComponent = ({ user, fireStoredAddress }) => {
       return;
     }
 
-    if (ethersStoredAddress === fireStoredAddress) {
+    if (ethersStoredAddress === storedAddress) {
       errorToast({
         description: "No change in wallet address",
       });
@@ -58,12 +60,10 @@ const UserDetailsComponent = ({ user, fireStoredAddress }) => {
         </Box>
         <Box>
           <Text fontWeight="bold">Wallet address</Text>
-          <Text>
-            {fireStoredAddress ? formatAddress(fireStoredAddress) : ""}
-          </Text>
+          <Text>{storedAddress ? formatAddress(storedAddress) : ""}</Text>
         </Box>
-        <Button colorScheme="teal" onClick={buttonCallback}>
-          {fireStoredAddress ? "Change" : "Connect"}
+        <Button colorScheme="purple" onClick={buttonCallback}>
+          {storedAddress ? "Change" : "Connect"}
         </Button>
       </Flex>
     </Flex>

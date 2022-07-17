@@ -1,8 +1,20 @@
-import { Center, Flex } from "@chakra-ui/react";
+import { Center, Flex, Spinner } from "@chakra-ui/react";
+import { useCollections, useFetchCollections } from "src/lib/hooks";
 import UserCollectionsCard from "./UserCollectionsCard";
 
-const UserCollectionsComponent = ({ collections }) => {
-  if (!collections || collections?.length <= 0) {
+const UserCollectionsComponent = ({ userData }) => {
+  const collectionsArray = useCollections(userData);
+  const { collections, loading } = useFetchCollections(collectionsArray);
+
+  if (loading) {
+    return <Spinner color="gray" size="xl" />;
+  }
+
+  if (!collections && !loading) {
+    return <Center>No collections</Center>;
+  }
+
+  if (collections.length <= 0) {
     return <Center>No collections</Center>;
   }
 

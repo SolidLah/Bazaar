@@ -5,6 +5,7 @@ import useWatchlist from "./useWatchlist";
 import useStoredAddress from "./useStoredAddress";
 import useFetchWatchlist from "./useFetchWatchlist";
 import useCollections from "./useCollections";
+import useFetchCollections from "./useFetchCollections";
 
 export {
   useErrorToast,
@@ -14,4 +15,5 @@ export {
   useStoredAddress,
   useFetchWatchlist,
   useCollections,
+  useFetchCollections,
 };

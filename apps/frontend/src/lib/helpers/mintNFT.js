@@ -1,10 +1,14 @@
+import { ethers } from "ethers";
+import { NFTContractData } from "src/contracts";
 import useEthersStore from "src/stores/ethersStore";
 
-export default async function mintNFT(nftURI) {
-  const nftContract = useEthersStore.getState().nftContract;
+export default async function mintNFT(address, url) {
+  const signer = useEthersStore.getState().signer;
+  const mktContract = useEthersStore.getState().mktContract;
+  const nftContract = new ethers.Contract(address, NFTContractData.abi, signer);
 
-  await (await nftContract.mint(nftURI)).wait(); // mint NFT
-  const tokenId = await nftContract.idCounter(); // get tokenId
-
-  return tokenId;
+  await (await nftContract.mint(url)).wait();
+  const tokenId = await nftContract.idCounter();
+  console.log("tokenId:", tokenId);
+  await (await mktContract.createMarketItem(address, tokenId)).wait();
 }

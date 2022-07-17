@@ -43,10 +43,58 @@ describe("Marketplace contract", function () {
       await nft2.connect(addr2).mint(URI);
     });
 
-    it("Transfer ownership of nft", async function () {
+    it("Check details of created MarketItem", async function () {
+      await marketplace.connect(addr1).createMarketItem(nft1.address, 1);
+
+      const item = await marketplace.marketItemsMapping(1);
+
+      expect(item.itemId).to.equal(1);
+      expect(item.seller).to.equal(ethers.constants.AddressZero);
+      expect(item.owner).to.equal(addr1.address);
+      expect(item.price).to.equal(0);
+      expect(item.marketPrice).to.equal(0);
+      expect(item.active).to.equal(false);
+      expect(item.nftAddress).to.equal(nft1.address);
+      expect(item.nftName).to.equal(NAME);
+      expect(item.nftSymbol).to.equal(SYMBOL);
+      expect(item.minter).to.equal(await nft1.owner());
+      expect(item.tokenId).to.equal(1);
+      expect(item.tokenURI).to.equal(URI);
+    });
+
+    it("Revert if NFT not owned by message sender", async function () {
+      await expect(
+        marketplace.connect(addr1).createMarketItem(nft2.address, 1)
+      ).to.be.revertedWith("Not the owner of token");
+    });
+  });
+
+  describe("Create many market items", async function () {
+    it("Correct number of market items are created", async function () {
+      await nft1.connect(addr1).mint(URI);
+      await nft1.connect(addr1).mint(URI);
+
+      const before = await marketplace.idCounter();
       await marketplace
         .connect(addr1)
-        .createMarketItem(nft1.address, 1, toWei(1));
+        .createManyMarketItems(nft1.address, [1, 2]);
+      const after = await marketplace.idCounter();
+      expect(after - before).to.equal(2);
+    });
+  });
+
+  describe("List market item", async function () {
+    const priceInEth = 1;
+    const priceInWei = toWei(priceInEth);
+    const totalPriceInWei = toWei(priceInEth * ((100 + FEE_PERCENT) / 100));
+
+    beforeEach(async function () {
+      await nft1.connect(addr1).mint(URI);
+      await marketplace.connect(addr1).createMarketItem(nft1.address, 1);
+    });
+
+    it("Transfer ownership of nft", async function () {
+      await marketplace.connect(addr1).listMarketItem(1, priceInWei);
 
       // check ownership
       expect(await nft1.ownerOf(1)).to.equal(marketplace.address);
@@ -56,36 +104,26 @@ describe("Marketplace contract", function () {
       expect(await nft1.balanceOf(marketplace.address)).to.equal(1);
     });
 
-    it("Check details of created MarketItem", async function () {
-      await marketplace
-        .connect(addr1)
-        .createMarketItem(nft1.address, 1, toWei(1));
+    it("Check details of listed MarketItem", async function () {
+      await marketplace.connect(addr1).listMarketItem(1, priceInWei);
 
-      // check details
       const item = await marketplace.marketItemsMapping(1);
-      expect(item.itemId).to.equal(1);
-      expect(item.seller).to.equal(addr1.address);
-      expect(item.owner).to.equal(ethers.constants.AddressZero);
-      expect(item.price).to.equal(toWei(1));
-      expect(item.sold).to.equal(false);
-      expect(item.nftAddress).to.equal(nft1.address);
-      expect(item.nftName).to.equal(NAME);
-      expect(item.nftSymbol).to.equal(SYMBOL);
-      expect(item.minter).to.equal(await nft1.owner());
-      expect(item.tokenId).to.equal(1);
-      expect(item.tokenURI).to.equal(URI);
+
+      expect(item.price).to.equal(priceInWei);
+      expect(item.marketPrice).to.equal(totalPriceInWei);
+      expect(item.active).to.equal(true);
+    });
+
+    it("Revert if market item not owned by message sender", async function () {
+      await expect(
+        marketplace.connect(addr2).listMarketItem(1, priceInWei)
+      ).to.be.revertedWith("Not the owner of item");
     });
 
     it("Revert if price is set to zero", async function () {
       await expect(
-        marketplace.connect(addr1).createMarketItem(nft1.address, 1, 0)
+        marketplace.connect(addr1).listMarketItem(1, 0)
       ).to.be.revertedWith("Price must be greater than zero");
-    });
-
-    it("Revert if NFT not owned by message sender", async function () {
-      await expect(
-        marketplace.connect(addr1).createMarketItem(nft2.address, 1, 1)
-      ).to.be.revertedWith("Not the owner of token");
     });
   });
 
@@ -97,9 +135,8 @@ describe("Marketplace contract", function () {
 
     beforeEach(async function () {
       await nft1.connect(addr1).mint(URI);
-      await marketplace
-        .connect(addr1)
-        .createMarketItem(nft1.address, 1, priceInWei);
+      await marketplace.connect(addr1).createMarketItem(nft1.address, 1);
+      await marketplace.connect(addr1).listMarketItem(1, priceInWei);
     });
 
     it("Ownership of NFT transferred correctly", async function () {
@@ -127,7 +164,7 @@ describe("Marketplace contract", function () {
 
         const item = await marketplace.marketItemsMapping(1);
 
-        expect(item.sold).to.equal(true);
+        expect(item.active).to.equal(false);
       });
 
       it("Currency is transferred correctly", async function () {
@@ -185,7 +222,7 @@ describe("Marketplace contract", function () {
         marketplace
           .connect(addr2)
           .purchaseMarketItem(1, { value: totalPriceInWei })
-      ).to.be.revertedWith("Market item already sold");
+      ).to.be.revertedWith("Market item not listed");
     });
   });
 
@@ -198,20 +235,17 @@ describe("Marketplace contract", function () {
       await nft1.connect(addr1).mint(URI);
       await nft2.connect(addr2).mint(URI);
 
-      await marketplace
-        .connect(addr1)
-        .createMarketItem(nft1.address, 1, priceInWei);
-      await marketplace
-        .connect(addr1)
-        .createMarketItem(nft1.address, 2, priceInWei);
-      await marketplace
-        .connect(addr2)
-        .createMarketItem(nft2.address, 1, priceInWei);
+      await marketplace.connect(addr1).createMarketItem(nft1.address, 1);
+      await marketplace.connect(addr1).createMarketItem(nft1.address, 2);
+      await marketplace.connect(addr1).listMarketItem(1, priceInWei);
+
+      await marketplace.connect(addr2).createMarketItem(nft2.address, 1);
+      await marketplace.connect(addr2).listMarketItem(3, priceInWei);
     });
 
     it("Fetch market items", async function () {
       const marketItemsArray = await marketplace.fetchMarketItems();
-      expect(marketItemsArray.length).to.equal(3);
+      expect(marketItemsArray.length).to.equal(2);
     });
 
     it("Fetch collection items", async function () {
@@ -230,10 +264,27 @@ describe("Marketplace contract", function () {
       const marketItemsArray = await marketplace.fetchUserItems(addr1.address);
 
       const listed = marketItemsArray.listed;
-      expect(listed.length).to.equal(2);
+      expect(listed.length).to.equal(1);
 
       const owned = marketItemsArray.owned;
-      expect(owned.length).to.equal(1);
+      expect(owned.length).to.equal(2);
+    });
+  });
+
+  describe("End to end", async function () {
+    it("e2e test", async function () {
+      const priceInEth = 1;
+      const priceInWei = toWei(priceInEth);
+      const totalPriceInWei = toWei(priceInEth * ((100 + FEE_PERCENT) / 100));
+
+      await nft1.connect(addr1).mint(URI);
+      await marketplace.connect(addr1).createMarketItem(nft1.address, 1);
+      await marketplace.connect(addr1).listMarketItem(1, priceInWei);
+      await marketplace
+        .connect(addr2)
+        .purchaseMarketItem(1, { value: totalPriceInWei });
+      await nft1.connect(addr2).giveApproval();
+      await marketplace.connect(addr2).listMarketItem(1, priceInWei);
     });
   });
 });

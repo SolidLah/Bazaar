@@ -1,16 +1,15 @@
 import create from "zustand";
 // import { persist } from "zustand/middleware";
 import { ethers } from "ethers";
-import { NFTContractData, MarketplaceContractData } from "src/contracts";
+import { MarketplaceContractData } from "src/contracts";
 
 let ethersStore = (set, get) => ({
   provider: null,
   signer: null,
   address: null,
-  nftContract: null,
   mktContract: null,
   ethersInitialised: false,
-  initialiseEthers: async () => {
+  connectEthers: async () => {
     if (get().ethersInitialised) {
       throw new Error("Wallet already connected");
     }
@@ -24,12 +23,6 @@ let ethersStore = (set, get) => ({
     const currSigner = currProvider.getSigner();
     const currAddress = await currSigner.getAddress();
 
-    const currNftContract = new ethers.Contract(
-      NFTContractData.address,
-      NFTContractData.abi,
-      currSigner
-    );
-
     const currMktContract = new ethers.Contract(
       MarketplaceContractData.address,
       MarketplaceContractData.abi,
@@ -40,9 +33,25 @@ let ethersStore = (set, get) => ({
       provider: currProvider,
       signer: currSigner,
       address: currAddress,
-      nftContract: currNftContract,
       mktContract: currMktContract,
       ethersInitialised: true,
+    });
+  },
+  disconnectEthers: async () => {
+    if (!get().ethersInitialised) {
+      throw new Error("Wallet not connected");
+    }
+
+    if (typeof window.ethereum === "undefined") {
+      throw new Error("Metamask not installed");
+    }
+
+    set({
+      provider: null,
+      signer: null,
+      address: null,
+      mktContract: null,
+      ethersInitialised: false,
     });
   },
 });

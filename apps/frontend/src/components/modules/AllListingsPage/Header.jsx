@@ -3,7 +3,15 @@ import Link from "next/link";
 
 const Header = () => {
   return (
-    <Flex w="100%" justify="space-between" px={10}>
+    <Flex
+      w="100%"
+      justify="space-between"
+      mx={10}
+      bg="gray.100"
+      p={6}
+      rounded="md"
+      align="center"
+    >
       <Heading>Marketplace</Heading>
       <Link href="/collection/new" passHref>
         <Button as="a" size="lg" colorScheme="purple">

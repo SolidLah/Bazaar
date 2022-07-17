@@ -15,7 +15,7 @@ export default async function formatItem(item) {
       ? ethers.utils.formatEther(item.marketPrice)
       : null,
     marketPriceWei: item.marketPrice ?? null,
-    sold: item.sold ?? null,
+    active: item.active ?? null,
     collectionAddress: item.nftAddress ?? null,
     collectionName: item.nftName ?? null,
     collectionSymbol: item.nftSymbol ?? null,

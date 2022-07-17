@@ -1,23 +1,14 @@
-import { Box, HStack, VStack } from "@chakra-ui/react";
+import { Box, Container, Flex } from "@chakra-ui/react";
 import Image from "next/image";
-import ErrorLayout from "src/components/common/layouts/ErrorLayout";
-import LoadingLayout from "src/components/common/layouts/LoadingLayout";
 import { blurImage } from "src/lib/blurImage";
-import ButtonArray from "./ButtonArray";
+import BuyComponent from "./BuyComponent";
 import DetailsCard from "./DetailsCard";
+import ListComponent from "./ListComponent";
 
-const ListingDetailsElement = ({ user, item, error }) => {
-  if (!item) {
-    return <LoadingLayout />;
-  }
-
-  if (error) {
-    return <ErrorLayout />;
-  }
-
+const ListingDetailsElement = ({ user, item, active, walletAddress }) => {
   return (
-    <VStack w="100%" p={10}>
-      <HStack w="100%" justify="space-around" align="start">
+    <Container centerContent maxW="container.xl" mt={20}>
+      <Flex w="100%" justify="space-around" align="flex-start">
         <Box w="xl" h="xl" pos="relative">
           <Image
             src={item.nftData.image}
@@ -28,12 +19,16 @@ const ListingDetailsElement = ({ user, item, error }) => {
             blurDataURL={blurImage}
           />
         </Box>
-        <VStack w="md" h="100%" direction="column" alignItems="start">
-          <DetailsCard item={item} />
-          <ButtonArray item={item} user={user} />
-        </VStack>
-      </HStack>
-    </VStack>
+        <Flex w="md" h="100%" direction="column" justify="flex-start" gap={6}>
+          <DetailsCard item={item} active={active} />
+          {active ? (
+            <BuyComponent item={item} user={user} />
+          ) : (
+            <ListComponent item={item} walletAddress={walletAddress} />
+          )}
+        </Flex>
+      </Flex>
+    </Container>
   );
 };
 

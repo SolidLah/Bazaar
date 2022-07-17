@@ -1,21 +1,22 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-export default function useFetchWatchlist(watchlistArray) {
-  const [watchlist, setWatchlist] = useState(null);
+export default function useFetchCollections(collectionsArray) {
+  const [collections, setCollections] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const load = async () => {
-      if (!watchlistArray) {
+      if (!collectionsArray) {
         return;
       }
       const res = await Promise.all(
-        watchlistArray.map(async (id) => {
+        collectionsArray.map(async (address) => {
           let res;
 
           try {
-            res = (await axios.get(`/api/listings/${id}`)).data.msg;
+            res = (await axios.get(`/api/collections/${address}/info`)).data
+              .msg;
           } catch (error) {
             console.log(error);
             res = null;
@@ -27,7 +28,7 @@ export default function useFetchWatchlist(watchlistArray) {
       if (!active) {
         return;
       }
-      setWatchlist(res);
+      setCollections(res);
     };
 
     let active = true;
@@ -37,7 +38,7 @@ export default function useFetchWatchlist(watchlistArray) {
     return () => {
       active = false;
     };
-  }, [watchlistArray]);
+  }, [collectionsArray]);
 
-  return { watchlist, loading };
+  return { collections, loading };
 }

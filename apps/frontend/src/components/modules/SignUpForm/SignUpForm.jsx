@@ -12,7 +12,7 @@ const SignupForm = () => {
   const nameRef = useRef();
   const passwordRef = useRef();
   const confirmPasswordRef = useRef();
-  const [user, loading, error] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
   const router = useRouter();
   const errorToast = useErrorToast("Sign up");
 
@@ -77,10 +77,10 @@ const SignupForm = () => {
           mb={6}
           type="password"
         />
-        <Button colorScheme="teal" mb={6} onClick={register}>
+        <Button colorScheme="purple" mb={6} onClick={register}>
           Sign Up
         </Button>
-        <Link href="/user" passHref>
+        <Link href="/user/login" passHref>
           <Button variant="link" size="sm">
             Log In
           </Button>

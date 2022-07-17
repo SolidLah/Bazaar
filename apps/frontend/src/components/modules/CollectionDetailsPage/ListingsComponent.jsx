@@ -1,12 +1,13 @@
-import { Flex, Heading } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import LinkedCard from "src/components/common/ui/LinkedCard/LinkedCard";
 
-const ListingsComponent = ({ listings }) => {
+const ListingsComponent = ({ items }) => {
+  const active = items.filter((item) => item.active);
+
   return (
     <Flex w="100%" direction="column" gap={6}>
-      <Heading>Listings</Heading>
       <Flex justify="flex-start" wrap="wrap" gap={6}>
-        {listings.map((item) => (
+        {active.map((item) => (
           <LinkedCard key={item.itemId} item={item} watchlistEnabled={true} />
         ))}
       </Flex>

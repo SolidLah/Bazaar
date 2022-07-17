@@ -1,8 +1,28 @@
-import { Center, Flex } from "@chakra-ui/react";
+import { Center, Flex, Spinner } from "@chakra-ui/react";
+import axios from "axios";
+import { useMemo } from "react";
 import LinkedCard from "src/components/common/ui/LinkedCard/LinkedCard";
+import { useStoredAddress } from "src/lib/hooks";
+import useSWR from "swr";
 
-const UserListingsComponent = ({ listed }) => {
-  if (!listed || listed?.length <= 0) {
+const UserListingsComponent = ({ userData }) => {
+  const storedAddress = useStoredAddress(userData);
+  const { data: userItems, error } = useSWR(
+    storedAddress ? "/api/listings/user/" + storedAddress : null,
+    (url) => axios.get(url).then((res) => res.data.msg),
+    { revalidateOnFocus: false }
+  );
+
+  const listed = useMemo(
+    () => (userItems ? userItems.listed : null),
+    [userItems]
+  );
+
+  if (!listed && !error) {
+    return <Spinner color="gray" size="xl" />;
+  }
+
+  if (error || listed.length <= 0) {
     return <Center>No listings</Center>;
   }
 
