@@ -1,11 +1,9 @@
-import { Text, Avatar, Button, Flex, Box } from "@chakra-ui/react";
-import useEthersStore from "src/stores/ethersStore";
+import { Avatar, Box, Button, Flex, Text } from "@chakra-ui/react";
+import { formatAddress } from "src/lib/helpers";
+import { useEmail, useName, useStoredAddress } from "src/lib/hooks";
 import useErrorToast from "src/lib/hooks/useErrorToast";
 import useSuccessToast from "src/lib/hooks/useSuccessToast";
-import { formatAddress } from "src/lib/helpers";
-import { useStoredAddress } from "src/lib/hooks";
-import useName from "src/lib/hooks/useName";
-import useEmail from "src/lib/hooks/useEmail";
+import useEthersStore from "src/stores/ethersStore";
 
 const UserDetailsComponent = ({ userData }) => {
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised);

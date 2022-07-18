@@ -1,33 +1,33 @@
-import formatItem from "./formatItem";
-import toWei from "./toWei";
-import uploadNFT from "./uploadNFT";
-import mintNFT from "./mintNFT";
-import listNFT from "./listNFT";
 import addToWatchlist from "./addToWatchlist";
-import removeFromWatchlist from "./removeFromWatchlist";
-import updateWalletAddress from "./updateWalletAddress";
+import createCollection from "./createCollection";
 import formatAddress from "./formatAddress";
-import getWeb3 from "./getWeb3";
-import mintManyNFTs from "./mintManyNFTs";
-import uploadManyNFTs from "./uploadManyNFTs";
+import formatItem from "./formatItem";
 import getCollectionInfo from "./getCollectionInfo";
 import getCollectionListed from "./getCollectionListed";
-import createCollection from "./createCollection";
+import getWeb3 from "./getWeb3";
+import listNFT from "./listNFT";
+import mintManyNFTs from "./mintManyNFTs";
+import mintNFT from "./mintNFT";
+import removeFromWatchlist from "./removeFromWatchlist";
+import toWei from "./toWei";
+import updateWalletAddress from "./updateWalletAddress";
+import uploadManyNFTs from "./uploadManyNFTs";
+import uploadNFT from "./uploadNFT";
 
 export {
-  formatItem,
-  toWei,
-  uploadNFT,
-  mintNFT,
-  listNFT,
   addToWatchlist,
-  removeFromWatchlist,
-  updateWalletAddress,
+  createCollection,
   formatAddress,
-  getWeb3,
-  mintManyNFTs,
-  uploadManyNFTs,
+  formatItem,
   getCollectionInfo,
   getCollectionListed,
-  createCollection,
+  getWeb3,
+  listNFT,
+  mintManyNFTs,
+  mintNFT,
+  removeFromWatchlist,
+  toWei,
+  updateWalletAddress,
+  uploadManyNFTs,
+  uploadNFT,
 };
