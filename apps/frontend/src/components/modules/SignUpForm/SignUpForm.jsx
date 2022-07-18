@@ -17,7 +17,7 @@ const SignupForm = () => {
   const errorToast = useErrorToast("Sign up");
 
   if (user) {
-    router.push("/user");
+    router.push(`/user${user.uid}`);
   }
 
   const register = async () => {
