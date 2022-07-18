@@ -3,7 +3,7 @@ import create from "zustand";
 let searchStore = (set) => ({
   items: [],
   nameQuery: "",
-  priceRange: { lower: "0", upper: "0" },
+  priceRange: { lower: "", upper: "" },
   setItems: (newItems) => set({ items: newItems }),
   setNameQuery: (newQuery) => set({ nameQuery: newQuery }),
   setPriceRangeLower: (newLower) =>
