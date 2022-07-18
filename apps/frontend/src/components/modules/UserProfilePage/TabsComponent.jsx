@@ -19,16 +19,18 @@ const TabsComponent = ({ userData }) => {
   return (
     <Tabs variant="soft-rounded" colorScheme="purple">
       <TabList gap={3}>
-        <Tab>Watchlist</Tab>
         <Tab>Active listings</Tab>
         <Tab>Owned NFTs</Tab>
-        <Tab>My collections</Tab>
+        <Tab>Collections</Tab>
+        {isMyProfile && <Tab>Watchlist</Tab>}
         {isMyProfile && <Tab>Following</Tab>}
       </TabList>
       <TabPanels>
-        <TabPanel>
-          {isMyProfile && <WatchListComponent userData={userData} />}
-        </TabPanel>
+        {isMyProfile && (
+          <TabPanel>
+            <WatchListComponent userData={userData} />
+          </TabPanel>
+        )}
         <TabPanel>
           <ListingsComponent userData={userData} />
         </TabPanel>
