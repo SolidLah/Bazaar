@@ -1,22 +1,26 @@
 import { Avatar, Box, Button, Flex, Text } from "@chakra-ui/react";
+import { useContext } from "react";
+import { userContext } from "src/contexts/userContext";
 import { formatAddress } from "src/lib/helpers";
 import { useEmail, useName, useStoredAddress } from "src/lib/hooks";
-import useErrorToast from "src/lib/hooks/useErrorToast";
 import useSuccessToast from "src/lib/hooks/useSuccessToast";
-import useEthersStore from "src/stores/ethersStore";
+import FollowButton from "./FollowButton";
 
-const UserDetailsComponent = ({ userData }) => {
-  const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
-  const ethersAddress = useEthersStore((state) => state.address);
-  const errorToast = useErrorToast("Connect wallet to account");
+const UserDetailsComponent = ({ uid, userData }) => {
+  // url query user
   const successToast = useSuccessToast("Connect wallet to account");
   const storedAddress = useStoredAddress(userData);
   const name = useName(userData);
   const email = useEmail(userData);
 
+  // current logged in user
+  const { authState } = useContext(userContext);
+  const [user] = authState;
+  const myUid = user ? user.uid : null;
+
   const buttonCallback = async () => {
     successToast({
-      description: "Wallet has been connected successfully",
+      description: "Updated details",
     });
   };
 
@@ -46,9 +50,13 @@ const UserDetailsComponent = ({ userData }) => {
           <Text fontWeight="bold">Wallet address</Text>
           <Text>{storedAddress ? formatAddress(storedAddress) : ""}</Text>
         </Box>
-        <Button colorScheme="purple" onClick={buttonCallback}>
-          {storedAddress ? "Change" : "Connect"}
-        </Button>
+        {myUid === uid ? (
+          <Button colorScheme="purple" onClick={buttonCallback}>
+            Update details
+          </Button>
+        ) : (
+          <FollowButton uid={uid} />
+        )}
       </Flex>
     </Flex>
   );
