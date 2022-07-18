@@ -1,11 +1,12 @@
 import { useRouter } from "next/router";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "src/lib/firebase";
+import { useContext } from "react";
+import { userContext } from "src/contexts/userContext";
 import LoadingLayout from "./LoadingLayout";
 
 const ProtectedRouteLayout = ({ children }) => {
   const router = useRouter();
-  const [user, loading] = useAuthState(auth);
+  const { authState } = useContext(userContext);
+  const [user, loading] = authState;
 
   if (!user && !loading) {
     router.push({

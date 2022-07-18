@@ -1,9 +1,10 @@
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "src/lib/firebase";
+import { useContext } from "react";
+import { userContext } from "src/contexts/userContext";
 import NavbarElement from "./NavbarElement";
 
 const Navbar = () => {
-  const [user] = useAuthState(auth);
+  const { authState } = useContext(userContext);
+  const [user] = authState;
 
   return <NavbarElement user={user} />;
 };

@@ -88,7 +88,7 @@ const NavbarElement = ({ user }) => {
           </Link>
         )}
         <WalletHandlerButton />
-        <ProfilePictureComponent user={user} />
+        <ProfilePictureComponent />
       </HStack>
     </HStack>
   );
