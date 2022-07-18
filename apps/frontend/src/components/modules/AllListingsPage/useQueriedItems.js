@@ -7,6 +7,8 @@ export default function useQueriedItems() {
   const priceRange = useSearchStore((state) => state.priceRange);
 
   return useMemo(() => {
+    if (!items) return items;
+
     const capsNameQuery = nameQuery.toUpperCase();
     const priceLower = ~~priceRange.lower;
     const priceUpper = ~~priceRange.upper;
