@@ -32,6 +32,7 @@ const registerWithEmailAndPassword = async (name, email, password) => {
   await updateProfile(res.user, { displayName: name });
 
   await setDoc(doc(db, "users", res.user.uid), {
+    uid: res.user.uid,
     name,
     email,
     walletAddress: "",
