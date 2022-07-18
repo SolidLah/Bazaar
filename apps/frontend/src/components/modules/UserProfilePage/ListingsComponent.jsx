@@ -5,7 +5,7 @@ import LinkedCard from "src/components/common/ui/LinkedCard/LinkedCard";
 import { useStoredAddress } from "src/lib/hooks";
 import useSWR from "swr";
 
-const UserOwnedComponent = ({ userData }) => {
+const ListingsComponent = ({ userData }) => {
   const storedAddress = useStoredAddress(userData);
   const { data: userItems, error } = useSWR(
     storedAddress ? "/api/listings/user/" + storedAddress : null,
@@ -13,26 +13,26 @@ const UserOwnedComponent = ({ userData }) => {
     { revalidateOnFocus: false }
   );
 
-  const owned = useMemo(
-    () => (userItems ? userItems.owned : null),
+  const listed = useMemo(
+    () => (userItems ? userItems.listed : null),
     [userItems]
   );
 
-  if (!owned && !error) {
+  if (!listed && !error) {
     return <Spinner color="gray" size="xl" />;
   }
 
-  if (error || owned.length <= 0) {
-    return <Center>No NFTs owned</Center>;
+  if (error || listed.length <= 0) {
+    return <Center>No listings</Center>;
   }
 
   return (
     <Flex wrap="wrap" justify="flex-start" gap={6}>
-      {owned.map((item) => (
-        <LinkedCard key={item.itemId} item={item} />
+      {listed.map((item) => (
+        <LinkedCard key={item.itemId} item={item} watchlistEnabled={false} />
       ))}
     </Flex>
   );
 };
 
-export default UserOwnedComponent;
+export default ListingsComponent;

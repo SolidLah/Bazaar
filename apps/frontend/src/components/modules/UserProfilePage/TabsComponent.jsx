@@ -1,10 +1,21 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
-import UserCollectionsComponent from "./UserCollectionsComponent";
-import UserListingsComponent from "./UserListingsComponent";
-import UserOwnedComponent from "./UserOwnedComponent";
+import { useRouter } from "next/router";
+import { useContext } from "react";
+import { userContext } from "src/contexts/userContext";
+import CollectionsComponent from "./CollectionsComponent";
+import ListingsComponent from "./ListingsComponent";
+import OwnedComponent from "./OwnedComponent";
 import WatchListComponent from "./WatchlistComponent";
 
 const TabsComponent = ({ userData }) => {
+  // router uid
+  const router = useRouter();
+  const { uid } = router.query;
+
+  // current logged in uid
+  const { uid: myUid } = useContext(userContext);
+  const isMyProfile = uid && myUid ? uid === myUid : false;
+
   return (
     <Tabs variant="soft-rounded" colorScheme="purple">
       <TabList gap={3}>
@@ -12,20 +23,22 @@ const TabsComponent = ({ userData }) => {
         <Tab>Active listings</Tab>
         <Tab>Owned NFTs</Tab>
         <Tab>My collections</Tab>
+        {isMyProfile && <Tab>Following</Tab>}
       </TabList>
       <TabPanels>
         <TabPanel>
-          <WatchListComponent userData={userData} />
+          {isMyProfile && <WatchListComponent userData={userData} />}
         </TabPanel>
         <TabPanel>
-          <UserListingsComponent userData={userData} />
+          <ListingsComponent userData={userData} />
         </TabPanel>
         <TabPanel>
-          <UserOwnedComponent userData={userData} />
+          <OwnedComponent userData={userData} />
         </TabPanel>
         <TabPanel>
-          <UserCollectionsComponent userData={userData} />
+          <CollectionsComponent userData={userData} />
         </TabPanel>
+        {isMyProfile && <TabPanel>Following list</TabPanel>}
       </TabPanels>
     </Tabs>
   );

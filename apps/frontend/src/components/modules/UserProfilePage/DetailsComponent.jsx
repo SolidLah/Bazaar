@@ -1,4 +1,5 @@
 import { Avatar, Box, Button, Flex, Text } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 import { useContext } from "react";
 import { userContext } from "src/contexts/userContext";
 import { formatAddress } from "src/lib/helpers";
@@ -6,7 +7,10 @@ import { useEmail, useName, useStoredAddress } from "src/lib/hooks";
 import useSuccessToast from "src/lib/hooks/useSuccessToast";
 import FollowButton from "./FollowButton";
 
-const UserDetailsComponent = ({ uid, userData }) => {
+const DetailsComponent = ({ userData }) => {
+  const router = useRouter();
+  const { uid } = router.query;
+
   // url query user
   const successToast = useSuccessToast("Connect wallet to account");
   const storedAddress = useStoredAddress(userData);
@@ -14,9 +18,8 @@ const UserDetailsComponent = ({ uid, userData }) => {
   const email = useEmail(userData);
 
   // current logged in user
-  const { authState } = useContext(userContext);
-  const [user] = authState;
-  const myUid = user ? user.uid : null;
+  const { uid: myUid } = useContext(userContext);
+  const isMyProfile = uid && myUid ? uid === myUid : false;
 
   const buttonCallback = async () => {
     successToast({
@@ -50,7 +53,7 @@ const UserDetailsComponent = ({ uid, userData }) => {
           <Text fontWeight="bold">Wallet address</Text>
           <Text>{storedAddress ? formatAddress(storedAddress) : ""}</Text>
         </Box>
-        {myUid === uid ? (
+        {isMyProfile ? (
           <Button colorScheme="purple" onClick={buttonCallback}>
             Update details
           </Button>
@@ -62,4 +65,4 @@ const UserDetailsComponent = ({ uid, userData }) => {
   );
 };
 
-export default UserDetailsComponent;
+export default DetailsComponent;

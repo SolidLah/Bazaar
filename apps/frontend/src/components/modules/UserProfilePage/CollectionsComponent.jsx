@@ -1,8 +1,8 @@
 import { Center, Flex, Spinner } from "@chakra-ui/react";
 import { useCollections, useFetchCollections } from "src/lib/hooks";
-import UserCollectionsCard from "./UserCollectionsCard";
+import CollectionsCard from "./CollectionsCard";
 
-const UserCollectionsComponent = ({ userData }) => {
+const CollectionsComponent = ({ userData }) => {
   const collectionsArray = useCollections(userData);
   const { collections, loading } = useFetchCollections(collectionsArray);
 
@@ -21,10 +21,10 @@ const UserCollectionsComponent = ({ userData }) => {
   return (
     <Flex gap={6} justify="flex-start" wrap="wrap">
       {collections.map((collection, index) => (
-        <UserCollectionsCard key={index} collection={collection} />
+        <CollectionsCard key={index} collection={collection} />
       ))}
     </Flex>
   );
 };
 
-export default UserCollectionsComponent;
+export default CollectionsComponent;

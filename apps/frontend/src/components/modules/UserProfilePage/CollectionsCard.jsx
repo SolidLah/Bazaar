@@ -12,7 +12,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { blurImage } from "src/lib/blurImage";
 
-const UserCollectionsCard = ({ collection }) => {
+const CollectionsCard = ({ collection }) => {
   return (
     <LinkBox>
       <Flex
@@ -63,4 +63,4 @@ const UserCollectionsCard = ({ collection }) => {
   );
 };
 
-export default UserCollectionsCard;
+export default CollectionsCard;
