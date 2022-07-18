@@ -1,21 +1,17 @@
 import { StarIcon } from "@chakra-ui/icons";
 import { IconButton } from "@chakra-ui/react";
-import { useMemo } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "src/lib/firebase";
+import { useContext, useMemo } from "react";
+import { userContext } from "src/contexts/userContext";
 import { addToWatchlist, removeFromWatchlist } from "src/lib/helpers";
-import {
-  useErrorToast,
-  useFirestoreUserData,
-  useSuccessToast,
-  useWatchlist,
-} from "src/lib/hooks";
+import { useErrorToast, useSuccessToast, useWatchlist } from "src/lib/hooks";
 
 const AddToWatchListButton = ({ item, ...props }) => {
   const errorToast = useErrorToast("Add to watchlist");
   const successToast = useSuccessToast("Add to watchlist");
-  const [user] = useAuthState(auth);
-  const { userData } = useFirestoreUserData(user);
+
+  const { authState, firestoreHook } = useContext(userContext);
+  const [user] = authState;
+  const { userData } = firestoreHook;
   const watchlistArray = useWatchlist(userData);
 
   const itemInWatchlist = useMemo(

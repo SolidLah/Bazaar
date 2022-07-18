@@ -1,12 +1,10 @@
 import { Button, Center, Flex, Heading, Input } from "@chakra-ui/react";
 import Link from "next/link";
-import { useRef, useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "src/lib/firebase";
-import { getWeb3, createCollection } from "src/lib/helpers";
+import { useContext, useRef, useState } from "react";
+import { userContext } from "src/contexts/userContext";
+import { createCollection, getWeb3 } from "src/lib/helpers";
 import {
   useErrorToast,
-  useFirestoreUserData,
   useStoredAddress,
   useSuccessToast,
 } from "src/lib/hooks";
@@ -14,8 +12,9 @@ import useEthersStore from "src/stores/ethersStore";
 
 const CreateCollectionForm = () => {
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
-  const [user] = useAuthState(auth);
-  const { userData } = useFirestoreUserData(user);
+  const { authState, firestoreHook } = useContext(userContext);
+  const [user] = authState;
+  const { userData } = firestoreHook;
   const storedAddress = useStoredAddress(userData);
   const collectionNameRef = useRef("");
   const collectionSymbolRef = useRef("");
