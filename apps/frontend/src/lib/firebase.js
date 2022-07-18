@@ -1,13 +1,13 @@
 import { initializeApp } from "firebase/app";
 import {
-  getAuth,
-  signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  getAuth,
   sendPasswordResetEmail,
+  signInWithEmailAndPassword,
   signOut,
   updateProfile,
 } from "firebase/auth";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { doc, getFirestore, setDoc } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAKEv3N-20uVAHgk5sYb2tV9GNuUDsI7I4",
@@ -37,6 +37,7 @@ const registerWithEmailAndPassword = async (name, email, password) => {
     walletAddress: "",
     watchlist: [],
     collections: [],
+    following: [],
   });
 };
 
