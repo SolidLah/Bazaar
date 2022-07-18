@@ -5,16 +5,19 @@ import { useFirestoreUserData } from "src/lib/hooks";
 
 const userContext = createContext({
   authState: null,
+  uid: null,
   firestoreHook: null,
 });
 
 const UserProvider = ({ children }) => {
   const authState = useAuthState(auth);
   const [user] = authState;
+  const uid = user ? user.uid : null;
   const firestoreHook = useFirestoreUserData(user);
 
   const value = {
     authState,
+    uid,
     firestoreHook,
   };
 
