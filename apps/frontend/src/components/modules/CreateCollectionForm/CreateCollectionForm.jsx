@@ -1,16 +1,16 @@
 import { Button, Center, Flex, Heading, Input } from "@chakra-ui/react";
-import { useContext, useRef, useState } from "react";
-import { userContext } from "src/contexts/userContext";
+import { useRef, useState } from "react";
 import { createCollection, getWeb3 } from "src/lib/helpers";
-import { useErrorToast, useSuccessToast } from "src/lib/hooks";
+import {
+  useErrorToast,
+  useSuccessToast,
+  useValidatedAddress,
+} from "src/lib/hooks";
 import useEthersStore from "src/stores/ethersStore";
 
 const CreateCollectionForm = () => {
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
-  const ethersAddress = useEthersStore((state) => state.address);
-  const { uid, firestoreHook } = useContext(userContext);
-  const { data } = firestoreHook;
-  const walletAddress = data?.walletAddress;
+  const { isValidated, validateAddress } = useValidatedAddress();
   const errorToast = useErrorToast("Create collection");
   const successToast = useSuccessToast("Create collection");
 
@@ -30,19 +30,8 @@ const CreateCollectionForm = () => {
       return;
     }
 
-    if (!walletAddress) {
-      errorToast({
-        description: "No wallet associated with this user",
-      });
-      return;
-    }
-
-    if (ethersAddress !== walletAddress) {
-      errorToast({
-        description: "Current metamask wallet does not match user's wallet",
-      });
-      return;
-    }
+    validateAddress();
+    if (!isValidated) return;
 
     if (!collectionName || !collectionSymbol) {
       errorToast({
