@@ -11,7 +11,7 @@ const ProtectedRouteLayout = ({ children }) => {
   if (!user && !loading) {
     router.push({
       pathname: "/user/login",
-      query: { from: router.pathname },
+      query: { from: router.asPath },
     });
   }
 

@@ -7,7 +7,7 @@ export default function useLoginRedirect() {
   const loginRedirect = useCallback(() => {
     router.push({
       pathname: "/user/login",
-      query: { from: router.pathname },
+      query: { from: router.asPath },
     });
   }, [router]);
 
