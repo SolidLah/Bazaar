@@ -12,6 +12,7 @@ const WalletHandlerButton = (props) => {
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
   const errorToast = useErrorToast("Connect wallet");
   const successToast = useSuccessToast("Connect wallet");
+
   const [loading, setLoading] = useState(false);
 
   const connect = async () => {
