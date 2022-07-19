@@ -6,14 +6,13 @@ import useEthersStore from "src/stores/ethersStore";
 
 const SingleMintForm = ({ address }) => {
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
+  const errorToast = useErrorToast("Minting NFT");
+  const successToast = useSuccessToast("Minting NFT");
 
   const imageRef = useRef();
   const nameRef = useRef();
   const descriptionRef = useRef();
   const [loading, setLoading] = useState("");
-
-  const errorToast = useErrorToast("Minting NFT");
-  const successToast = useSuccessToast("Minting NFT");
 
   const buttonCallback = async () => {
     const image = imageRef.current?.files[0];

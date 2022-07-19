@@ -6,13 +6,12 @@ import useEthersStore from "src/stores/ethersStore";
 
 const BatchMintForm = ({ address }) => {
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
+  const errorToast = useErrorToast("Minting NFT");
+  const successToast = useSuccessToast("Minting NFT");
 
   const zipRef = useRef();
   const descriptionRef = useRef();
   const [loading, setLoading] = useState("");
-
-  const errorToast = useErrorToast("Minting NFT");
-  const successToast = useSuccessToast("Minting NFT");
 
   const buttonCallback = async () => {
     const zip = zipRef.current?.files[0];

@@ -16,6 +16,7 @@ const ListingDetailsPage = ({ id }) => {
   const { authState } = useContext(userContext);
   const [user] = authState;
   const walletAddress = useEthersStore((state) => state.address);
+
   const { data: item, error } = useSWR(`/api/listings/${id}`, (url) =>
     axios.get(url).then((res) => res.data.msg)
   );
