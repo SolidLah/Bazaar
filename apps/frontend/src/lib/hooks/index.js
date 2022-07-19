@@ -2,6 +2,7 @@ import useCollections from "./useCollections";
 import useEmail from "./useEmail";
 import useErrorToast from "./useErrorToast";
 import useFetchCollections from "./useFetchCollections";
+import useFetchFollowing from "./useFetchFollowing";
 import useFetchWatchlist from "./useFetchWatchlist";
 import useFirestoreUidData from "./useFirestoreUidData";
 import useFirestoreUserData from "./useFirestoreUserData";
@@ -15,6 +16,7 @@ export {
   useCollections,
   useEmail,
   useErrorToast,
+  useFetchFollowing,
   useFetchCollections,
   useFetchWatchlist,
   useFirestoreUidData,
