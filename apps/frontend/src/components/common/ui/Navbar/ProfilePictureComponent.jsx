@@ -15,7 +15,7 @@ import { formatAddress } from "src/lib/helpers";
 import { useContext } from "react";
 import { userContext } from "src/contexts/userContext";
 
-const PopupContent = ({ user, data }) => {
+const PopupContent = ({ user, data, onClose }) => {
   return (
     <Flex direction="column" gap={6}>
       {user && (
@@ -56,16 +56,20 @@ const ProfilePictureComponent = () => {
 
   return (
     <Popover>
-      <PopoverTrigger>
-        <Avatar cursor="pointer" />
-      </PopoverTrigger>
-      <Portal>
-        <PopoverContent bg="gray.200">
-          <PopoverBody>
-            <PopupContent user={user} data={data} />
-          </PopoverBody>
-        </PopoverContent>
-      </Portal>
+      {({ onClose }) => (
+        <>
+          <PopoverTrigger>
+            <Avatar cursor="pointer" />
+          </PopoverTrigger>
+          <Portal>
+            <PopoverContent bg="gray.200">
+              <PopoverBody>
+                <PopupContent user={user} data={data} onClose={onClose} />
+              </PopoverBody>
+            </PopoverContent>
+          </Portal>
+        </>
+      )}
     </Popover>
   );
 };
