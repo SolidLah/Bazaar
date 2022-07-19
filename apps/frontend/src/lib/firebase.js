@@ -33,6 +33,8 @@ const registerWithEmailAndPassword = async (name, email, password) => {
 
   await setDoc(doc(db, "users", res.user.uid), {
     uid: res.user.uid,
+    avatar: "",
+    background: "",
     name,
     email,
     walletAddress: "",
