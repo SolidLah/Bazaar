@@ -3,7 +3,7 @@ import { IconButton } from "@chakra-ui/react";
 import { useContext, useMemo } from "react";
 import { userContext } from "src/contexts/userContext";
 import { addToWatchlist, removeFromWatchlist } from "src/lib/helpers";
-import { useErrorToast, useSuccessToast, useWatchlist } from "src/lib/hooks";
+import { useErrorToast, useSuccessToast } from "src/lib/hooks";
 
 const AddToWatchListButton = ({ item, ...props }) => {
   const errorToast = useErrorToast("Add to watchlist");
@@ -11,8 +11,8 @@ const AddToWatchListButton = ({ item, ...props }) => {
 
   const { authState, firestoreHook } = useContext(userContext);
   const [user] = authState;
-  const { userData } = firestoreHook;
-  const watchlistArray = useWatchlist(userData);
+  const { data } = firestoreHook;
+  const watchlistArray = data?.watchlist;
 
   const itemInWatchlist = useMemo(
     () => (watchlistArray ? watchlistArray.includes(item.itemId) : false),

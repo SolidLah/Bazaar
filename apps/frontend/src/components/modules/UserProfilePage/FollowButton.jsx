@@ -3,14 +3,13 @@ import { useContext } from "react";
 import { userContext } from "src/contexts/userContext";
 import followUser from "src/lib/helpers/followUser";
 import unfollowUser from "src/lib/helpers/unfollowUser";
-import { useErrorToast, useFollowing, useSuccessToast } from "src/lib/hooks";
+import { useErrorToast, useSuccessToast } from "src/lib/hooks";
 
 const FollowButton = ({ uid, ...props }) => {
   const { authState, firestoreHook } = useContext(userContext);
   const [user] = authState;
-  const { userData } = firestoreHook;
-  const followingArray = useFollowing(userData);
-  const isFollowing = followingArray ? followingArray.includes(uid) : false;
+  const { data } = firestoreHook;
+  const isFollowing = data ? data.following.includes(uid) : false;
   const successToast = useSuccessToast("Follow user");
   const errorToast = useErrorToast("Follow user");
 

@@ -3,24 +3,22 @@ import Link from "next/link";
 import { useContext, useRef, useState } from "react";
 import { userContext } from "src/contexts/userContext";
 import { createCollection, getWeb3 } from "src/lib/helpers";
-import {
-  useErrorToast,
-  useStoredAddress,
-  useSuccessToast,
-} from "src/lib/hooks";
+import { useErrorToast, useSuccessToast } from "src/lib/hooks";
 import useEthersStore from "src/stores/ethersStore";
 
 const CreateCollectionForm = () => {
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
+  const ethersAddress = useEthersStore((state) => state.address);
   const { authState, firestoreHook } = useContext(userContext);
   const [user] = authState;
-  const { userData } = firestoreHook;
-  const storedAddress = useStoredAddress(userData);
+  const { data } = firestoreHook;
+  const walletAddress = data?.walletAddress;
+  const errorToast = useErrorToast("Create collection");
+  const successToast = useSuccessToast("Create collection");
+
   const collectionNameRef = useRef("");
   const collectionSymbolRef = useRef("");
   const [loading, setLoading] = useState(false);
-  const errorToast = useErrorToast("Create collection");
-  const successToast = useSuccessToast("Create collection");
 
   const buttonCallback = async () => {
     const collectionName = collectionNameRef.current.value;
@@ -30,6 +28,13 @@ const CreateCollectionForm = () => {
     if (web3Error !== "") {
       errorToast({
         description: web3Error,
+      });
+      return;
+    }
+
+    if (ethersAddress !== walletAddress) {
+      errorToast({
+        description: "Current metamask wallet does not match user's wallet",
       });
       return;
     }
@@ -65,7 +70,7 @@ const CreateCollectionForm = () => {
     setLoading(false);
   };
 
-  if (!storedAddress) {
+  if (!walletAddress) {
     return (
       <Center direction="column" mt={20}>
         <div>

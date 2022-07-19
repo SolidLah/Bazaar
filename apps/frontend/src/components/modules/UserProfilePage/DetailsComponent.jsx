@@ -3,19 +3,18 @@ import { useRouter } from "next/router";
 import { useContext } from "react";
 import { userContext } from "src/contexts/userContext";
 import { formatAddress } from "src/lib/helpers";
-import { useEmail, useName, useStoredAddress } from "src/lib/hooks";
 import useSuccessToast from "src/lib/hooks/useSuccessToast";
 import FollowButton from "./FollowButton";
 
-const DetailsComponent = ({ userData }) => {
+const DetailsComponent = ({ data }) => {
   const router = useRouter();
   const { uid } = router.query;
 
   // url query user
   const successToast = useSuccessToast("Connect wallet to account");
-  const storedAddress = useStoredAddress(userData);
-  const name = useName(userData);
-  const email = useEmail(userData);
+  const walletAddress = data?.walletAddress;
+  const name = data?.name;
+  const email = data?.email;
 
   // current logged in user
   const { uid: myUid } = useContext(userContext);
@@ -51,7 +50,7 @@ const DetailsComponent = ({ userData }) => {
         </Box>
         <Box>
           <Text fontWeight="bold">Wallet address</Text>
-          <Text>{storedAddress ? formatAddress(storedAddress) : ""}</Text>
+          <Text>{walletAddress ? formatAddress(walletAddress) : ""}</Text>
         </Box>
         {isMyProfile ? (
           <Button colorScheme="purple" onClick={buttonCallback}>

@@ -19,8 +19,8 @@ const UserProfilePage = ({ uid }) => {
   return (
     <Container maxW="container.xl" mt={20}>
       <Flex gap={6} justify="flex-start">
-        <DetailsComponent userData={data} />
-        <TabsComponent userData={data} />
+        <DetailsComponent data={data} />
+        <TabsComponent data={data} />
       </Flex>
     </Container>
   );

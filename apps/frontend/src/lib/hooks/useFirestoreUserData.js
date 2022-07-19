@@ -1,12 +1,12 @@
 import { doc } from "firebase/firestore";
-import { useDocument } from "react-firebase-hooks/firestore";
+import { useDocumentData } from "react-firebase-hooks/firestore";
 import { db } from "src/lib/firebase";
 
 export default function useFirestoreUserData(user) {
   const docRef = user ? doc(db, "users", user.uid) : null;
-  const [userData, loading, error] = useDocument(docRef, {
+  const [data, loading, error] = useDocumentData(docRef, {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
 
-  return { userData, loading, error };
+  return { data, loading, error };
 }

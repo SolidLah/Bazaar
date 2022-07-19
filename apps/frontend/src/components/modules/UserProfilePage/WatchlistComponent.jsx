@@ -1,9 +1,9 @@
 import { Center, Flex, Spinner } from "@chakra-ui/react";
 import LinkedCard from "src/components/common/ui/LinkedCard/LinkedCard";
-import { useFetchWatchlist, useWatchlist } from "src/lib/hooks";
+import { useFetchWatchlist } from "src/lib/hooks";
 
-const WatchListComponent = ({ userData }) => {
-  const watchlistArray = useWatchlist(userData);
+const WatchListComponent = ({ data }) => {
+  const watchlistArray = data?.watchlist;
   const { watchlist, loading } = useFetchWatchlist(watchlistArray);
 
   if (loading) {

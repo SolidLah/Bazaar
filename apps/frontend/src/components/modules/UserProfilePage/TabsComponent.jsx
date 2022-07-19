@@ -8,7 +8,7 @@ import ListingsComponent from "./ListingsComponent";
 import OwnedComponent from "./OwnedComponent";
 import WatchListComponent from "./WatchlistComponent";
 
-const TabsComponent = ({ userData }) => {
+const TabsComponent = ({ data }) => {
   // router uid
   const router = useRouter();
   const { uid } = router.query;
@@ -28,24 +28,24 @@ const TabsComponent = ({ userData }) => {
       </TabList>
       <TabPanels>
         <TabPanel>
-          <ListingsComponent userData={userData} />
+          <ListingsComponent data={data} />
         </TabPanel>
         <TabPanel>
-          <CollectionsComponent userData={userData} />
+          <CollectionsComponent data={data} />
         </TabPanel>
         {isMyProfile && (
           <TabPanel>
-            <OwnedComponent userData={userData} />
+            <OwnedComponent data={data} />
           </TabPanel>
         )}
         {isMyProfile && (
           <TabPanel>
-            <WatchListComponent userData={userData} />
+            <WatchListComponent data={data} />
           </TabPanel>
         )}
         {isMyProfile && (
           <TabPanel>
-            <FollowingComponent userData={userData} />
+            <FollowingComponent data={data} />
           </TabPanel>
         )}
       </TabPanels>

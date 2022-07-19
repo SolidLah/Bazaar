@@ -1,9 +1,9 @@
 import { Center, Flex, Spinner } from "@chakra-ui/react";
-import { useCollections, useFetchCollections } from "src/lib/hooks";
+import { useFetchCollections } from "src/lib/hooks";
 import CollectionsCard from "./CollectionsCard";
 
-const CollectionsComponent = ({ userData }) => {
-  const collectionsArray = useCollections(userData);
+const CollectionsComponent = ({ data }) => {
+  const collectionsArray = data?.collections;
   const { collections, loading } = useFetchCollections(collectionsArray);
 
   if (loading) {

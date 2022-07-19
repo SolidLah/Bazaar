@@ -11,7 +11,6 @@ import {
   Text,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { useStoredAddress } from "src/lib/hooks";
 import { formatAddress } from "src/lib/helpers";
 import { useContext } from "react";
 import { userContext } from "src/contexts/userContext";
@@ -19,8 +18,8 @@ import { userContext } from "src/contexts/userContext";
 const ProfilePictureComponent = () => {
   const { authState, firestoreHook } = useContext(userContext);
   const [user] = authState;
-  const { userData } = firestoreHook;
-  const fireStoredAddress = useStoredAddress(userData);
+  const { data } = firestoreHook;
+
   return (
     <Popover>
       {({ onClose }) => (
@@ -36,11 +35,11 @@ const ProfilePictureComponent = () => {
                     <Flex direction="row" gap={6} align="center">
                       <Avatar size="xl" />
                       <Flex direction="column">
-                        <Heading size="md">{user.email}</Heading>
-                        <Text>{user.displayName}</Text>
+                        <Heading size="md">{data?.email}</Heading>
+                        <Text>{data?.name}</Text>
                         <Text>
-                          {fireStoredAddress
-                            ? formatAddress(fireStoredAddress)
+                          {data?.walletAddress
+                            ? formatAddress(data?.walletAddress)
                             : "Connect wallet"}
                         </Text>
                       </Flex>
