@@ -1,5 +1,4 @@
 import { Button, Center, Flex, Heading, Input } from "@chakra-ui/react";
-import Link from "next/link";
 import { useContext, useRef, useState } from "react";
 import { userContext } from "src/contexts/userContext";
 import { createCollection, getWeb3 } from "src/lib/helpers";
@@ -9,8 +8,7 @@ import useEthersStore from "src/stores/ethersStore";
 const CreateCollectionForm = () => {
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
   const ethersAddress = useEthersStore((state) => state.address);
-  const { authState, firestoreHook } = useContext(userContext);
-  const [user] = authState;
+  const { uid, firestoreHook } = useContext(userContext);
   const { data } = firestoreHook;
   const walletAddress = data?.walletAddress;
   const errorToast = useErrorToast("Create collection");
@@ -28,6 +26,13 @@ const CreateCollectionForm = () => {
     if (web3Error !== "") {
       errorToast({
         description: web3Error,
+      });
+      return;
+    }
+
+    if (!walletAddress) {
+      errorToast({
+        description: "No wallet associated with this user",
       });
       return;
     }
@@ -50,7 +55,7 @@ const CreateCollectionForm = () => {
 
     try {
       const contractAddress = await createCollection(
-        user.uid,
+        uid,
         collectionName,
         collectionSymbol
       );
@@ -69,17 +74,6 @@ const CreateCollectionForm = () => {
     collectionSymbolRef.current.value = "";
     setLoading(false);
   };
-
-  if (!walletAddress) {
-    return (
-      <Center direction="column" mt={20}>
-        <div>
-          Please connect a wallet to your account to create a collection
-        </div>
-        <Link href="/user">Profile page</Link>
-      </Center>
-    );
-  }
 
   return (
     <Center mt={20}>
