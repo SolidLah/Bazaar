@@ -19,6 +19,11 @@ const AddToWatchListButton = ({ item, ...props }) => {
     [watchlistArray, item]
   );
 
+  const isOwner = useMemo(
+    () => (item && data ? item.owner === data.walletAddress : false),
+    [item, data]
+  );
+
   const buttonCallback = async () => {
     try {
       if (!user) {
@@ -48,6 +53,7 @@ const AddToWatchListButton = ({ item, ...props }) => {
       icon={<StarIcon />}
       onClick={buttonCallback}
       isActive={itemInWatchlist}
+      isDisabled={isOwner}
       {...props}
     />
   );
