@@ -1,10 +1,10 @@
 import { Button, Center, Flex, Heading, Input } from "@chakra-ui/react";
 import Link from "next/link";
-import { useRef } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, registerWithEmailAndPassword } from "src/lib/firebase";
 import { useRouter } from "next/router";
+import { useContext, useRef } from "react";
 import LoadingLayout from "src/components/common/layouts/LoadingLayout";
+import { userContext } from "src/contexts/userContext";
+import { registerWithEmailAndPassword } from "src/lib/firebase";
 import useErrorToast from "src/lib/hooks/useErrorToast";
 
 const SignupForm = () => {
@@ -12,12 +12,13 @@ const SignupForm = () => {
   const nameRef = useRef();
   const passwordRef = useRef();
   const confirmPasswordRef = useRef();
-  const [user, loading] = useAuthState(auth);
+  const { authState } = useContext(userContext);
+  const [user, loading] = authState;
   const router = useRouter();
   const errorToast = useErrorToast("Sign up");
 
   if (user) {
-    router.push("/user");
+    router.push(`/user${user.uid}`);
   }
 
   const register = async () => {

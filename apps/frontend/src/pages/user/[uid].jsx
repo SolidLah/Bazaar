@@ -1,16 +1,16 @@
 import { useRouter } from "next/router";
 import ProtectedRouteLayout from "src/components/common/layouts/ProtectedRouteLayout";
-import MintForm from "src/components/modules/MintForm/MintForm";
+import UserProfilePage from "src/components/modules/UserProfilePage/UserProfilePage";
 
-const Mint = () => {
+const Details = () => {
   const router = useRouter();
-  const { address } = router.query;
+  const { uid } = router.query;
 
   return (
     <ProtectedRouteLayout>
-      <MintForm address={address} />
+      <UserProfilePage uid={uid} />
     </ProtectedRouteLayout>
   );
 };
 
-export default Mint;
+export default Details;

@@ -19,7 +19,7 @@ const LoginForm = () => {
       if (router.query && router.query.from) {
         router.push(router.query.from);
       } else {
-        router.push("/user");
+        router.push(`/user/${user.user.uid}`);
       }
     }
   }, [user]);

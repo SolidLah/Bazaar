@@ -1,33 +1,26 @@
 import { Container, Flex } from "@chakra-ui/react";
-import { useAuthState } from "react-firebase-hooks/auth";
 import ErrorLayout from "src/components/common/layouts/ErrorLayout";
 import LoadingLayout from "src/components/common/layouts/LoadingLayout";
-import { auth } from "src/lib/firebase";
-import { useFirestoreUserData } from "src/lib/hooks";
+import useFirestoreUidData from "src/lib/hooks/useFirestoreUidData";
 import TabsComponent from "./TabsComponent";
-import UserDetailsComponent from "./UserDetailsComponent";
+import DetailsComponent from "./DetailsComponent";
 
-const UserProfilePage = () => {
-  const [user, authLoading, authError] = useAuthState(auth);
-  const {
-    userData,
-    loading: firestoreLoading,
-    error: firestoreError,
-  } = useFirestoreUserData(user);
+const UserProfilePage = ({ uid }) => {
+  const { data, loading, error } = useFirestoreUidData(uid);
 
-  if (authLoading || firestoreLoading) {
+  if (loading) {
     return <LoadingLayout />;
   }
 
-  if (authError || firestoreError) {
+  if (error) {
     return <ErrorLayout />;
   }
 
   return (
     <Container maxW="container.xl" mt={20}>
       <Flex gap={6} justify="flex-start">
-        <UserDetailsComponent user={user} userData={userData} />
-        <TabsComponent userData={userData} />
+        <DetailsComponent data={data} />
+        <TabsComponent data={data} />
       </Flex>
     </Container>
   );

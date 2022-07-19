@@ -1,19 +1,17 @@
 import useErrorToast from "./useErrorToast";
-import useSuccessToast from "./useSuccessToast";
-import useFirestoreUserData from "./useFirestoreUserData";
-import useWatchlist from "./useWatchlist";
-import useStoredAddress from "./useStoredAddress";
-import useFetchWatchlist from "./useFetchWatchlist";
-import useCollections from "./useCollections";
 import useFetchCollections from "./useFetchCollections";
+import useFetchFollowing from "./useFetchFollowing";
+import useFetchWatchlist from "./useFetchWatchlist";
+import useFirestoreUidData from "./useFirestoreUidData";
+import useFirestoreUserData from "./useFirestoreUserData";
+import useSuccessToast from "./useSuccessToast";
 
 export {
   useErrorToast,
-  useSuccessToast,
-  useFirestoreUserData,
-  useWatchlist,
-  useStoredAddress,
-  useFetchWatchlist,
-  useCollections,
+  useFetchFollowing,
   useFetchCollections,
+  useFetchWatchlist,
+  useFirestoreUidData,
+  useFirestoreUserData,
+  useSuccessToast,
 };

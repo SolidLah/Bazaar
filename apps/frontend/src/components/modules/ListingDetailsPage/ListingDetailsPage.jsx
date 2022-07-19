@@ -1,12 +1,11 @@
 import { Box, Container, Flex } from "@chakra-ui/react";
 import axios from "axios";
 import Image from "next/image";
-import { useMemo } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
+import { useContext, useMemo } from "react";
 import ErrorLayout from "src/components/common/layouts/ErrorLayout";
 import LoadingLayout from "src/components/common/layouts/LoadingLayout";
+import { userContext } from "src/contexts/userContext";
 import { blurImage } from "src/lib/blurImage";
-import { auth } from "src/lib/firebase";
 import useEthersStore from "src/stores/ethersStore";
 import useSWR from "swr";
 import BuyComponent from "./BuyComponent";
@@ -14,7 +13,8 @@ import DetailsCard from "./DetailsCard";
 import ListComponent from "./ListComponent";
 
 const ListingDetailsPage = ({ id }) => {
-  const [user] = useAuthState(auth);
+  const { authState } = useContext(userContext);
+  const [user] = authState;
   const walletAddress = useEthersStore((state) => state.address);
   const { data: item, error } = useSWR(`/api/listings/${id}`, (url) =>
     axios.get(url).then((res) => res.data.msg)
