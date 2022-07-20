@@ -35,7 +35,7 @@ const PopupContent = ({ user, data, onClose }) => {
       {user ? (
         <Link href={`/user/${user.uid}`} passHref>
           <Button as="a" colorScheme="purple" onClick={onClose}>
-            User profile
+            User Profile
           </Button>
         </Link>
       ) : (
