@@ -1,18 +1,22 @@
 import { Button, Flex, Heading, Input } from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import { getWeb3, mintManyNFTs, uploadManyNFTs } from "src/lib/helpers";
-import { useErrorToast, useSuccessToast } from "src/lib/hooks";
+import {
+  useErrorToast,
+  useSuccessToast,
+  useValidatedAddress,
+} from "src/lib/hooks";
 import useEthersStore from "src/stores/ethersStore";
 
 const BatchMintForm = ({ address }) => {
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
+  const { isValidated, validateAddress } = useValidatedAddress();
+  const errorToast = useErrorToast("Minting NFT");
+  const successToast = useSuccessToast("Minting NFT");
 
   const zipRef = useRef();
   const descriptionRef = useRef();
   const [loading, setLoading] = useState("");
-
-  const errorToast = useErrorToast("Minting NFT");
-  const successToast = useSuccessToast("Minting NFT");
 
   const buttonCallback = async () => {
     const zip = zipRef.current?.files[0];
@@ -25,6 +29,9 @@ const BatchMintForm = ({ address }) => {
       });
       return;
     }
+
+    validateAddress();
+    if (!isValidated) return;
 
     if (!zip || !description) {
       errorToast({

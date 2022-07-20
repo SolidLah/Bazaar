@@ -1,19 +1,23 @@
 import { Button, Flex, Heading, Input } from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import { getWeb3, mintNFT, uploadNFT } from "src/lib/helpers";
-import { useErrorToast, useSuccessToast } from "src/lib/hooks";
+import {
+  useErrorToast,
+  useSuccessToast,
+  useValidatedAddress,
+} from "src/lib/hooks";
 import useEthersStore from "src/stores/ethersStore";
 
 const SingleMintForm = ({ address }) => {
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
+  const { isValidated, validateAddress } = useValidatedAddress();
+  const errorToast = useErrorToast("Minting NFT");
+  const successToast = useSuccessToast("Minting NFT");
 
   const imageRef = useRef();
   const nameRef = useRef();
   const descriptionRef = useRef();
   const [loading, setLoading] = useState("");
-
-  const errorToast = useErrorToast("Minting NFT");
-  const successToast = useSuccessToast("Minting NFT");
 
   const buttonCallback = async () => {
     const image = imageRef.current?.files[0];
@@ -27,6 +31,9 @@ const SingleMintForm = ({ address }) => {
       });
       return;
     }
+
+    validateAddress();
+    if (!isValidated) return;
 
     if (!image || !name || !description) {
       errorToast({

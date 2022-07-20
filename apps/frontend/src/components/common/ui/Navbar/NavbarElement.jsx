@@ -4,10 +4,12 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import WalletHandlerButton from "src/components/common/ui/WalletHandlerButton/WalletHandlerButton";
 import { logout } from "src/lib/firebase";
+import { useLoginRedirect } from "src/lib/hooks";
 import ProfilePictureComponent from "./ProfilePictureComponent";
 
 const NavbarElement = ({ user }) => {
   const router = useRouter();
+  const loginCallback = useLoginRedirect();
 
   const logoutCallback = async () => {
     await logout();
@@ -50,21 +52,7 @@ const NavbarElement = ({ user }) => {
           color="white"
           isDisabled={true}
         >
-          Trending
-        </Button>
-        <Link href="/creators" passHref>
-          <Button as="a" colorScheme="blackAlpha" variant="ghost" color="white">
-            Creators
-          </Button>
-        </Link>
-        <Button
-          as="a"
-          colorScheme="blackAlpha"
-          variant="ghost"
-          color="white"
-          isDisabled={true}
-        >
-          Albums
+          Collections
         </Button>
         {user ? (
           <Button
@@ -76,16 +64,14 @@ const NavbarElement = ({ user }) => {
             Logout
           </Button>
         ) : (
-          <Link href="/user/login" passHref>
-            <Button
-              as="a"
-              colorScheme="blackAlpha"
-              variant="ghost"
-              color="white"
-            >
-              Login
-            </Button>
-          </Link>
+          <Button
+            onClick={loginCallback}
+            colorScheme="blackAlpha"
+            variant="ghost"
+            color="white"
+          >
+            Login
+          </Button>
         )}
         <WalletHandlerButton />
         <ProfilePictureComponent />

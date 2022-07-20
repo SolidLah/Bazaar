@@ -1,18 +1,16 @@
 import { Button, Center, Flex, Heading, Input } from "@chakra-ui/react";
-import Link from "next/link";
-import { useContext, useRef, useState } from "react";
-import { userContext } from "src/contexts/userContext";
+import { useRef, useState } from "react";
 import { createCollection, getWeb3 } from "src/lib/helpers";
-import { useErrorToast, useSuccessToast } from "src/lib/hooks";
+import {
+  useErrorToast,
+  useSuccessToast,
+  useValidatedAddress,
+} from "src/lib/hooks";
 import useEthersStore from "src/stores/ethersStore";
 
 const CreateCollectionForm = () => {
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
-  const ethersAddress = useEthersStore((state) => state.address);
-  const { authState, firestoreHook } = useContext(userContext);
-  const [user] = authState;
-  const { data } = firestoreHook;
-  const walletAddress = data?.walletAddress;
+  const { isValidated, validateAddress } = useValidatedAddress();
   const errorToast = useErrorToast("Create collection");
   const successToast = useSuccessToast("Create collection");
 
@@ -32,12 +30,8 @@ const CreateCollectionForm = () => {
       return;
     }
 
-    if (ethersAddress !== walletAddress) {
-      errorToast({
-        description: "Current metamask wallet does not match user's wallet",
-      });
-      return;
-    }
+    validateAddress();
+    if (!isValidated) return;
 
     if (!collectionName || !collectionSymbol) {
       errorToast({
@@ -50,7 +44,7 @@ const CreateCollectionForm = () => {
 
     try {
       const contractAddress = await createCollection(
-        user.uid,
+        uid,
         collectionName,
         collectionSymbol
       );
@@ -69,17 +63,6 @@ const CreateCollectionForm = () => {
     collectionSymbolRef.current.value = "";
     setLoading(false);
   };
-
-  if (!walletAddress) {
-    return (
-      <Center direction="column" mt={20}>
-        <div>
-          Please connect a wallet to your account to create a collection
-        </div>
-        <Link href="/user">Profile page</Link>
-      </Center>
-    );
-  }
 
   return (
     <Center mt={20}>
