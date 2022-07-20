@@ -29,7 +29,6 @@ const logInWithEmailAndPassword = async (email, password) => {
 
 const registerWithEmailAndPassword = async (name, email, password) => {
   const res = await createUserWithEmailAndPassword(auth, email, password);
-  await updateProfile(res.user, { displayName: name });
 
   await setDoc(doc(db, "users", res.user.uid), {
     uid: res.user.uid,
