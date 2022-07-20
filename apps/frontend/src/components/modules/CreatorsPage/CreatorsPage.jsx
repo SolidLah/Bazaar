@@ -1,23 +1,24 @@
-import { Container, Flex, Heading } from "@chakra-ui/react";
+import { Container, Flex } from "@chakra-ui/react";
 import ErrorLayout from "src/components/common/layouts/ErrorLayout";
 import LoadingLayout from "src/components/common/layouts/LoadingLayout";
+import UserCard from "src/components/common/ui/UserCard/UserCard";
 import { useAllCreators } from "src/lib/hooks";
-import CreatorCard from "./CreatorCard";
+import Header from "./Header";
 
 const CreatorsPage = () => {
   const { data, loading, error } = useAllCreators();
 
   if (loading) return <LoadingLayout />;
   if (error) return <ErrorLayout />;
-  if (!value) return <ErrorLayout message="No creators" />;
+  if (!data) return <ErrorLayout message="No creators" />;
 
   return (
     <Container maxW="container.xl" mt={20}>
-      <Flex gap={6}>
-        <Heading>Creators</Heading>
-        <Flex>
+      <Flex gap={6} direction="column">
+        <Header />
+        <Flex justify="flex-start" direction="column" gap={3}>
           {data.map((creator) => (
-            <CreatorCard key={creator.uid} creator={creator} />
+            <UserCard key={creator.uid} user={creator} w="xl" />
           ))}
         </Flex>
       </Flex>

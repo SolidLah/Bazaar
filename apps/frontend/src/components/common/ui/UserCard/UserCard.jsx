@@ -10,13 +10,12 @@ import {
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { formatAddress } from "src/lib/helpers";
-import FollowButton from "./FollowButton";
+import FollowButton from "../FollowButton/FollowButton";
 
-const FollowingCard = ({ user }) => {
+const UserCard = ({ user, disableFollow, ...props }) => {
   return (
-    <LinkBox>
+    <LinkBox {...props}>
       <Flex
-        as={motion.div}
         justify="flex-start"
         align="center"
         p={3}
@@ -24,6 +23,7 @@ const FollowingCard = ({ user }) => {
         borderColor="gray.300"
         borderRadius="md"
         gap={6}
+        as={motion.div}
         _hover={{ shadow: "outline" }}
         cursor="pointer"
         whileHover={{ scale: 1.02 }}
@@ -38,10 +38,10 @@ const FollowingCard = ({ user }) => {
           <Text>{formatAddress(user.walletAddress)}</Text>
         </Flex>
         <Spacer />
-        <FollowButton uid={user.uid} zIndex="2" />
+        {!disableFollow && <FollowButton uid={user.uid} zIndex="2" />}
       </Flex>
     </LinkBox>
   );
 };
 
-export default FollowingCard;
+export default UserCard;
