@@ -39,6 +39,7 @@ const LoginForm = () => {
           Log In
         </Heading>
         <Input
+          type="email"
           value={email}
           onChange={handleEmail}
           placeholder="email"
