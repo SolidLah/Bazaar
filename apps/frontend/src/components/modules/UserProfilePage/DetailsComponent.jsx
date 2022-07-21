@@ -46,7 +46,7 @@ const DetailsComponent = ({ data }) => {
           <Text>{walletAddress ? formatAddress(walletAddress) : ""}</Text>
         </Box>
         {isMyProfile ? (
-          <Link href="user/update" passHref>
+          <Link href="/user/update" passHref>
             <Button as="a" colorScheme="purple">
               Update details
             </Button>
