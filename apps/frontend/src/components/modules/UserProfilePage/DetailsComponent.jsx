@@ -14,6 +14,7 @@ const DetailsComponent = ({ data }) => {
   const walletAddress = data?.walletAddress;
   const name = data?.name;
   const email = data?.email;
+  const avatar = data?.avatar;
 
   // current logged in user
   const { uid: myUid } = useContext(userContext);
@@ -31,7 +32,7 @@ const DetailsComponent = ({ data }) => {
       bg="gray.200"
       rounded="xl"
     >
-      <Avatar size="100%" />
+      <Avatar size="full" src={avatar} />
       <Flex direction="column" gap={3} w="100%">
         <Box>
           <Text fontWeight="bold">Name</Text>

@@ -20,14 +20,12 @@ const PopupContent = ({ user, data, onClose }) => {
     <Flex direction="column" gap={6}>
       {user && (
         <Flex direction="row" gap={6} align="center">
-          <Avatar size="xl" />
+          <Avatar size="xl" src={data?.avatar} />
           <Flex direction="column">
             <Heading size="md">{data?.email}</Heading>
             <Text>{data?.name}</Text>
             <Text>
-              {data?.walletAddress
-                ? formatAddress(data?.walletAddress)
-                : "Connect wallet"}
+              {data?.walletAddress ? formatAddress(data?.walletAddress) : ""}
             </Text>
           </Flex>
         </Flex>

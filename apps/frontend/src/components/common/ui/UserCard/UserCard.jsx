@@ -28,7 +28,7 @@ const UserCard = ({ user, disableFollow, ...props }) => {
         cursor="pointer"
         whileHover={{ scale: 1.02 }}
       >
-        <Avatar size="md" />
+        <Avatar size="md" src={user.avatar} />
         <Flex direction="column">
           <Link href={`/user/${user.uid}`} passHref>
             <LinkOverlay as="a">
