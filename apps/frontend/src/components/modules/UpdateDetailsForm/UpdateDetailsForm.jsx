@@ -3,6 +3,8 @@ import { useContext } from "react";
 import { userContext } from "src/contexts/userContext";
 import { formatAddress } from "src/lib/helpers";
 import useEthersStore from "src/stores/ethersStore";
+import AvatarComponent from "./AvatarComponent";
+import BackgroundComponent from "./BackgroundComponent";
 import EmailComponent from "./EmailComponent";
 import NameComponent from "./NameComponent";
 import PasswordComponent from "./PasswordComponent";
@@ -21,17 +23,21 @@ const UpdateDetailsForm = () => {
   const metamaskAddress = ethersAddress ? formatAddress(ethersAddress) : null;
 
   return (
-    <Container mt={20} maxW="container.xl" centerContent>
-      <Flex direction="column" gap={10} align="center">
+    <Container mt={20} maxW="container.xl">
+      <Flex direction="column" gap="2.5rem" align="center">
         <Heading>Update Details</Heading>
-        <NameComponent uid={uid} current={currName} />
-        <EmailComponent uid={uid} current={currEmail} />
-        <WalletComponent
-          uid={uid}
-          current={currAddress}
-          metamask={metamaskAddress}
-        />
-        <PasswordComponent />
+        <Flex wrap="wrap" gap="2rem" w="container.lg" justify="center">
+          <NameComponent uid={uid} current={currName} />
+          <EmailComponent uid={uid} current={currEmail} />
+          <AvatarComponent uid={uid} />
+          <BackgroundComponent uid={uid} />
+          <WalletComponent
+            uid={uid}
+            current={currAddress}
+            metamask={metamaskAddress}
+          />
+          <PasswordComponent />
+        </Flex>
       </Flex>
     </Container>
   );
