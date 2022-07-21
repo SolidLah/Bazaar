@@ -1,19 +1,16 @@
 import { Button, Heading, HStack } from "@chakra-ui/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import WalletHandlerButton from "src/components/common/ui/WalletHandlerButton/WalletHandlerButton";
 import { logout } from "src/lib/firebase";
 import { useLoginRedirect } from "src/lib/hooks";
 import ProfilePictureComponent from "./ProfilePictureComponent";
 
 const NavbarElement = ({ user }) => {
-  const router = useRouter();
   const loginCallback = useLoginRedirect();
 
   const logoutCallback = async () => {
     await logout();
-    router.push("/user/login");
   };
 
   return (
