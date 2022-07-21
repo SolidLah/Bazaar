@@ -6,6 +6,7 @@ import {
   signOut,
 } from "firebase/auth";
 import { doc, getFirestore, setDoc } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
 const deployedApp = initializeApp(
   {
@@ -36,6 +37,7 @@ const devApp = initializeApp(
 const app = process.env.NEXT_PUBLIC_VERCEL_URL ? deployedApp : devApp;
 const auth = getAuth(app);
 const db = getFirestore(app);
+const storage = getStorage(app);
 
 const registerWithEmailAndPassword = async (name, email, password) => {
   const res = await createUserWithEmailAndPassword(auth, email, password);
@@ -61,4 +63,11 @@ const logout = async () => {
   await signOut(auth);
 };
 
-export { auth, db, registerWithEmailAndPassword, sendPasswordReset, logout };
+export {
+  auth,
+  db,
+  storage,
+  registerWithEmailAndPassword,
+  sendPasswordReset,
+  logout,
+};
