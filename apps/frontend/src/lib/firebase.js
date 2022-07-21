@@ -3,29 +3,39 @@ import {
   createUserWithEmailAndPassword,
   getAuth,
   sendPasswordResetEmail,
-  signInWithEmailAndPassword,
   signOut,
-  updateProfile,
 } from "firebase/auth";
 import { doc, getFirestore, setDoc } from "firebase/firestore";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyAKEv3N-20uVAHgk5sYb2tV9GNuUDsI7I4",
-  authDomain: "bazaar-1d526.firebaseapp.com",
-  projectId: "bazaar-1d526",
-  storageBucket: "bazaar-1d526.appspot.com",
-  messagingSenderId: "623316894820",
-  appId: "1:623316894820:web:e9c2d35c3386f036a80b71",
-  measurementId: "G-CJV4Z8Q6MX",
-};
+const deployedApp = initializeApp(
+  {
+    apiKey: "AIzaSyAKEv3N-20uVAHgk5sYb2tV9GNuUDsI7I4",
+    authDomain: "bazaar-1d526.firebaseapp.com",
+    projectId: "bazaar-1d526",
+    storageBucket: "bazaar-1d526.appspot.com",
+    messagingSenderId: "623316894820",
+    appId: "1:623316894820:web:e9c2d35c3386f036a80b71",
+    measurementId: "G-CJV4Z8Q6MX",
+  },
+  "deploy"
+);
 
-const app = initializeApp(firebaseConfig);
+const devApp = initializeApp(
+  {
+    apiKey: "AIzaSyCW6f1Y9wkoA-TCeBZeNBSLfZs760f2EEk",
+    authDomain: "bazaar-dev-d8ca7.firebaseapp.com",
+    projectId: "bazaar-dev-d8ca7",
+    storageBucket: "bazaar-dev-d8ca7.appspot.com",
+    messagingSenderId: "710322643078",
+    appId: "1:710322643078:web:3f4f26d8f5b1381089f107",
+    measurementId: "G-5VWS6YLZZ5",
+  },
+  "dev"
+);
+
+const app = process.env.NEXT_PUBLIC_VERCEL_URL ? deployedApp : devApp;
 const auth = getAuth(app);
 const db = getFirestore(app);
-
-const logInWithEmailAndPassword = async (email, password) => {
-  await signInWithEmailAndPassword(auth, email, password);
-};
 
 const registerWithEmailAndPassword = async (name, email, password) => {
   const res = await createUserWithEmailAndPassword(auth, email, password);
@@ -51,11 +61,4 @@ const logout = async () => {
   await signOut(auth);
 };
 
-export {
-  auth,
-  db,
-  logInWithEmailAndPassword,
-  registerWithEmailAndPassword,
-  sendPasswordReset,
-  logout,
-};
+export { auth, db, registerWithEmailAndPassword, sendPasswordReset, logout };
