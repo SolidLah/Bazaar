@@ -1,49 +1,36 @@
 import { Button, Flex, Heading, Text } from "@chakra-ui/react";
-import { useState } from "react";
 import { updateUserDetail } from "src/lib/helpers";
-import { useErrorToast, useSuccessToast } from "src/lib/hooks";
+import { useToastedCallback } from "src/lib/hooks";
 
 const WalletComponent = ({ uid, current, metamask }) => {
-  const errorToast = useErrorToast("Update wallet address");
-  const successToast = useSuccessToast("Update wallet address");
+  const NO_WALLET_STR = "No wallet connected";
 
-  const NULL_STRING = "No wallet connected";
-  const [loading, setLoading] = useState(false);
+  const updateWalletAddress = async () => {
+    if (!uid) throw new Error("Not logged in");
+    if (!metamask) throw new Error(NO_WALLET_STR);
+    if (current === metamask) throw new Error("Same as current");
 
-  const callBack = async () => {
-    setLoading(true);
-
-    try {
-      if (!metamask) throw new Error(NULL_STRING);
-      if (current === metamask) throw new Error("Same as current");
-
-      await updateUserDetail(uid, { walletAddress: metamask });
-      successToast();
-    } catch (error) {
-      console.log(error);
-      errorToast({
-        description: error.message,
-      });
-      setLoading(false);
-      return;
-    }
-
-    setLoading(false);
+    await updateUserDetail(uid, { walletAddress: metamask });
   };
 
+  const { toastedCallback, loading } = useToastedCallback(
+    "Update wallet address",
+    updateWalletAddress
+  );
+
   return (
-    <Flex direction="column" gap={1} w="md">
-      <Heading size="md" mb={1}>
+    <Flex direction="column" gap="0.3rem" w="md">
+      <Heading size="md" mb="0.3rem">
         Wallet Address
       </Heading>
       <Flex justify="space-between" align="center">
         <Flex direction="column">
           <Text>Current: {current}</Text>
-          <Text>Metamask: {metamask ?? NULL_STRING}</Text>
+          <Text>Metamask: {metamask ?? NO_WALLET_STR}</Text>
         </Flex>
         <Button
           colorScheme="purple"
-          onClick={callBack}
+          onClick={toastedCallback}
           w="max-content"
           isLoading={loading}
         >

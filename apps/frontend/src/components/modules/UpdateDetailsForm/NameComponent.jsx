@@ -1,42 +1,33 @@
 import { Button, Flex, Heading, Input, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { updateUserDetail } from "src/lib/helpers";
-import { useErrorToast, useSuccessToast } from "src/lib/hooks";
+import { useToastedCallback } from "src/lib/hooks";
 
 const NameComponent = ({ uid, current }) => {
-  const errorToast = useErrorToast("Update name");
-  const successToast = useSuccessToast("Update name");
-
-  const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
+
+  const updateName = async () => {
+    if (!uid) throw new Error("Not logged in");
+    if (!name) throw new Error("Missing field");
+    if (name === current) throw new Error("Same as current");
+
+    await updateUserDetail(uid, { name });
+
+    setName("");
+  };
+
+  const { toastedCallback, loading } = useToastedCallback(
+    "Update name",
+    updateName
+  );
 
   const handleChange = (e) => {
     setName(e.target.value);
   };
 
-  const callBack = async () => {
-    setLoading(true);
-
-    try {
-      if (!name) throw new Error("Missing field");
-      if (name === current) throw new Error("Same as current");
-
-      await updateUserDetail(uid, { name });
-      successToast();
-      setName("");
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-      errorToast({
-        description: error.message,
-      });
-      setLoading(false);
-    }
-  };
-
   return (
-    <Flex direction="column" gap={1} w="md">
-      <Heading size="md" mb={1}>
+    <Flex direction="column" gap="0.3rem" w="md">
+      <Heading size="md" mb="0.3rem">
         Name
       </Heading>
       <Text>Current: {current}</Text>
@@ -49,7 +40,7 @@ const NameComponent = ({ uid, current }) => {
         />
         <Button
           colorScheme="purple"
-          onClick={callBack}
+          onClick={toastedCallback}
           w="max-content"
           isLoading={loading}
         >
