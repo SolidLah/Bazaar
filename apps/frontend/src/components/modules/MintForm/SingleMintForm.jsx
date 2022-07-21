@@ -10,7 +10,7 @@ import useEthersStore from "src/stores/ethersStore";
 
 const SingleMintForm = ({ address }) => {
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
-  const { isValidated, validateAddress } = useValidatedAddress();
+  const isValidated = useValidatedAddress();
   const errorToast = useErrorToast("Minting NFT");
   const successToast = useSuccessToast("Minting NFT");
 
@@ -32,7 +32,6 @@ const SingleMintForm = ({ address }) => {
       return;
     }
 
-    validateAddress();
     if (!isValidated) return;
 
     if (!image || !name || !description) {
@@ -100,6 +99,7 @@ const SingleMintForm = ({ address }) => {
       <Button
         onClick={buttonCallback}
         isLoading={loading !== ""}
+        isDisabled={!isValidated}
         loadingText={loading}
         colorScheme="purple"
       >

@@ -1,15 +1,10 @@
-import { useContext, useState } from "react";
+import { useContext, useMemo } from "react";
 import { userContext } from "src/contexts/userContext";
 import useEthersStore from "src/stores/ethersStore";
-import useErrorToast from "./useErrorToast";
 
 export default function useValidatedAddress() {
-  const errorToast = useErrorToast("Wallet address");
-  const [isValidated, setValidated] = useState(false);
-
   // firestore address
-  const { authState, firestoreHook } = useContext(userContext);
-  const [user] = authState;
+  const { firestoreHook } = useContext(userContext);
   const { data } = firestoreHook;
   const storedAddress = data?.walletAddress;
 
@@ -17,39 +12,10 @@ export default function useValidatedAddress() {
   const metamaskAddress = useEthersStore((state) => state.address);
 
   // validation
-  const validateAddress = () => {
-    setValidated(false);
+  const isValidated = useMemo(
+    () => storedAddress === metamaskAddress,
+    [storedAddress, metamaskAddress]
+  );
 
-    if (!user) {
-      errorToast({
-        description: "Not logged in",
-      });
-      return;
-    }
-
-    if (!storedAddress) {
-      errorToast({
-        description: "No wallet address associated with this user",
-      });
-      return;
-    }
-
-    if (!metamaskAddress) {
-      errorToast({
-        description: "Metamask not connected",
-      });
-      return;
-    }
-
-    if (storedAddress !== metamaskAddress) {
-      errorToast({
-        description: "Current metamask wallet does not match user's wallet",
-      });
-      return;
-    }
-
-    setValidated(true);
-  };
-
-  return { isValidated, validateAddress };
+  return isValidated;
 }

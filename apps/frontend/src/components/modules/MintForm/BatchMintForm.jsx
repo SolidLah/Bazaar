@@ -10,7 +10,7 @@ import useEthersStore from "src/stores/ethersStore";
 
 const BatchMintForm = ({ address }) => {
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
-  const { isValidated, validateAddress } = useValidatedAddress();
+  const isValidated = useValidatedAddress();
   const errorToast = useErrorToast("Minting NFT");
   const successToast = useSuccessToast("Minting NFT");
 
@@ -30,7 +30,6 @@ const BatchMintForm = ({ address }) => {
       return;
     }
 
-    validateAddress();
     if (!isValidated) return;
 
     if (!zip || !description) {
@@ -96,6 +95,7 @@ const BatchMintForm = ({ address }) => {
       <Button
         onClick={buttonCallback}
         isLoading={loading !== ""}
+        isDisabled={!isValidated}
         loadingText={loading}
         colorScheme="purple"
       >

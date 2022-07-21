@@ -10,7 +10,7 @@ import useEthersStore from "src/stores/ethersStore";
 
 const CreateCollectionForm = () => {
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
-  const { isValidated, validateAddress } = useValidatedAddress();
+  const isValidated = useValidatedAddress();
   const errorToast = useErrorToast("Create collection");
   const successToast = useSuccessToast("Create collection");
 
@@ -30,7 +30,6 @@ const CreateCollectionForm = () => {
       return;
     }
 
-    validateAddress();
     if (!isValidated) return;
 
     if (!collectionName || !collectionSymbol) {
@@ -81,6 +80,7 @@ const CreateCollectionForm = () => {
         <Button
           onClick={buttonCallback}
           isLoading={loading}
+          isDisabled={!isValidated}
           colorScheme="purple"
         >
           Create collection
