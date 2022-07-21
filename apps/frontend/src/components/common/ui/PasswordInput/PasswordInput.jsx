@@ -9,7 +9,12 @@ const PasswordInput = (props) => {
     <InputGroup>
       <Input type={show ? "text" : "password"} {...props} />
       <InputRightElement w="max-content" px="0.5rem">
-        <Button h="1.75rem" size="sm" onClick={handleShow}>
+        <Button
+          h="1.75rem"
+          size="sm"
+          textColor="blackAlpha.700"
+          onClick={handleShow}
+        >
           {show ? "Hide" : "Show"}
         </Button>
       </InputRightElement>
