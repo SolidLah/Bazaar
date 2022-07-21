@@ -1,54 +1,36 @@
 import { Button, Center, Flex, Heading, Input } from "@chakra-ui/react";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useRef } from "react";
-import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { useState } from "react";
+import PasswordInput from "src/components/common/ui/PasswordInput/PasswordInput";
 import { auth } from "src/lib/firebase";
-import useErrorToast from "src/lib/hooks/useErrorToast";
+import { useToastedCallback } from "src/lib/hooks";
 
 const LoginForm = () => {
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const errorToast = useErrorToast("Login");
   const router = useRouter();
-  const [signInWithEmailAndPassword, user, loading, error] =
-    useSignInWithEmailAndPassword(auth);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  useEffect(() => {
-    if (user) {
-      if (router.query && router.query.from) {
-        router.push(router.query.from);
-      } else {
-        router.push(`/user/${user.user.uid}`);
-      }
+  const login = async () => {
+    if (!email || !password) throw new Error("Missing fields");
+
+    await signInWithEmailAndPassword(auth, email, password);
+
+    setEmail("");
+    setPassword("");
+
+    if (router.query && router.query.from) {
+      router.push(router.query.from);
+    } else {
+      router.push(`/user/${auth.currentUser.uid}`);
     }
-  }, [user]);
-
-  useEffect(() => {
-    if (error) {
-      errorToast({
-        description: error.message,
-      });
-    }
-  }, [errorToast, error]);
-
-  const buttonCallback = async (event) => {
-    event.preventDefault();
-    const email = emailRef.current?.value;
-    const password = passwordRef.current?.value;
-
-    if (!email || !password) {
-      errorToast({
-        description: "Missing fields",
-      });
-
-      return;
-    }
-
-    await signInWithEmailAndPassword(email, password);
-    emailRef.current.value = null;
-    passwordRef.current.value = null;
   };
+
+  const { toastedCallback, loading } = useToastedCallback("Login", login);
+
+  const handleEmail = (e) => setEmail(e.target.value);
+  const handlePassword = (e) => setPassword(e.target.value);
 
   return (
     <Center mt={20}>
@@ -56,18 +38,24 @@ const LoginForm = () => {
         <Heading mb={6} align="center">
           Log In
         </Heading>
-        <Input placeholder="email" ref={emailRef} variant="filled" mb={3} />
         <Input
+          value={email}
+          onChange={handleEmail}
+          placeholder="email"
+          variant="filled"
+          mb={3}
+        />
+        <PasswordInput
+          value={password}
+          onChange={handlePassword}
           placeholder="password"
-          ref={passwordRef}
           variant="filled"
           mb={6}
-          type="password"
         />
         <Button
           colorScheme="purple"
           mb={6}
-          onClick={buttonCallback}
+          onClick={toastedCallback}
           isLoading={loading}
         >
           Log In
