@@ -10,7 +10,7 @@ export default function useAllUsers(opts = { includeSelf: true }) {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
 
-  if (!opts.includeSelf) {
+  if (!opts.includeSelf && uid) {
     values = values?.filter((user) => user.uid !== uid);
   }
 
