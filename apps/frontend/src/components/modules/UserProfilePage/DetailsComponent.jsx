@@ -40,7 +40,7 @@ const DetailsComponent = ({ data }) => {
         </Box>
         <Box>
           <Text fontWeight="bold">Email</Text>
-          <Text>{email}</Text>
+          <Text noOfLines={1}>{email}</Text>
         </Box>
         <Box>
           <Text fontWeight="bold">Wallet address</Text>

@@ -22,7 +22,9 @@ const PopupContent = ({ user, data, onClose }) => {
         <Flex direction="row" gap={6} align="center">
           <Avatar size="xl" src={data?.avatar} />
           <Flex direction="column">
-            <Heading size="md">{data?.email}</Heading>
+            <Heading size="md" noOfLines={1}>
+              {data?.email}
+            </Heading>
             <Text>{data?.name}</Text>
             <Text>
               {data?.walletAddress ? formatAddress(data?.walletAddress) : ""}
@@ -60,7 +62,7 @@ const ProfilePictureComponent = () => {
             <Avatar cursor="pointer" />
           </PopoverTrigger>
           <Portal>
-            <PopoverContent bg="gray.200">
+            <PopoverContent bg="gray.200" w="md">
               <PopoverBody>
                 <PopupContent user={user} data={data} onClose={onClose} />
               </PopoverBody>
