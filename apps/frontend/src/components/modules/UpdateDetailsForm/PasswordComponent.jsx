@@ -11,7 +11,7 @@ const PasswordComponent = () => {
 
   const updatePassword = async () => {
     if (!password || !confirm) throw new Error("Missing fields");
-    if (password !== confirm) throw new Error("Passwords are not the same");
+    if (password !== confirm) throw new Error("Passwords do not match");
 
     await fbUpdatePassword(auth.currentUser, password);
     setPassword("");

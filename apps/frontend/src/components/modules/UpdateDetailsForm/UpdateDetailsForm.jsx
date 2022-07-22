@@ -1,7 +1,6 @@
 import { Container, Flex, Heading } from "@chakra-ui/react";
 import { useContext } from "react";
 import { userContext } from "src/contexts/userContext";
-import { formatAddress } from "src/lib/helpers";
 import useEthersStore from "src/stores/ethersStore";
 import AvatarComponent from "./AvatarComponent";
 import BackgroundComponent from "./BackgroundComponent";
@@ -16,11 +15,10 @@ const UpdateDetailsForm = () => {
   const { data } = firestoreHook;
   const currName = data?.name;
   const currEmail = data?.email;
-  const currAddress = data ? formatAddress(data.walletAddress) : "";
+  const currAddress = data?.walletAddress;
 
   // metamask
-  const ethersAddress = useEthersStore((state) => state.address);
-  const metamaskAddress = ethersAddress ? formatAddress(ethersAddress) : null;
+  const metamaskAddress = useEthersStore((state) => state.address);
 
   return (
     <Container mt={20} maxW="container.xl">

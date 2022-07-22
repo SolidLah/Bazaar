@@ -1,5 +1,5 @@
 import { Button, Flex, Heading, Text } from "@chakra-ui/react";
-import { updateUserDetail } from "src/lib/helpers";
+import { formatAddress, updateUserDetail } from "src/lib/helpers";
 import { useToastedCallback } from "src/lib/hooks";
 
 const WalletComponent = ({ uid, current, metamask }) => {
@@ -25,8 +25,8 @@ const WalletComponent = ({ uid, current, metamask }) => {
       </Heading>
       <Flex justify="space-between" align="center">
         <Flex direction="column">
-          <Text>Current: {current}</Text>
-          <Text>Metamask: {metamask ?? NO_WALLET_STR}</Text>
+          <Text>Current: {formatAddress(current)}</Text>
+          <Text>Metamask: {formatAddress(metamask) ?? NO_WALLET_STR}</Text>
         </Flex>
         <Button
           colorScheme="purple"
