@@ -31,10 +31,16 @@ const BackgroundComponent = ({ uid }) => {
     setFile(null);
   };
 
-  const { toastedCallback, loading } = useToastedCallback(
-    "Update background picture",
-    updateBackground
-  );
+  const deleteBackground = async () => {
+    await updateField({ background: "" });
+    setFile(null);
+  };
+
+  const { toastedCallback: toastedUpdate, loading: loadingUpdate } =
+    useToastedCallback("Update background picture", updateBackground);
+
+  const { toastedCallback: toastedDelete, loading: loadingDelete } =
+    useToastedCallback("Delete background picture", deleteBackground);
 
   const handleChange = (e) => {
     const selectedFile = e.target.files ? e.target.files[0] : null;
@@ -55,9 +61,17 @@ const BackgroundComponent = ({ uid }) => {
         />
         <Button
           colorScheme="purple"
-          onClick={toastedCallback}
+          onClick={toastedDelete}
           w="max-content"
-          isLoading={loading}
+          isLoading={loadingDelete}
+        >
+          Delete
+        </Button>
+        <Button
+          colorScheme="purple"
+          onClick={toastedUpdate}
+          w="max-content"
+          isLoading={loadingUpdate}
         >
           Change
         </Button>

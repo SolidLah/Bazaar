@@ -23,7 +23,7 @@ const AvatarComponent = ({ uid }) => {
     await updateUserDetail(uid, { avatar });
   };
 
-  const updateBackground = async () => {
+  const updateAvatar = async () => {
     if (!file) throw new Error("Missing field");
 
     const url = await uploadFile();
@@ -31,10 +31,16 @@ const AvatarComponent = ({ uid }) => {
     setFile(null);
   };
 
-  const { toastedCallback, loading } = useToastedCallback(
-    "Update avatar",
-    updateBackground
-  );
+  const deleteAvatar = async () => {
+    await updateField({ avatar: "" });
+    setFile(null);
+  };
+
+  const { toastedCallback: toastedUpdate, loading: loadingUpdate } =
+    useToastedCallback("Update avatar", updateAvatar);
+
+  const { toastedCallback: toastedDelete, loading: loadingDelete } =
+    useToastedCallback("Delete avatar", deleteAvatar);
 
   const handleChange = (e) => {
     const selectedFile = e.target.files ? e.target.files[0] : null;
@@ -55,9 +61,17 @@ const AvatarComponent = ({ uid }) => {
         />
         <Button
           colorScheme="purple"
-          onClick={toastedCallback}
+          onClick={toastedDelete}
           w="max-content"
-          isLoading={loading}
+          isLoading={loadingDelete}
+        >
+          Delete
+        </Button>
+        <Button
+          colorScheme="purple"
+          onClick={toastedUpdate}
+          w="max-content"
+          isLoading={loadingUpdate}
         >
           Change
         </Button>
