@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { isEmpty } from "lodash";
 
 export default function useFetchWatchlist(watchlistArray) {
   const [watchlist, setWatchlist] = useState(null);
@@ -7,7 +8,7 @@ export default function useFetchWatchlist(watchlistArray) {
 
   useEffect(() => {
     const load = async () => {
-      if (!watchlistArray) {
+      if (isEmpty(watchlistArray)) {
         return;
       }
       const res = await Promise.all(

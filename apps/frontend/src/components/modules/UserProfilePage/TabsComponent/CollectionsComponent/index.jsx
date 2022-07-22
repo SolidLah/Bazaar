@@ -11,10 +11,6 @@ const CollectionsComponent = ({ data }) => {
     return <Spinner color="gray" size="xl" />;
   }
 
-  if (!collections && !loading) {
-    return <Center>No collections</Center>;
-  }
-
   if (isEmpty(collections)) {
     return <Center>No collections</Center>;
   }

@@ -1,5 +1,6 @@
 import { Center, Flex, Spinner } from "@chakra-ui/react";
 import axios from "axios";
+import { isEmpty } from "lodash";
 import { useMemo } from "react";
 import LinkedCard from "src/components/common/ui/LinkedCard/LinkedCard";
 import useSWR from "swr";
@@ -16,11 +17,13 @@ const OwnedComponent = ({ data }) => {
     [userItems]
   );
 
-  if (!owned && !error) {
+  const emptyOwned = isEmpty(owned);
+
+  if (emptyOwned && !error) {
     return <Spinner color="gray" size="xl" />;
   }
 
-  if (error || owned.length <= 0) {
+  if (emptyOwned) {
     return <Center>No NFTs owned</Center>;
   }
 

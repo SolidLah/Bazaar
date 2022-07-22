@@ -1,22 +1,11 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
-import { useRouter } from "next/router";
-import { useContext } from "react";
-import { userContext } from "src/contexts/userContext";
 import CollectionsComponent from "./CollectionsComponent";
 import FollowingComponent from "./FollowingComponent";
 import ListingsComponent from "./ListingsComponent";
 import OwnedComponent from "./OwnedComponent";
 import WatchListComponent from "./WatchlistComponent";
 
-const TabsComponent = ({ data }) => {
-  // router uid
-  const router = useRouter();
-  const { uid } = router.query;
-
-  // current logged in uid
-  const { uid: myUid } = useContext(userContext);
-  const isMyProfile = uid && myUid ? uid === myUid : false;
-
+const TabsComponent = ({ data, isMyProfile }) => {
   return (
     <Tabs variant="soft-rounded" colorScheme="purple">
       <TabList gap={3}>
