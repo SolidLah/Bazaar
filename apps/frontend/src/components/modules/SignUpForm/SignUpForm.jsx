@@ -34,10 +34,25 @@ const SignupForm = () => {
 
   const { toastedCallback, loading } = useToastedCallback("Sign up", signup);
 
-  const handleEmail = (e) => setEmail(e.target.value);
-  const handleName = (e) => setName(e.target.value);
-  const handlePassword = (e) => setPassword(e.target.value);
-  const handleConfirm = (e) => setConfirm(e.target.value);
+  const handleEmail = (e) => {
+    e.preventDefault();
+    setEmail(e.target.value);
+  };
+
+  const handleName = (e) => {
+    e.preventDefault();
+    setName(e.target.value);
+  };
+
+  const handlePassword = (e) => {
+    e.preventDefault();
+    setPassword(e.target.value);
+  };
+
+  const handleConfirm = (e) => {
+    e.preventDefault();
+    setConfirm(e.target.value);
+  };
 
   return (
     <Center mt={20}>
