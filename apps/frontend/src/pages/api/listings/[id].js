@@ -20,7 +20,7 @@ export default async function handler(req, res) {
       let item = await mktContractReader.marketItemsMapping(id);
       item = await formatItem(item);
 
-      console.log(item);
+      console.log(`listings/${id}`, item);
 
       res
         .status(200)

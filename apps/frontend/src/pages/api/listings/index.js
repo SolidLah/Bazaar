@@ -20,7 +20,7 @@ export default async function handler(req, res) {
         listOfMarketItems.map(async (item) => formatItem(item))
       );
 
-      console.log(listOfMarketItems);
+      console.log("listings/", listOfMarketItems);
 
       res.status(200).json({
         route: "api/listings/",
