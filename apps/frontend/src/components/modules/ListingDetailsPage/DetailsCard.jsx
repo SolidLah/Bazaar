@@ -7,6 +7,7 @@ const DetailsCard = ({ item, active }) => {
   const { data: minter } = useFetchUserFromWalletAddress(item.minter);
   const minterProfileUrl = minter ? `/user/${minter.uid}` : "";
   const minterName = minter ? `(${minter.name})` : "";
+
   return (
     <Flex w="md" bg="gray.100" rounded="md" p={3}>
       <Flex w="100%" direction="column">
