@@ -59,7 +59,7 @@ const ProfilePictureComponent = () => {
       {({ onClose }) => (
         <>
           <PopoverTrigger>
-            <Avatar cursor="pointer" />
+            <Avatar cursor="pointer" src={data?.avatar} />
           </PopoverTrigger>
           <Portal>
             <PopoverContent bg="gray.200" w="md">
