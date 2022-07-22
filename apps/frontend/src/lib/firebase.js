@@ -2,7 +2,6 @@ import { initializeApp } from "firebase/app";
 import {
   createUserWithEmailAndPassword,
   getAuth,
-  sendPasswordResetEmail,
   signOut,
 } from "firebase/auth";
 import { doc, getFirestore, setDoc } from "firebase/firestore";
@@ -39,7 +38,12 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-const registerWithEmailAndPassword = async (name, email, password) => {
+const signupWithEmailAndPassword = async (
+  name,
+  email,
+  password,
+  walletAddress
+) => {
   const res = await createUserWithEmailAndPassword(auth, email, password);
 
   await setDoc(doc(db, "users", res.user.uid), {
@@ -48,26 +52,15 @@ const registerWithEmailAndPassword = async (name, email, password) => {
     background: "",
     name,
     email,
-    walletAddress: "",
+    walletAddress,
     watchlist: [],
     collections: [],
     following: [],
   });
 };
 
-const sendPasswordReset = async (email) => {
-  await sendPasswordResetEmail(auth, email);
-};
-
 const logout = async () => {
   await signOut(auth);
 };
 
-export {
-  auth,
-  db,
-  storage,
-  registerWithEmailAndPassword,
-  sendPasswordReset,
-  logout,
-};
+export { auth, db, storage, signupWithEmailAndPassword, logout };
