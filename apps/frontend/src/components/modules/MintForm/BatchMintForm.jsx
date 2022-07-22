@@ -10,7 +10,7 @@ import useEthersStore from "src/stores/ethersStore";
 
 const BatchMintForm = ({ address }) => {
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
-  const { isValidated, validateAddress } = useValidatedAddress();
+  const isValidated = useValidatedAddress();
   const errorToast = useErrorToast("Minting NFT");
   const successToast = useSuccessToast("Minting NFT");
 
@@ -30,8 +30,12 @@ const BatchMintForm = ({ address }) => {
       return;
     }
 
-    validateAddress();
-    if (!isValidated) return;
+    if (!isValidated) {
+      errorToast({
+        description: "Metamask wallet does not match user's wallet",
+      });
+      return;
+    }
 
     if (!zip || !description) {
       errorToast({
@@ -53,7 +57,7 @@ const BatchMintForm = ({ address }) => {
     } catch (error) {
       console.log(error);
       errorToast({
-        description: "Error occured uploading NFTs",
+        description: "Error occurred uploading NFTs",
       });
       setLoading("");
       return;
@@ -69,7 +73,7 @@ const BatchMintForm = ({ address }) => {
     } catch (error) {
       console.log(error);
       errorToast({
-        description: "Error occured minting NFTs",
+        description: "Error occurred minting NFTs",
       });
       setLoading("");
       return;

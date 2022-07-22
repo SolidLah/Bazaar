@@ -1,17 +1,27 @@
 import { Button, Flex, Heading } from "@chakra-ui/react";
+import { updatePassword as fbUpdatePassword } from "firebase/auth";
 import { useState } from "react";
-import { useUpdatePassword } from "react-firebase-hooks/auth";
 import PasswordInput from "src/components/common/ui/PasswordInput/PasswordInput";
 import { auth } from "src/lib/firebase";
-import { useErrorToast, useSuccessToast } from "src/lib/hooks";
+import { useToastedCallback } from "src/lib/hooks";
 
 const PasswordComponent = () => {
-  const [updatePassword, updating, error] = useUpdatePassword(auth);
-  const errorToast = useErrorToast("Update email");
-  const successToast = useSuccessToast("Update email");
-
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
+
+  const updatePassword = async () => {
+    if (!password || !confirm) throw new Error("Missing fields");
+    if (password !== confirm) throw new Error("Passwords do not match");
+
+    await fbUpdatePassword(auth.currentUser, password);
+    setPassword("");
+    setConfirm("");
+  };
+
+  const { toastedCallback, loading } = useToastedCallback(
+    "Update password",
+    updatePassword
+  );
 
   const handlePassword = (e) => {
     setPassword(e.target.value);
@@ -21,27 +31,9 @@ const PasswordComponent = () => {
     setConfirm(e.target.value);
   };
 
-  const callBack = async () => {
-    try {
-      if (!password) throw new Error("Missing field");
-      if (password !== confirm) throw new Error("Passwords are not the same");
-      if (error) throw error;
-
-      await updatePassword(password);
-      successToast();
-      setPassword("");
-      setConfirm("");
-    } catch (error) {
-      console.log(error);
-      errorToast({
-        description: error.message,
-      });
-    }
-  };
-
   return (
-    <Flex direction="column" gap={1} w="md">
-      <Heading size="md" mb={1}>
+    <Flex direction="column" gap="0.3rem" w="md">
+      <Heading size="md" mb="0.3rem">
         Password
       </Heading>
       <PasswordInput
@@ -55,12 +47,12 @@ const PasswordComponent = () => {
         value={confirm}
       />
       <Button
-        mt="0.5rem"
+        mt="0.3rem"
         alignSelf="flex-end"
         colorScheme="purple"
-        onClick={callBack}
+        onClick={toastedCallback}
         w="max-content"
-        isLoading={updating}
+        isLoading={loading}
       >
         Change
       </Button>

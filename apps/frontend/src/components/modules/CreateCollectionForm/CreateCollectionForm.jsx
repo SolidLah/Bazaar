@@ -10,7 +10,7 @@ import useEthersStore from "src/stores/ethersStore";
 
 const CreateCollectionForm = () => {
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
-  const { isValidated, validateAddress } = useValidatedAddress();
+  const isValidated = useValidatedAddress();
   const errorToast = useErrorToast("Create collection");
   const successToast = useSuccessToast("Create collection");
 
@@ -30,8 +30,12 @@ const CreateCollectionForm = () => {
       return;
     }
 
-    validateAddress();
-    if (!isValidated) return;
+    if (!isValidated) {
+      errorToast({
+        description: "Metamask wallet does not match user's wallet",
+      });
+      return;
+    }
 
     if (!collectionName || !collectionSymbol) {
       errorToast({

@@ -1,38 +1,27 @@
-import { sendPasswordReset } from "src/lib/firebase";
-import { Button, Flex, Center, Heading, Input } from "@chakra-ui/react";
+import { Button, Center, Flex, Heading, Input } from "@chakra-ui/react";
+import { sendPasswordResetEmail } from "firebase/auth";
 import Link from "next/link";
-import { useRef } from "react";
-import useErrorToast from "src/lib/hooks/useErrorToast";
-import useSuccessToast from "src/lib/hooks/useSuccessToast";
+import { useState } from "react";
+import { auth } from "src/lib/firebase";
+import { useToastedCallback } from "src/lib/hooks";
 
 const ResetForm = () => {
-  const emailRef = useRef("");
-  const errorToast = useErrorToast("Reset password");
-  const successToast = useSuccessToast("Reset password");
+  const [email, setEmail] = useState("");
 
-  const buttonCallback = async () => {
-    const email = emailRef.current.value;
+  const reset = async () => {
+    if (!email) throw new Error("Missing field");
 
-    if (!email) {
-      errorToast({
-        description: "Missing fields",
-      });
+    await sendPasswordResetEmail(auth, email);
 
-      return;
-    }
-
-    try {
-      await sendPasswordReset(email);
-
-      successToast({
-        description: "Password reset email sent",
-      });
-    } catch (error) {
-      errorToast({
-        description: error.message,
-      });
-    }
+    setEmail("");
   };
+
+  const { toastedCallback, loading } = useToastedCallback(
+    "Reset password",
+    reset
+  );
+
+  const handleEmail = (e) => setEmail(e.target.value);
 
   return (
     <Center mt={20}>
@@ -40,9 +29,21 @@ const ResetForm = () => {
         <Heading mb={6} align="center">
           Password Reset
         </Heading>
-        <Input ref={emailRef} placeholder="email" variant="filled" mb={3} />
-        <Button colorScheme="purple" mb={6} onClick={buttonCallback}>
-          Send Reset Link to Email
+        <Input
+          type="email"
+          value={email}
+          onChange={handleEmail}
+          placeholder="email"
+          variant="filled"
+          mb={3}
+        />
+        <Button
+          colorScheme="purple"
+          mb={6}
+          onClick={toastedCallback}
+          isLoading={loading}
+        >
+          Reset
         </Button>
         <Link href="/user/signup" passHref>
           <Button variant="link" size="sm">

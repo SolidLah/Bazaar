@@ -29,7 +29,7 @@ export default async function handler(req, res) {
         owned,
       };
 
-      console.log(userItems);
+      console.log(`listings/user/${address}`, userItems);
 
       res.status(200).json({
         route: `api/listings/user/${address}`,
@@ -37,9 +37,11 @@ export default async function handler(req, res) {
         msg: userItems,
       });
     } catch (error) {
-      res
-        .status(500)
-        .json({ route: `api/listings/user/${address}`, success: false, msg: error });
+      res.status(500).json({
+        route: `api/listings/user/${address}`,
+        success: false,
+        msg: error,
+      });
     }
   }
 }

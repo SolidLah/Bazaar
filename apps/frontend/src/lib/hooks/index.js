@@ -8,6 +8,7 @@ import useFirestoreUidData from "./useFirestoreUidData";
 import useFirestoreUserData from "./useFirestoreUserData";
 import useLoginRedirect from "./useLoginRedirect";
 import useSuccessToast from "./useSuccessToast";
+import useToastedCallback from "./useToastedCallback";
 import useValidatedAddress from "./useValidatedAddress";
 
 export {
@@ -21,5 +22,6 @@ export {
   useFirestoreUserData,
   useLoginRedirect,
   useSuccessToast,
+  useToastedCallback,
   useValidatedAddress,
 };
