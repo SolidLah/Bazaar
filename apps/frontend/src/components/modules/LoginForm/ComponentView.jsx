@@ -17,6 +17,7 @@ const ComponentView = ({
           Log In
         </Heading>
         <Input
+          aria-label="email-input"
           type="email"
           value={email}
           onChange={handleEmail}
@@ -25,6 +26,7 @@ const ComponentView = ({
           mb={3}
         />
         <PasswordInput
+          aria-label="password-input"
           value={password}
           onChange={handlePassword}
           placeholder="password"
@@ -32,6 +34,7 @@ const ComponentView = ({
           mb={6}
         />
         <Button
+          aria-label="login-button"
           colorScheme="purple"
           mb={6}
           onClick={toastedCallback}
