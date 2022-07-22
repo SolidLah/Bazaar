@@ -12,11 +12,9 @@ import WalletComponent from "./WalletComponent";
 
 const UpdateDetailsForm = () => {
   // firestore
-  const { user, uid, emailVerified, firestoreHook } = useContext(userContext);
-  const { data } = firestoreHook;
-  const currName = data?.name;
-  const currEmail = data?.email;
-  const currAddress = data?.walletAddress;
+  const { user, uid, data } = useContext(userContext);
+  const emailVerified = user ? user.emailVerified : true;
+  const { name, email, walletAddress } = data || {};
 
   // metamask
   const metamaskAddress = useEthersStore((state) => state.address);
@@ -26,13 +24,13 @@ const UpdateDetailsForm = () => {
       <Flex direction="column" gap="2.5rem" align="center">
         <Heading>Update Details</Heading>
         <Flex wrap="wrap" gap="2rem" w="container.lg" justify="center">
-          <NameComponent uid={uid} current={currName} />
-          <EmailComponent uid={uid} current={currEmail} />
+          <NameComponent uid={uid} current={name} />
+          <EmailComponent uid={uid} current={email} />
           <AvatarComponent uid={uid} />
           <BackgroundComponent uid={uid} />
           <WalletComponent
             uid={uid}
-            current={currAddress}
+            current={walletAddress}
             metamask={metamaskAddress}
           />
           <PasswordComponent />

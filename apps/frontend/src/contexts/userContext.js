@@ -6,9 +6,10 @@ import { useFirestoreUserData } from "src/lib/hooks";
 
 const userContext = createContext({
   authState: null,
+  user: null,
   uid: null,
-  emailVerified: null,
   firestoreHook: null,
+  data: null,
 });
 
 const UserProvider = ({ children }) => {
@@ -18,12 +19,14 @@ const UserProvider = ({ children }) => {
   const email = user?.email;
   const emailVerified = user ? user.emailVerified : true;
   const firestoreHook = useFirestoreUserData(user);
+  const { data } = firestoreHook;
 
   const value = {
     authState,
+    user,
     uid,
-    emailVerified,
     firestoreHook,
+    data,
   };
 
   return (
