@@ -10,7 +10,7 @@ import mintManyNFTs from "./mintManyNFTs";
 import mintNFT from "./mintNFT";
 import removeFromWatchlist from "./removeFromWatchlist";
 import toWei from "./toWei";
-import updateWalletAddress from "./updateWalletAddress";
+import updateUserDetail from "./updateUserDetail";
 import uploadManyNFTs from "./uploadManyNFTs";
 import uploadNFT from "./uploadNFT";
 
@@ -27,7 +27,7 @@ export {
   mintNFT,
   removeFromWatchlist,
   toWei,
-  updateWalletAddress,
+  updateUserDetail,
   uploadManyNFTs,
   uploadNFT,
 };
