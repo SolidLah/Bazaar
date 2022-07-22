@@ -4,8 +4,7 @@ import useEthersStore from "src/stores/ethersStore";
 
 export default function useValidatedAddress() {
   // firestore address
-  const { firestoreHook } = useContext(userContext);
-  const { data } = firestoreHook;
+  const { data } = useContext(userContext);
   const storedAddress = data?.walletAddress;
 
   // metamask address

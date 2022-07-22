@@ -4,9 +4,7 @@ import { addToWatchlist, removeFromWatchlist } from "src/lib/helpers";
 import { useToastedCallback } from "src/lib/hooks";
 
 const useComponentState = (item) => {
-  const { authState, firestoreHook } = useContext(userContext);
-  const [user] = authState;
-  const { data } = firestoreHook;
+  const { user, data } = useContext(userContext);
   const watchlistArray = data?.watchlist;
 
   const itemInWatchlist = useMemo(

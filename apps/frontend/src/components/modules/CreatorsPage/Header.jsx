@@ -4,8 +4,7 @@ import { useContext } from "react";
 import { userContext } from "src/contexts/userContext";
 
 const Header = () => {
-  const { authState } = useContext(userContext);
-  const [user] = authState;
+  const { user } = useContext(userContext);
 
   return (
     <Flex

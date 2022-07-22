@@ -5,9 +5,7 @@ import unfollowUser from "src/lib/helpers/unfollowUser";
 import { useSuccessToast, useToastedCallback } from "src/lib/hooks";
 
 const useComponentState = (uid) => {
-  const { authState, firestoreHook } = useContext(userContext);
-  const [user] = authState;
-  const { data } = firestoreHook;
+  const { user, data } = useContext(userContext);
   const isFollowing = data ? data.following.includes(uid) : false;
   const successToast = useSuccessToast("Follow user");
 

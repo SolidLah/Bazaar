@@ -13,8 +13,7 @@ import DetailsCard from "./DetailsCard";
 import InactiveListingComponent from "./InactiveListingComponent";
 
 const ListingDetailsPage = ({ id }) => {
-  const { authState } = useContext(userContext);
-  const [user] = authState;
+  const { user } = useContext(userContext);
   const walletAddress = useEthersStore((state) => state.address);
 
   const { data: item, error } = useSWR(
@@ -50,7 +49,10 @@ const ListingDetailsPage = ({ id }) => {
           {active ? (
             <ActiveListingComponent item={item} user={user} />
           ) : (
-            <InactiveListingComponent item={item} walletAddress={walletAddress} />
+            <InactiveListingComponent
+              item={item}
+              walletAddress={walletAddress}
+            />
           )}
         </Flex>
       </Flex>
