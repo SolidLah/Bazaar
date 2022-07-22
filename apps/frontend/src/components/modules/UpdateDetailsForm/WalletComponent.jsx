@@ -4,6 +4,8 @@ import { useToastedCallback } from "src/lib/hooks";
 
 const WalletComponent = ({ uid, current, metamask }) => {
   const NO_WALLET_STR = "No wallet connected";
+  const displayCurrent = current ? formatAddress(current) : NO_WALLET_STR;
+  const displayMetamask = metamask ? formatAddress(metamask) : NO_WALLET_STR;
 
   const updateWalletAddress = async () => {
     if (!uid) throw new Error("Not logged in");
@@ -25,8 +27,8 @@ const WalletComponent = ({ uid, current, metamask }) => {
       </Heading>
       <Flex justify="space-between" align="center">
         <Flex direction="column">
-          <Text>Current: {formatAddress(current)}</Text>
-          <Text>Metamask: {formatAddress(metamask) ?? NO_WALLET_STR}</Text>
+          <Text>Current: {displayCurrent}</Text>
+          <Text>Metamask: {displayMetamask}</Text>
         </Flex>
         <Button
           colorScheme="purple"
