@@ -1,4 +1,5 @@
 import { Center, Flex, Spinner } from "@chakra-ui/react";
+import { isEmpty } from "lodash";
 import { useFetchCollections } from "src/lib/hooks";
 import CollectionsCard from "./CollectionsCard";
 
@@ -14,15 +15,16 @@ const CollectionsComponent = ({ data }) => {
     return <Center>No collections</Center>;
   }
 
-  if (collections.length <= 0) {
+  if (isEmpty(collections)) {
     return <Center>No collections</Center>;
   }
 
   return (
     <Flex gap={6} justify="flex-start" wrap="wrap">
-      {collections.map((collection, index) => (
-        <CollectionsCard key={index} collection={collection} />
-      ))}
+      {collections.map((collection, index) => {
+        if (collection)
+          return <CollectionsCard key={index} collection={collection} />;
+      })}
     </Flex>
   );
 };
