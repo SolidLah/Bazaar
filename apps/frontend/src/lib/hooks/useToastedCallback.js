@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import useErrorToast from "./useErrorToast";
 import useSuccessToast from "./useSuccessToast";
 
-export default function useToastedCallback(title, callBack) {
+export default function useToastedCallback(title, callBack, success = true) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -15,7 +15,7 @@ export default function useToastedCallback(title, callBack) {
 
     try {
       await callBack();
-      successToast();
+      if (success) successToast();
     } catch (error) {
       setError(error);
       errorToast({
@@ -24,7 +24,7 @@ export default function useToastedCallback(title, callBack) {
     }
 
     setLoading(false);
-  }, [callBack, errorToast, successToast]);
+  }, [callBack, success, errorToast, successToast]);
 
   return { toastedCallback, loading, error };
 }
