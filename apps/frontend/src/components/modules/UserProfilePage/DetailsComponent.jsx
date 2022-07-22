@@ -1,10 +1,10 @@
 import { Avatar, Box, Button, Flex, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useContext } from "react";
+import FollowButton from "src/components/common/ui/FollowButton/FollowButton";
 import { userContext } from "src/contexts/userContext";
 import { formatAddress } from "src/lib/helpers";
 import useSuccessToast from "src/lib/hooks/useSuccessToast";
-import FollowButton from "./FollowButton";
 
 const DetailsComponent = ({ data }) => {
   const router = useRouter();

@@ -45,15 +45,11 @@ const NavbarElement = ({ user }) => {
             Marketplace
           </Button>
         </Link>
-        <Button
-          as="a"
-          colorScheme="blackAlpha"
-          variant="ghost"
-          color="white"
-          isDisabled={true}
-        >
-          Collections
-        </Button>
+        <Link href="/creators" passHref>
+          <Button as="a" colorScheme="blackAlpha" variant="ghost" color="white">
+            Creators
+          </Button>
+        </Link>
         {user ? (
           <Button
             onClick={logoutCallback}

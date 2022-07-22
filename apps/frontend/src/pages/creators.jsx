@@ -1,5 +1,7 @@
+import CreatorsPage from "src/components/modules/CreatorsPage/CreatorsPage";
+
 const Creators = () => {
-  return <div>hello</div>;
+  return <CreatorsPage />;
 };
 
 export default Creators;

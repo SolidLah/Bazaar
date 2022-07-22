@@ -1,8 +1,8 @@
 import { Center, Flex } from "@chakra-ui/react";
 import ErrorLayout from "src/components/common/layouts/ErrorLayout";
 import LoadingLayout from "src/components/common/layouts/LoadingLayout";
+import UserCard from "src/components/common/ui/UserCard/UserCard";
 import { useFetchFollowing } from "src/lib/hooks";
-import FollowingCard from "./FollowingCard";
 
 const FollowingComponent = ({ data }) => {
   const followingArray = data?.following;
@@ -18,7 +18,7 @@ const FollowingComponent = ({ data }) => {
   return (
     <Flex direction="column" justify="flex-start" gap={6}>
       {following.map((user) => (
-        <FollowingCard key={user.uid} user={user} />
+        <UserCard key={user.uid} user={user} />
       ))}
     </Flex>
   );

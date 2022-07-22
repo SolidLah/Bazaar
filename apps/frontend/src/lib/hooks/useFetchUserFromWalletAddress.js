@@ -1,11 +1,7 @@
-import { collection } from "firebase/firestore";
-import { useCollectionData } from "react-firebase-hooks/firestore";
-import { db } from "../firebase";
+import useAllUsers from "./useAllUsers";
 
 export default function useFetchUserFromWalletAddress(address) {
-  const [values, loading, error] = useCollectionData(collection(db, "users"), {
-    snapshotListenOptions: { includeMetadataChanges: true },
-  });
+  const { values, loading, error } = useAllUsers();
 
   const data =
     values && address
