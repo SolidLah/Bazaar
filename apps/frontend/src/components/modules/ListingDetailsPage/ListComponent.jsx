@@ -9,10 +9,15 @@ import {
 import { useRouter } from "next/router";
 import { useMemo, useRef, useState } from "react";
 import { getWeb3, listNFT } from "src/lib/helpers";
-import { useErrorToast, useSuccessToast } from "src/lib/hooks";
+import {
+  useErrorToast,
+  useSuccessToast,
+  useValidatedAddress,
+} from "src/lib/hooks";
 import useEthersStore from "src/stores/ethersStore";
 
 const ListComponent = ({ item, walletAddress }) => {
+  const isValidated = useValidatedAddress();
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
   const priceRef = useRef("");
   const [loading, setLoading] = useState(false);
@@ -32,6 +37,13 @@ const ListComponent = ({ item, walletAddress }) => {
     if (web3Error !== "") {
       errorToast({
         description: web3Error,
+      });
+      return;
+    }
+
+    if (!isValidated) {
+      errorToast({
+        description: "Metamask wallet does not match user's wallet",
       });
       return;
     }

@@ -30,7 +30,12 @@ const CreateCollectionForm = () => {
       return;
     }
 
-    if (!isValidated) return;
+    if (!isValidated) {
+      errorToast({
+        description: "Metamask wallet does not match user's wallet",
+      });
+      return;
+    }
 
     if (!collectionName || !collectionSymbol) {
       errorToast({
@@ -80,7 +85,6 @@ const CreateCollectionForm = () => {
         <Button
           onClick={buttonCallback}
           isLoading={loading}
-          isDisabled={!isValidated}
           colorScheme="purple"
         >
           Create collection

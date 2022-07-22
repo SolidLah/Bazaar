@@ -4,8 +4,10 @@ import useEthersStore from "src/stores/ethersStore";
 import useErrorToast from "src/lib/hooks/useErrorToast";
 import { getWeb3 } from "src/lib/helpers";
 import { useRouter } from "next/router";
+import { useValidatedAddress } from "src/lib/hooks";
 
 const BuyButton = ({ item, ...props }) => {
+  const isValidated = useValidatedAddress();
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
   const mktContract = useEthersStore((state) => state.mktContract);
   const errorToast = useErrorToast("Buying NFT");
@@ -17,6 +19,13 @@ const BuyButton = ({ item, ...props }) => {
     if (web3Error !== "") {
       errorToast({
         description: web3Error,
+      });
+      return;
+    }
+
+    if (!isValidated) {
+      errorToast({
+        description: "Metamask wallet does not match user's wallet",
       });
       return;
     }

@@ -32,7 +32,12 @@ const SingleMintForm = ({ address }) => {
       return;
     }
 
-    if (!isValidated) return;
+    if (!isValidated) {
+      errorToast({
+        description: "Metamask wallet does not match user's wallet",
+      });
+      return;
+    }
 
     if (!image || !name || !description) {
       errorToast({
@@ -99,7 +104,6 @@ const SingleMintForm = ({ address }) => {
       <Button
         onClick={buttonCallback}
         isLoading={loading !== ""}
-        isDisabled={!isValidated}
         loadingText={loading}
         colorScheme="purple"
       >

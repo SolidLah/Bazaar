@@ -30,7 +30,12 @@ const BatchMintForm = ({ address }) => {
       return;
     }
 
-    if (!isValidated) return;
+    if (!isValidated) {
+      errorToast({
+        description: "Metamask wallet does not match user's wallet",
+      });
+      return;
+    }
 
     if (!zip || !description) {
       errorToast({
@@ -52,7 +57,7 @@ const BatchMintForm = ({ address }) => {
     } catch (error) {
       console.log(error);
       errorToast({
-        description: "Error occured uploading NFTs",
+        description: "Error occurred uploading NFTs",
       });
       setLoading("");
       return;
@@ -68,7 +73,7 @@ const BatchMintForm = ({ address }) => {
     } catch (error) {
       console.log(error);
       errorToast({
-        description: "Error occured minting NFTs",
+        description: "Error occurred minting NFTs",
       });
       setLoading("");
       return;
@@ -95,7 +100,6 @@ const BatchMintForm = ({ address }) => {
       <Button
         onClick={buttonCallback}
         isLoading={loading !== ""}
-        isDisabled={!isValidated}
         loadingText={loading}
         colorScheme="purple"
       >
