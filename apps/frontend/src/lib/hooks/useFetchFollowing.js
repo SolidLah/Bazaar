@@ -1,7 +1,7 @@
 import useAllUsers from "./useAllUsers";
 
 export default function useFetchFollowing(followingArray) {
-  const { values, loading, error } = useAllUsers();
+  const { values, loading, error } = useAllUsers({ includeSelf: false });
 
   const data =
     values && followingArray
