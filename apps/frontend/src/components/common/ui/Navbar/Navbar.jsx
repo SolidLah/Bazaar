@@ -12,6 +12,7 @@ import ProfilePictureComponent from "./ProfilePictureComponent";
 const Navbar = () => {
   const { authState } = useContext(userContext);
   const [user] = authState;
+
   const loginCallback = useLoginRedirect();
 
   const logoutCallback = async () => {
