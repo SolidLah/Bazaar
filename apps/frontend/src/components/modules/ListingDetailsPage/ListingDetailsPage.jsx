@@ -8,17 +8,17 @@ import { userContext } from "src/contexts/userContext";
 import { blurImage } from "src/lib/blurImage";
 import useEthersStore from "src/stores/ethersStore";
 import useSWR from "swr";
-import BuyComponent from "./BuyComponent";
+import ActiveListingComponent from "./ActiveListingComponent";
 import DetailsCard from "./DetailsCard";
-import ListComponent from "./ListComponent";
+import InactiveListingComponent from "./InactiveListingComponent";
 
 const ListingDetailsPage = ({ id }) => {
-  const { authState } = useContext(userContext);
-  const [user] = authState;
+  const { user } = useContext(userContext);
   const walletAddress = useEthersStore((state) => state.address);
 
-  const { data: item, error } = useSWR(`/api/listings/${id}`, (url) =>
-    axios.get(url).then((res) => res.data.msg)
+  const { data: item, error } = useSWR(
+    id ? `/api/listings/${id}` : null,
+    (url) => axios.get(url).then((res) => res.data.msg)
   );
 
   const active = useMemo(() => (item ? item.active : null), [item]);
@@ -47,9 +47,12 @@ const ListingDetailsPage = ({ id }) => {
         <Flex w="md" h="100%" direction="column" justify="flex-start" gap={6}>
           <DetailsCard item={item} active={active} />
           {active ? (
-            <BuyComponent item={item} user={user} />
+            <ActiveListingComponent item={item} user={user} />
           ) : (
-            <ListComponent item={item} walletAddress={walletAddress} />
+            <InactiveListingComponent
+              item={item}
+              walletAddress={walletAddress}
+            />
           )}
         </Flex>
       </Flex>

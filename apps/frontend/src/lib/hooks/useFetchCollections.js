@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { isEmpty } from "lodash";
 
 export default function useFetchCollections(collectionsArray) {
   const [collections, setCollections] = useState(null);
@@ -7,7 +8,7 @@ export default function useFetchCollections(collectionsArray) {
 
   useEffect(() => {
     const load = async () => {
-      if (!collectionsArray) {
+      if (isEmpty(collectionsArray)) {
         return;
       }
       const res = await Promise.all(

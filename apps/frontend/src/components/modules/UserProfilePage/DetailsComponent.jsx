@@ -1,24 +1,10 @@
 import { Avatar, Box, Button, Flex, Text } from "@chakra-ui/react";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { useContext } from "react";
 import FollowButton from "src/components/common/ui/FollowButton/FollowButton";
-import { userContext } from "src/contexts/userContext";
 import { formatAddress } from "src/lib/helpers";
 
-const DetailsComponent = ({ data }) => {
-  const router = useRouter();
-  const { uid } = router.query;
-
-  // url query user
-  const walletAddress = data?.walletAddress;
-  const name = data?.name;
-  const email = data?.email;
-  const avatar = data?.avatar;
-
-  // current logged in user
-  const { uid: myUid } = useContext(userContext);
-  const isMyProfile = uid && myUid ? uid === myUid : false;
+const DetailsComponent = ({ uid, data, isMyProfile }) => {
+  const { walletAddress, name, email, avatar } = data;
 
   return (
     <Flex

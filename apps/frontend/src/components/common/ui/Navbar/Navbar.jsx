@@ -10,8 +10,8 @@ import { useLoginRedirect } from "src/lib/hooks";
 import ProfilePictureComponent from "./ProfilePictureComponent";
 
 const Navbar = () => {
-  const { authState } = useContext(userContext);
-  const [user] = authState;
+  const { user } = useContext(userContext);
+
   const loginCallback = useLoginRedirect();
 
   const logoutCallback = async () => {

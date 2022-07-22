@@ -1,4 +1,5 @@
 import { Center, Flex } from "@chakra-ui/react";
+import { isEmpty } from "lodash";
 import ErrorLayout from "src/components/common/layouts/ErrorLayout";
 import LoadingLayout from "src/components/common/layouts/LoadingLayout";
 import UserCard from "src/components/common/ui/UserCard/UserCard";
@@ -11,15 +12,15 @@ const FollowingComponent = ({ data }) => {
   if (loading) return <LoadingLayout />;
   if (error) return <ErrorLayout />;
 
-  if (!following || following.length < 1) {
+  if (isEmpty(following)) {
     return <Center>Not following</Center>;
   }
 
   return (
     <Flex direction="column" justify="flex-start" gap={6}>
-      {following.map((user) => (
-        <UserCard key={user.uid} user={user} />
-      ))}
+      {following.map((user) => {
+        if (user) return <UserCard key={user.uid} user={user} />;
+      })}
     </Flex>
   );
 };

@@ -50,9 +50,7 @@ const PopupContent = ({ user, data, onClose }) => {
 };
 
 const ProfilePictureComponent = () => {
-  const { authState, firestoreHook } = useContext(userContext);
-  const [user] = authState;
-  const { data } = firestoreHook;
+  const { user, data } = useContext(userContext);
 
   return (
     <Popover>
