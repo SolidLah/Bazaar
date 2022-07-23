@@ -8,7 +8,7 @@ const HeaderComponent = ({ address, name, symbol }) => {
       justify="flex-start"
       bg="gray.100"
       w="100%"
-      rounded="md"
+      rounded="xl"
       p={6}
       align="center"
     >

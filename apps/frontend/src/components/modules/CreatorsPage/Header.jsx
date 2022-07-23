@@ -9,7 +9,7 @@ const Header = ({ user }) => {
       p={6}
       align="flex-end"
       bg="gray.100"
-      borderRadius="md"
+      rounded="xl"
     >
       <Heading>Creators</Heading>
       <ButtonGroup colorScheme="purple" size="lg">

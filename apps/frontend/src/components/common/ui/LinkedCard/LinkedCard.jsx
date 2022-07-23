@@ -20,7 +20,7 @@ const LinkedCard = ({ item, watchlistEnabled }) => {
         as={motion.div}
         size={56}
         bg="gray.100"
-        rounded={10}
+        rounded="xl"
         _hover={{ shadow: "outline" }}
         cursor="pointer"
         whileHover={{ y: -3, scale: 1.02 }}
@@ -35,7 +35,7 @@ const LinkedCard = ({ item, watchlistEnabled }) => {
           <Box
             w="100%"
             h="100%"
-            roundedTop={10}
+            roundedTop="xl"
             overflow="hidden"
             pos="relative"
           >
@@ -62,7 +62,7 @@ const LinkedCard = ({ item, watchlistEnabled }) => {
             bg="gray.200"
             w="100%"
             p={3}
-            roundedBottom={10}
+            roundedBottom="xl"
             direction="row"
             justify="space-between"
             align="center"

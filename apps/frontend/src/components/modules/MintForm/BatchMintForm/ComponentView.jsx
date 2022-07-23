@@ -11,7 +11,7 @@ const ComponentView = ({
   return (
     <Flex
       p={12}
-      rounded="md"
+      rounded="xl"
       direction="column"
       gap={3}
       bg="gray.100"

@@ -4,7 +4,7 @@ import Link from "next/link";
 const ComponentView = ({ email, handleEmail, toastedCallback, loading }) => {
   return (
     <Center mt={20}>
-      <Flex direction="column" bg="gray.100" p={12} rounded="md">
+      <Flex direction="column" bg="gray.100" p={12} rounded="xl">
         <Heading mb={6} align="center">
           Password Reset
         </Heading>

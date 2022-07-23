@@ -12,7 +12,7 @@ const ComponentView = ({
 }) => {
   return (
     <Center mt={20}>
-      <Flex direction="column" bg="gray.100" p={12} rounded="md">
+      <Flex direction="column" bg="gray.100" p={12} rounded="xl">
         <Heading mb={6} align="center">
           Log In
         </Heading>

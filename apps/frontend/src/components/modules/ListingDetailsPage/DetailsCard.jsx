@@ -9,7 +9,7 @@ const DetailsCard = ({ item, active }) => {
   const minterName = minter ? `(${minter.name})` : "";
 
   return (
-    <Flex w="md" bg="gray.100" rounded="md" p={3}>
+    <Flex w="md" bg="gray.100" rounded="xl" p={3}>
       <Flex w="100%" direction="column">
         <Heading>{item.nftData.name}</Heading>
         <Flex gap={1}>

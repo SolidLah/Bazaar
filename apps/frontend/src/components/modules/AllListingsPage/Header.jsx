@@ -9,7 +9,7 @@ const Header = () => {
       mx={10}
       bg="gray.100"
       p={6}
-      rounded="md"
+      rounded="xl"
       align="flex-end"
       justify="space-between"
     >
