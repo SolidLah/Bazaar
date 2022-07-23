@@ -13,7 +13,7 @@ export default function useLoginRedirect() {
 
     router.push({
       pathname: "/user/login",
-      query: { from: path },
+      query: { from: router.asPath },
     });
   }, [router]);
 
