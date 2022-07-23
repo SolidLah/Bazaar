@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import ComponentView from "./ComponentView";
+import ComponentView from "../ComponentView";
 
 describe("Follow button", () => {
   test("Follow button renders Follow if not followed", () => {
