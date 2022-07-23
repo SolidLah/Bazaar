@@ -12,7 +12,13 @@ let ethersStore = (set) => ({
   setEthersInitialised: (n) => set({ ethersInitialised: n }),
 });
 
-ethersStore = persist(ethersStore, { name: "ethersStore" });
+ethersStore = persist(ethersStore, {
+  name: "ethersStore",
+  partialize: (state) => ({
+    address: state.address,
+    ethersInitialised: state.ethersInitialised,
+  }),
+});
 const useEthersStore = create(ethersStore);
 
 export default useEthersStore;

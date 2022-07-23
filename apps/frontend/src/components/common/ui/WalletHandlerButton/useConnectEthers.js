@@ -27,9 +27,10 @@ export default function useConnectEthers() {
       signer
     );
 
-    setSigner(JSON.stringify(signer));
+    setSigner(signer);
+    setMktContract(mktContract);
+
     setAddress(address);
-    setMktContract(JSON.stringify(mktContract));
     setEthersInitialised(true);
   };
 }
