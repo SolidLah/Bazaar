@@ -3,6 +3,7 @@ import useAllUsers from "./useAllUsers";
 import useErrorToast from "./useErrorToast";
 import useFetchCollections from "./useFetchCollections";
 import useFetchFollowing from "./useFetchFollowing";
+import useFetchUserFromWalletAddress from "./useFetchUserFromWalletAddress";
 import useFetchWatchlist from "./useFetchWatchlist";
 import useFirestoreUidData from "./useFirestoreUidData";
 import useFirestoreUserData from "./useFirestoreUserData";
@@ -15,8 +16,9 @@ export {
   useAllCreators,
   useAllUsers,
   useErrorToast,
-  useFetchFollowing,
   useFetchCollections,
+  useFetchFollowing,
+  useFetchUserFromWalletAddress,
   useFetchWatchlist,
   useFirestoreUidData,
   useFirestoreUserData,

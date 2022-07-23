@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import { userContext } from "src/contexts/userContext";
-import followUser from "src/lib/helpers/followUser";
-import unfollowUser from "src/lib/helpers/unfollowUser";
+import { followUser, unfollowUser } from "src/lib/helpers";
 import { useSuccessToast, useToastedCallback } from "src/lib/hooks";
 
 const useComponentState = (uid) => {

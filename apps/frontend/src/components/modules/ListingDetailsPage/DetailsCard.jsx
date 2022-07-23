@@ -1,7 +1,7 @@
-import { Flex, Heading, Text, Badge, Link } from "@chakra-ui/react";
+import { Badge, Flex, Heading, Link, Text } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { formatAddress } from "src/lib/helpers";
-import useFetchUserFromWalletAddress from "src/lib/hooks/useFetchUserFromWalletAddress";
+import { useFetchUserFromWalletAddress } from "src/lib/hooks";
 
 const DetailsCard = ({ item, active }) => {
   const { data: minter } = useFetchUserFromWalletAddress(item.minter);
