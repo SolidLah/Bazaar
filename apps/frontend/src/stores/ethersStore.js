@@ -3,7 +3,7 @@ import { persist } from "zustand/middleware";
 
 let ethersStore = (set) => ({
   signer: null,
-  address: null,
+  address: "",
   mktContract: null,
   ethersInitialised: false,
   setSigner: (n) => set({ signer: n }),

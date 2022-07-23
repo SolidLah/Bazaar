@@ -14,7 +14,7 @@ export default function useDisconnectEthers() {
 
     setSigner(null);
     setMktContract(null);
-    setAddress(null);
+    setAddress("");
     setEthersInitialised(false);
   };
 }

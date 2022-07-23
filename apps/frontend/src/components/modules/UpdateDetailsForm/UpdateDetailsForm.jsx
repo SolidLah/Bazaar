@@ -20,7 +20,7 @@ const UpdateDetailsForm = () => {
   const metamaskAddress = useEthersStore((state) => state.address);
 
   return (
-    <Container mt={20} maxW="container.xl">
+    <Container maxW="container.xl" mt="2.5rem" mb="2.5rem">
       <Flex direction="column" gap="2.5rem" align="center">
         <Heading>Update Details</Heading>
         <Flex wrap="wrap" gap="2rem" w="container.lg" justify="center">
