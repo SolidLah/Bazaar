@@ -1,11 +1,7 @@
 import { Button, ButtonGroup, Flex, Heading } from "@chakra-ui/react";
 import Link from "next/link";
-import { useContext } from "react";
-import { userContext } from "src/contexts/userContext";
 
-const Header = () => {
-  const { user } = useContext(userContext);
-
+const Header = ({ user }) => {
   return (
     <Flex
       w="100%"
