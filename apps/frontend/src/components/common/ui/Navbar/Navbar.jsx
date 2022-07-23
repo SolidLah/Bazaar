@@ -10,7 +10,7 @@ import { useLoginRedirect } from "src/lib/hooks";
 import ProfilePictureComponent from "./ProfilePictureComponent";
 
 const Navbar = () => {
-  const { user } = useContext(userContext);
+  const { user, data } = useContext(userContext);
 
   const loginCallback = useLoginRedirect();
 
@@ -72,7 +72,7 @@ const Navbar = () => {
           </Button>
         )}
         <WalletHandlerButton />
-        <ProfilePictureComponent />
+        <ProfilePictureComponent user={user} data={data} />
       </HStack>
     </HStack>
   );
