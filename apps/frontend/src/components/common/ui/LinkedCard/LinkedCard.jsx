@@ -54,7 +54,6 @@ const LinkedCard = ({ item, watchlistEnabled }) => {
                 position="absolute"
                 m={3}
                 variant="ghost"
-                colorScheme="yellow"
                 zIndex="2"
               />
             )}
