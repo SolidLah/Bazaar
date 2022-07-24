@@ -19,7 +19,7 @@ const UserCard = ({ user, disableFollow, ...props }) => {
         justify="flex-start"
         align="center"
         p={3}
-        border="1px"
+        border="2px"
         borderColor="gray.300"
         rounded="xl"
         gap={6}
@@ -27,6 +27,7 @@ const UserCard = ({ user, disableFollow, ...props }) => {
         _hover={{ shadow: "outline" }}
         cursor="pointer"
         whileHover={{ scale: 1.02 }}
+        bg="white"
       >
         <Avatar size="md" src={user.avatar} />
         <Flex direction="column">
