@@ -33,7 +33,13 @@ const Home = () => {
             <NextLink href="/marketplace" passHref>
               <Link color="teal">marketplace</Link>
             </NextLink>{" "}
-            and mint your NFT!
+            and create your collection
+          </ListItem>
+          <ListItem>
+            Go to your user profile and find your new collection
+          </ListItem>
+          <ListItem>
+            Start minting your NFTs!
           </ListItem>
         </OrderedList>
       </Flex>

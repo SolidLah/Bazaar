@@ -1,56 +1,31 @@
 import {
-  Box,
+  Button,
   Flex,
   Heading,
   LinkBox,
   LinkOverlay,
-  Square,
   Text,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
-import { blurImage } from "src/lib/blurImage";
 
 const CollectionsCard = ({ collection }) => {
   return (
     <LinkBox>
       <Flex
         as={motion.div}
-        w="13rem"
+        w="100%"
         border="2px"
         borderColor="gray.200"
-        p={2}
-        gap={2}
-        align="center"
-        direction="column"
+        p="1rem"
         rounded="xl"
-        overflow="hidden"
         _hover={{ shadow: "outline" }}
         cursor="pointer"
-        whileHover={{ y: -3, scale: 1.02 }}
+        whileHover={{ scale: 1.02 }}
+        justify="space-between"
+        align="center"
       >
-        <Square size="12rem" rounded="xl" overflow="hidden">
-          <Box w="100%" h="100%" pos="relative">
-            <Image
-              src="/ape.jpg"
-              alt="NFT here"
-              priority="true"
-              layout="fill"
-              objectFit="cover"
-              placeholder="blur"
-              blurDataURL={blurImage}
-            />
-          </Box>
-        </Square>
-        <Flex
-          w="12rem"
-          bg="gray.100"
-          p={2}
-          rounded="xl"
-          overflow="hidden"
-          direction="column"
-        >
+        <Flex direction="column">
           <Heading size="md">
             <Link href={`/collection/${collection.address}`} passHref>
               <LinkOverlay>{collection.name}</LinkOverlay>
@@ -58,6 +33,11 @@ const CollectionsCard = ({ collection }) => {
           </Heading>
           <Text size="sm">{collection.symbol}</Text>
         </Flex>
+        <Link href={`/collection/${collection.address}/mint`} passHref>
+          <Button as="a" colorScheme="purple" zIndex="2" size="lg">
+            Mint
+          </Button>
+        </Link>
       </Flex>
     </LinkBox>
   );

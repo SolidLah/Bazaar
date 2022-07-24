@@ -16,7 +16,7 @@ const CollectionsComponent = ({ data }) => {
   }
 
   return (
-    <Flex gap={6} justify="flex-start" wrap="wrap">
+    <Flex gap="0.7rem" direction="column">
       {collections.map((collection, index) => {
         if (collection)
           return <CollectionsCard key={index} collection={collection} />;
