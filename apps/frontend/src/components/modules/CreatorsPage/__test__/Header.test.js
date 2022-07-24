@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import Header from "../Header";
 
-test("Render singup button if not logged in", () => {
+test("Render signup button if not logged in", () => {
   render(<Header user={false} />);
   expect(screen.queryByText("Sign Up")).toBeInTheDocument();
 });

@@ -8,7 +8,7 @@ describe("Follow button", () => {
     expect(text).toHaveTextContent("Follow");
   });
 
-  test("Follow button renders Follow if not followed", () => {
+  test("Follow button renders Unfollow if followed", () => {
     render(<ComponentView isFollowing={true} />);
     const text = screen.getByText("Unfollow");
     expect(text).toHaveTextContent("Unfollow");
