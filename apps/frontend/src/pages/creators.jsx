@@ -1,5 +1,7 @@
-const Creators = () => {
-  return <div>hello</div>
-}
+import CreatorsPage from "src/components/modules/CreatorsPage/CreatorsPage";
 
-export default Creators
+const Creators = () => {
+  return <CreatorsPage />;
+};
+
+export default Creators;

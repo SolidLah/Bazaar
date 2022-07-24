@@ -1,56 +1,37 @@
-import { ethers } from "ethers"
-import { NFTContractData, MarketplaceContractData } from "src/contractData"
+import { ethers } from "ethers";
+import { MarketplaceContractData } from "src/contracts";
+import { formatItem } from "src/lib/helpers";
 
 export default async function handler(req, res) {
   if (req.method === "GET") {
     try {
       const provider = new ethers.providers.JsonRpcProvider(
-        process.env.MATIC_VIGIL_URL
-      )
+        process.env.MATIC_VIGIL_RPC
+      );
 
       const mktContractReader = new ethers.Contract(
         MarketplaceContractData.address,
         MarketplaceContractData.abi,
         provider
-      )
+      );
 
-      const nftContractReader = new ethers.Contract(
-        NFTContractData.address,
-        NFTContractData.abi,
-        provider
-      )
-
-      let listOfMarketItems = await mktContractReader.fetchMarketItems()
-
+      let listOfMarketItems = await mktContractReader.fetchMarketItems();
       listOfMarketItems = await Promise.all(
-        listOfMarketItems.map(async (marketItem) => {
-          const itemId = marketItem[0]
-          const itemIdNumber = itemId.toNumber()
-          const marketPrice = await mktContractReader.getTotalPriceForItem(
-            itemId
-          )
-          const marketPriceObj = {
-            display: ethers.utils.formatEther(marketPrice),
-            biggish: marketPrice,
-          }
-          const nftURI = await nftContractReader.tokenURI(marketItem[2])
-          const nftMetadata = await (await fetch(nftURI)).json()
+        listOfMarketItems.map(async (item) => formatItem(item))
+      );
 
-          return {
-            id: itemIdNumber,
-            marketData: marketItem,
-            marketPrice: marketPriceObj,
-            nftData: nftMetadata,
-          }
-        })
-      )
-      res
-        .status(200)
-        .json({ route: "api/listings/", success: true, msg: listOfMarketItems })
+      console.log("listings/", listOfMarketItems);
+
+      res.status(200).json({
+        route: "api/listings/",
+        success: true,
+        msg: listOfMarketItems,
+      });
     } catch (error) {
+      console.log("help", error);
       res
         .status(500)
-        .json({ route: "api/listings/", success: false, msg: error })
+        .json({ route: "api/listings/", success: false, msg: error });
     }
   }
 }

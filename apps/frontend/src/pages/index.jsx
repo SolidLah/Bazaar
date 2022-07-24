@@ -1,6 +1,5 @@
-import { Flex, Heading, OrderedList, ListItem, Link } from "@chakra-ui/react"
-import ConnectWalletButton from "src/components/ui/ConnectWalletButton"
-import NextLink from "next/link"
+import { Flex, Heading, OrderedList, ListItem, Link } from "@chakra-ui/react";
+import NextLink from "next/link";
 
 const Home = () => {
   return (
@@ -38,11 +37,8 @@ const Home = () => {
           </ListItem>
         </OrderedList>
       </Flex>
-      <Flex p={10} justify="center">
-        <ConnectWalletButton />
-      </Flex>
     </Flex>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

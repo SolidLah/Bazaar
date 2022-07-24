@@ -1,51 +1,27 @@
-import create from "zustand"
-import { persist } from "zustand/middleware"
-import { ethers } from "ethers"
-import { NFTContractData, MarketplaceContractData } from "src/contractData"
+import create from "zustand";
+import { persist, devtools } from "zustand/middleware";
 
-const useEthersStore = create((set, get) => ({
+let ethersStore = (set) => ({
   provider: null,
   signer: null,
-  address: null,
-  nftContract: null,
+  address: "",
   mktContract: null,
   ethersInitialised: false,
-  initialiseEthers: async () => {
-    if (get().ethersInitialised) {
-      return
-    }
+  setProvider: (n) => set({ provider: n }),
+  setSigner: (n) => set({ signer: n }),
+  setAddress: (n) => set({ address: n }),
+  setMktContract: (n) => set({ mktContract: n }),
+  setEthersInitialised: (n) => set({ ethersInitialised: n }),
+});
 
-    if (typeof window.ethereum === "undefined") {
-      console.log("MetaMask not installed!")
-      return
-    }
+ethersStore = persist(ethersStore, {
+  name: "ethersStore",
+  partialize: (state) => ({
+    address: state.address,
+    ethersInitialised: state.ethersInitialised,
+  }),
+});
+ethersStore = devtools(ethersStore);
+const useEthersStore = create(ethersStore);
 
-    const currProvider = new ethers.providers.Web3Provider(window.ethereum)
-    await currProvider.send("eth_requestAccounts", [])
-    const currSigner = currProvider.getSigner()
-    const currAddress = await currSigner.getAddress()
-
-    const currNftContract = new ethers.Contract(
-      NFTContractData.address,
-      NFTContractData.abi,
-      currSigner
-    )
-
-    const currMktContract = new ethers.Contract(
-      MarketplaceContractData.address,
-      MarketplaceContractData.abi,
-      currSigner
-    )
-
-    set({
-      provider: currProvider,
-      signer: currSigner,
-      address: currAddress,
-      nftContract: currNftContract,
-      mktContract: currMktContract,
-      ethersInitialised: true,
-    })
-  },
-}))
-
-export default useEthersStore
+export default useEthersStore;

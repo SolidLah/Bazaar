@@ -1,0 +1,22 @@
+# folders
+## frontend
+.next
+public
+
+## blockchain
+artifacts
+cache
+
+# files
+## frontend
+.env.local
+yarn.lock
+
+## blockchain
+.env
+.env.TEMPLATE
+yarn.lock
+
+# globals
+*.json
+*.md
