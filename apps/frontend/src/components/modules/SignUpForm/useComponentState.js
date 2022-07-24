@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { signupWithEmailAndPassword } from "src/lib/firebase";
 import {
@@ -9,6 +10,7 @@ import useEthersStore from "src/stores/ethersStore";
 const useComponentState = () => {
   const walletAddress = useEthersStore((state) => state.address);
   const { data: addressInUse } = useFetchUserFromWalletAddress(walletAddress);
+  const router = useRouter();
 
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -27,6 +29,8 @@ const useComponentState = () => {
     setName("");
     setPassword("");
     setConfirm("");
+
+    router.push("/");
   };
 
   const { toastedCallback, loading } = useToastedCallback("Sign up", signup);
