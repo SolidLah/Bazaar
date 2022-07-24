@@ -1,6 +1,5 @@
-import { Button, HStack } from "@chakra-ui/react";
+import { HStack } from "@chakra-ui/react";
 import { signOut } from "firebase/auth";
-import Link from "next/link";
 import { useContext } from "react";
 import WalletHandlerButton from "src/components/common/ui/WalletHandlerButton/WalletHandlerButton";
 import { userContext } from "src/contexts/userContext";
