@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { signupWithEmailAndPassword } from "src/lib/firebase";
-import { useToastedCallback } from "src/lib/hooks";
-import useFetchUserFromWalletAddress from "src/lib/hooks/useFetchUserFromWalletAddress";
+import {
+  useFetchUserFromWalletAddress,
+  useToastedCallback,
+} from "src/lib/hooks";
 import useEthersStore from "src/stores/ethersStore";
 
 const useComponentState = () => {

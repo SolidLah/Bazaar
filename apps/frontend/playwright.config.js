@@ -1,5 +1,5 @@
-import { devices } from "@playwright/test";
-import path from "path";
+const { devices } = require("@playwright/test");
+const path = require("path");
 
 // Reference: https://playwright.dev/docs/test-configuration
 const config = {
@@ -52,16 +52,16 @@ const config = {
     //   },
     // },
     // Test against mobile viewports.
-    {
-      name: "Mobile Chrome",
-      use: {
-        ...devices["Pixel 5"],
-      },
-    },
-    {
-      name: "Mobile Safari",
-      use: devices["iPhone 12"],
-    },
+    // {
+    //   name: "Mobile Chrome",
+    //   use: {
+    //     ...devices["Pixel 5"],
+    //   },
+    // },
+    // {
+    //   name: "Mobile Safari",
+    //   use: devices["iPhone 12"],
+    // },
   ],
 };
-export default config;
+module.exports = config;

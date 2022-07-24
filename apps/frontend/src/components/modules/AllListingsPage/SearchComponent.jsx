@@ -1,9 +1,12 @@
 import {
   Button,
   Flex,
+  Heading,
   Popover,
   PopoverBody,
+  PopoverCloseButton,
   PopoverContent,
+  PopoverHeader,
   PopoverTrigger,
 } from "@chakra-ui/react";
 import PriceRangeComponent from "./PriceRangeComponent";
@@ -18,6 +21,10 @@ const SearchComponent = () => {
         </Button>
       </PopoverTrigger>
       <PopoverContent>
+        <PopoverHeader>
+          <Heading size="md">Search</Heading>
+          <PopoverCloseButton />
+        </PopoverHeader>
         <PopoverBody>
           <Flex direction="column" gap={3}>
             <QueryNameComponent />

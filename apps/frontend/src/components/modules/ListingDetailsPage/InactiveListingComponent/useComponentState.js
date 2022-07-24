@@ -25,6 +25,8 @@ const useComponentState = (item, walletAddress) => {
 
     if (!price) throw new Error("Missing fields");
 
+    if (!Number(price)) throw new Error("Not a number");
+
     await listNFT(item.collectionAddress, item.itemId, price);
 
     setPrice("");

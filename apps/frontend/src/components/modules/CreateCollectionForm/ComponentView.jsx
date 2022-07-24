@@ -10,7 +10,7 @@ const ComponentView = ({
 }) => {
   return (
     <Center mt={20}>
-      <Flex direction="column" bg="gray.100" p={12} rounded="md" gap={3}>
+      <Flex direction="column" bg="gray.100" p={12} rounded="xl" gap={3}>
         <Heading textAlign="center">Create collection</Heading>
         <Input
           value={name}

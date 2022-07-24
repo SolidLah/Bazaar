@@ -10,6 +10,7 @@ const ComponentView = ({
 }) => {
   return (
     <IconButton
+      colorScheme="orange"
       icon={<StarIcon />}
       onClick={toastedCallback}
       isActive={itemInWatchlist}

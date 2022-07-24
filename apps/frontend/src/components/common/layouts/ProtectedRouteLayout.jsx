@@ -1,18 +1,15 @@
-import { useRouter } from "next/router";
 import { useContext } from "react";
 import { userContext } from "src/contexts/userContext";
+import { useLoginRedirect } from "src/lib/hooks";
 import LoadingLayout from "./LoadingLayout";
 
 const ProtectedRouteLayout = ({ children }) => {
-  const router = useRouter();
   const { authState } = useContext(userContext);
   const [user, loading] = authState;
+  const loginRedirect = useLoginRedirect();
 
   if (!user && !loading) {
-    router.push({
-      pathname: "/user/login",
-      query: { from: router.asPath },
-    });
+    loginRedirect();
   }
 
   return loading ? <LoadingLayout /> : <>{children}</>;

@@ -7,13 +7,13 @@ export default async function mintManyNFTs(address, urls) {
   const mktContract = useEthersStore.getState().mktContract;
   const nftContract = new ethers.Contract(address, NFTContractData.abi, signer);
 
-  const beforeTokenId = await nftContract.idCounter();
+  const beforeTokenId = Number(await nftContract.idCounter());
   await (await nftContract.mintMany(urls)).wait();
-  const afterTokenId = await nftContract.idCounter();
+  const afterTokenId = Number(await nftContract.idCounter());
 
   let tokenIds = [];
-  for (let i = 1; i <= afterTokenId; i++) {
-    tokenIds.push(i + beforeTokenId);
+  for (let i = beforeTokenId + 1; i <= afterTokenId; i++) {
+    tokenIds.push(i);
   }
 
   console.log("tokenIds:", tokenIds);

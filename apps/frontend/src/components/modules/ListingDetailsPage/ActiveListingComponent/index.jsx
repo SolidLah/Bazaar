@@ -6,13 +6,7 @@ const ActiveListingComponent = ({ item, user }) => {
   return (
     <Flex direction="row" w="100%" gap={3}>
       <BuyButton item={item} width="full" />
-      {user && (
-        <AddToWatchListButton
-          item={item}
-          variant="outline"
-          colorScheme="yellow"
-        />
-      )}
+      {user && <AddToWatchListButton item={item} variant="ghost" />}
     </Flex>
   );
 };

@@ -7,7 +7,7 @@ const PasswordInput = (props) => {
 
   return (
     <InputGroup>
-      <Input type={show ? "text" : "password"} {...props} />
+      <Input role="input" type={show ? "text" : "password"} {...props} />
       <InputRightElement w="max-content" px="0.5rem">
         <Button
           h="1.75rem"

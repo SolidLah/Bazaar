@@ -12,11 +12,12 @@ const ComponentView = ({
 }) => {
   return (
     <Center mt={20}>
-      <Flex direction="column" bg="gray.100" p={12} rounded="md">
+      <Flex direction="column" bg="gray.100" p={12} rounded="xl">
         <Heading mb={6} align="center">
           Log In
         </Heading>
         <Input
+          aria-label="email-input"
           type="email"
           value={email}
           onChange={handleEmail}
@@ -25,6 +26,7 @@ const ComponentView = ({
           mb={3}
         />
         <PasswordInput
+          aria-label="password-input"
           value={password}
           onChange={handlePassword}
           placeholder="password"
@@ -32,6 +34,7 @@ const ComponentView = ({
           mb={6}
         />
         <Button
+          aria-label="login-button"
           colorScheme="purple"
           mb={6}
           onClick={toastedCallback}

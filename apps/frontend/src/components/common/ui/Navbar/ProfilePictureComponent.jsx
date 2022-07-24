@@ -12,8 +12,27 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { formatAddress } from "src/lib/helpers";
-import { useContext } from "react";
-import { userContext } from "src/contexts/userContext";
+
+const ProfilePictureComponent = ({ user, data }) => {
+  return (
+    <Popover>
+      {({ onClose }) => (
+        <>
+          <PopoverTrigger>
+            <Avatar cursor="pointer" src={data?.avatar} />
+          </PopoverTrigger>
+          <Portal>
+            <PopoverContent bg="gray.200" w="md">
+              <PopoverBody>
+                <PopupContent user={user} data={data} onClose={onClose} />
+              </PopoverBody>
+            </PopoverContent>
+          </Portal>
+        </>
+      )}
+    </Popover>
+  );
+};
 
 const PopupContent = ({ user, data, onClose }) => {
   return (
@@ -46,29 +65,6 @@ const PopupContent = ({ user, data, onClose }) => {
         </Link>
       )}
     </Flex>
-  );
-};
-
-const ProfilePictureComponent = () => {
-  const { user, data } = useContext(userContext);
-
-  return (
-    <Popover>
-      {({ onClose }) => (
-        <>
-          <PopoverTrigger>
-            <Avatar cursor="pointer" src={data?.avatar} />
-          </PopoverTrigger>
-          <Portal>
-            <PopoverContent bg="gray.200" w="md">
-              <PopoverBody>
-                <PopupContent user={user} data={data} onClose={onClose} />
-              </PopoverBody>
-            </PopoverContent>
-          </Portal>
-        </>
-      )}
-    </Popover>
   );
 };
 

@@ -21,7 +21,7 @@ const UserCard = ({ user, disableFollow, ...props }) => {
         p={3}
         border="1px"
         borderColor="gray.300"
-        borderRadius="md"
+        rounded="xl"
         gap={6}
         as={motion.div}
         _hover={{ shadow: "outline" }}

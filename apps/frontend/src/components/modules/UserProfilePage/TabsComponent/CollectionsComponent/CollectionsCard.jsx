@@ -24,13 +24,13 @@ const CollectionsCard = ({ collection }) => {
         gap={2}
         align="center"
         direction="column"
-        rounded="md"
+        rounded="xl"
         overflow="hidden"
         _hover={{ shadow: "outline" }}
         cursor="pointer"
         whileHover={{ y: -3, scale: 1.02 }}
       >
-        <Square size="12rem" rounded="md" overflow="hidden">
+        <Square size="12rem" rounded="xl" overflow="hidden">
           <Box w="100%" h="100%" pos="relative">
             <Image
               src="/ape.jpg"
@@ -47,7 +47,7 @@ const CollectionsCard = ({ collection }) => {
           w="12rem"
           bg="gray.100"
           p={2}
-          rounded="md"
+          rounded="xl"
           overflow="hidden"
           direction="column"
         >

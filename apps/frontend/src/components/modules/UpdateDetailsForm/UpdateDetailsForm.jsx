@@ -1,5 +1,5 @@
 import { Container, Divider, Flex, Heading } from "@chakra-ui/react";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { userContext } from "src/contexts/userContext";
 import useEthersStore from "src/stores/ethersStore";
 import AvatarComponent from "./AvatarComponent";
@@ -18,9 +18,13 @@ const UpdateDetailsForm = () => {
 
   // metamask
   const metamaskAddress = useEthersStore((state) => state.address);
+  const [myAddress, setMyAddress] = useState("");
+  useEffect(() => {
+    setMyAddress(metamaskAddress);
+  }, [metamaskAddress]);
 
   return (
-    <Container mt={20} maxW="container.xl">
+    <Container maxW="container.xl" mt="2.5rem" mb="2.5rem">
       <Flex direction="column" gap="2.5rem" align="center">
         <Heading>Update Details</Heading>
         <Flex wrap="wrap" gap="2rem" w="container.lg" justify="center">
@@ -31,7 +35,7 @@ const UpdateDetailsForm = () => {
           <WalletComponent
             uid={uid}
             current={walletAddress}
-            metamask={metamaskAddress}
+            metamask={myAddress}
           />
           <PasswordComponent />
         </Flex>
