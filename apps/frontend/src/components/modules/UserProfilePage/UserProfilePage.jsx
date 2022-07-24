@@ -32,7 +32,13 @@ const UserProfilePage = ({ uid }) => {
       bgSize="cover"
       py={10}
     >
-      <Container maxW="container.xl" bg="whiteAlpha.500" h="100%" py={10}>
+      <Container
+        maxW="container.xl"
+        bg="whiteAlpha.500"
+        h="100%"
+        py={10}
+        rounded="xl"
+      >
         <Flex gap={6} justify="flex-start">
           <DetailsComponent uid={uid} data={data} isMyProfile={isMyProfile} />
           <TabsComponent data={data} isMyProfile={isMyProfile} />

@@ -6,7 +6,7 @@ import LinkedCard from "src/components/common/ui/LinkedCard/LinkedCard";
 import useSWR from "swr";
 
 const OwnedComponent = ({ data }) => {
-  const { data: userItems, error } = useSWR(
+  const { data: userItems, isValidating } = useSWR(
     data ? "/api/listings/user/" + data.walletAddress : null,
     (url) => axios.get(url).then((res) => res.data.msg),
     { revalidateOnFocus: false }
@@ -19,7 +19,7 @@ const OwnedComponent = ({ data }) => {
 
   const emptyOwned = isEmpty(owned);
 
-  if (emptyOwned && !error) {
+  if (isValidating) {
     return <Spinner color="gray" size="xl" />;
   }
 
