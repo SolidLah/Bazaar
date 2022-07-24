@@ -24,6 +24,7 @@ const CollectionsCard = ({ collection }) => {
         whileHover={{ scale: 1.02 }}
         justify="space-between"
         align="center"
+        bg="white"
       >
         <Flex direction="column">
           <Heading size="md">
