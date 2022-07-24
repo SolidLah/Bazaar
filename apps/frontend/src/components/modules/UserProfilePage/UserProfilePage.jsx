@@ -15,7 +15,7 @@ const UserProfilePage = ({ uid }) => {
   const { uid: myUid } = useContext(userContext);
   const isMyProfile = uid && myUid ? uid === myUid : false;
 
-  if (loading) {
+  if (loading || !data) {
     return <LoadingLayout />;
   }
 
