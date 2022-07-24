@@ -51,7 +51,7 @@ const ListingDetailsPage = ({ id }) => {
           ) : (
             <InactiveListingComponent
               item={item}
-              walletAddress={walletAddress}
+              walletAddress={hydratedWalletAddress}
             />
           )}
         </Flex>

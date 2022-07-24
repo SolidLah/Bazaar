@@ -5,9 +5,15 @@ import { formatAddress } from "src/lib/helpers";
 import { useToastedCallback } from "src/lib/hooks";
 import useConnectEthers from "./useConnectEthers";
 import useDisconnectEthers from "./useDisconnectEthers";
+import { useEffect, useState } from "react";
 
 const WalletHandlerButton = (props) => {
   const address = useEthersStore((state) => state.address);
+  const [myAddress, setMyAddress] = useState("");
+  useEffect(() => {
+    setMyAddress(address);
+  }, [address]);
+
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
   const successToast = useSuccessToast("Handle wallet");
   const connectEthers = useConnectEthers();
@@ -35,7 +41,7 @@ const WalletHandlerButton = (props) => {
 
   return (
     <Button onClick={toastedCallback} isLoading={loading} {...props}>
-      {address ? formatAddress(address) : "Connect Wallet"}
+      {myAddress ? formatAddress(myAddress) : "Connect Wallet"}
     </Button>
   );
 };
