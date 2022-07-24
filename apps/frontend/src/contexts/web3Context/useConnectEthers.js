@@ -1,9 +1,11 @@
 import { ethers } from "ethers";
-import { MarketplaceContractData } from "src/contracts";
 import useEthersStore from "src/stores/ethersStore";
+import getWeb3Objects from "./getWeb3Objects";
+import validateChain from "./validateChain";
 
 export default function useConnectEthers() {
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
+  const setProvider = useEthersStore((state) => state.setProvider);
   const setSigner = useEthersStore((state) => state.setSigner);
   const setAddress = useEthersStore((state) => state.setAddress);
   const setMktContract = useEthersStore((state) => state.setMktContract);
@@ -17,15 +19,11 @@ export default function useConnectEthers() {
     if (typeof window.ethereum === "undefined")
       throw new Error("Metamask not installed");
 
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    await provider.send("eth_requestAccounts", []);
-    const signer = provider.getSigner();
-    const address = await signer.getAddress();
-    const mktContract = new ethers.Contract(
-      MarketplaceContractData.address,
-      MarketplaceContractData.abi,
-      signer
-    );
+    const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
+    setProvider(provider);
+
+    await validateChain(provider);
+    const { signer, address, mktContract } = await getWeb3Objects(provider);
 
     setSigner(signer);
     setMktContract(mktContract);

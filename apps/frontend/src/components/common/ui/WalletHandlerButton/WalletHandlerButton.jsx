@@ -3,9 +3,11 @@ import useEthersStore from "src/stores/ethersStore";
 import useSuccessToast from "src/lib/hooks/useSuccessToast";
 import { formatAddress } from "src/lib/helpers";
 import { useToastedCallback } from "src/lib/hooks";
-import useConnectEthers from "./useConnectEthers";
-import useDisconnectEthers from "./useDisconnectEthers";
 import { useEffect, useState } from "react";
+import {
+  useConnectEthers,
+  useDisconnectEthers,
+} from "src/contexts/web3Context";
 
 const WalletHandlerButton = (props) => {
   const address = useEthersStore((state) => state.address);
@@ -16,17 +18,17 @@ const WalletHandlerButton = (props) => {
 
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
   const successToast = useSuccessToast("Handle wallet");
-  const connectEthers = useConnectEthers();
-  const disconnectEthers = useDisconnectEthers();
+  const connect = useConnectEthers();
+  const disconnect = useDisconnectEthers();
 
   const callBack = async () => {
     if (ethersInitialised) {
-      await disconnectEthers();
+      await disconnect();
       successToast({
         description: "Wallet disconnected successfully",
       });
     } else {
-      await connectEthers();
+      await connect();
       successToast({
         description: "Wallet connected successfully",
       });
