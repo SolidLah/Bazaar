@@ -1,7 +1,7 @@
 import { Button, Flex, Heading, Spacer, Text } from "@chakra-ui/react";
 import Link from "next/link";
 
-const HeaderComponent = ({ address, name, symbol }) => {
+const HeaderComponent = ({ address, name, symbol, isOwner }) => {
   return (
     <Flex
       gap={3}
@@ -15,11 +15,13 @@ const HeaderComponent = ({ address, name, symbol }) => {
       <Heading>{name}</Heading>
       <Text>{symbol}</Text>
       <Spacer />
-      <Link href={`/collection/${address}/mint`} passHref>
-        <Button colorScheme="purple" size="lg" as="a">
-          Mint
-        </Button>
-      </Link>
+      {isOwner && (
+        <Link href={`/collection/${address}/mint`} passHref>
+          <Button colorScheme="purple" size="lg" as="a">
+            Mint
+          </Button>
+        </Link>
+      )}
     </Flex>
   );
 };
