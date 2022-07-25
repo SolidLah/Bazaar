@@ -9,7 +9,7 @@ import {
 import { motion } from "framer-motion";
 import Link from "next/link";
 
-const CollectionsCard = ({ collection }) => {
+const CollectionsCard = ({ collection, isMyProfile }) => {
   return (
     <LinkBox>
       <Flex
@@ -34,11 +34,13 @@ const CollectionsCard = ({ collection }) => {
           </Heading>
           <Text size="sm">{collection.symbol}</Text>
         </Flex>
-        <Link href={`/collection/${collection.address}/mint`} passHref>
-          <Button as="a" colorScheme="purple" zIndex="2" size="lg">
-            Mint
-          </Button>
-        </Link>
+        {isMyProfile && (
+          <Link href={`/collection/${collection.address}/mint`} passHref>
+            <Button as="a" colorScheme="purple" zIndex="2" size="lg">
+              Mint
+            </Button>
+          </Link>
+        )}
       </Flex>
     </LinkBox>
   );

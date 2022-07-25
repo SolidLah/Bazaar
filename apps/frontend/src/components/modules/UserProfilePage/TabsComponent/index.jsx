@@ -20,7 +20,7 @@ const TabsComponent = ({ data, isMyProfile }) => {
           <ListingsComponent data={data} />
         </TabPanel>
         <TabPanel>
-          <CollectionsComponent data={data} />
+          <CollectionsComponent data={data} isMyProfile={isMyProfile} />
         </TabPanel>
         {isMyProfile && (
           <TabPanel>

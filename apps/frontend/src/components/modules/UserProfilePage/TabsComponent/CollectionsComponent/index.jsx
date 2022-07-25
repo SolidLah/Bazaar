@@ -3,7 +3,7 @@ import { isEmpty } from "lodash";
 import { useFetchCollections } from "src/lib/hooks";
 import CollectionsCard from "./CollectionsCard";
 
-const CollectionsComponent = ({ data }) => {
+const CollectionsComponent = ({ data, isMyProfile }) => {
   const collectionsArray = data?.collections;
   const { collections, loading } = useFetchCollections(collectionsArray);
 
@@ -19,7 +19,13 @@ const CollectionsComponent = ({ data }) => {
     <Flex gap="0.7rem" direction="column">
       {collections.map((collection, index) => {
         if (collection)
-          return <CollectionsCard key={index} collection={collection} />;
+          return (
+            <CollectionsCard
+              key={index}
+              collection={collection}
+              isMyProfile={isMyProfile}
+            />
+          );
       })}
     </Flex>
   );
