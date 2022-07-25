@@ -3,10 +3,17 @@ import { getWeb3 } from "src/lib/helpers";
 import { useRouter } from "next/router";
 import { useToastedCallback, useValidatedAddress } from "src/lib/hooks";
 
-const useComponentState = (item) => {
+const useComponentState = (item, data) => {
   const isValidated = useValidatedAddress();
   const ethersInitialised = useEthersStore((state) => state.ethersInitialised);
   const mktContract = useEthersStore((state) => state.mktContract);
+
+  const watchlistArray = data?.watchlist;
+  const itemInWatchlist = useMemo(
+    () => (watchlistArray ? watchlistArray.includes(item.itemId) : false),
+    [watchlistArray, item]
+  );
+
   const router = useRouter();
 
   const callback = async () => {
@@ -21,6 +28,10 @@ const useComponentState = (item) => {
         value: item.marketPriceWei,
       })
     ).wait();
+
+    if (itemInWatchlist) {
+      await removeFromWatchlist(data?.uid, item.itemId);
+    }
 
     router.reload();
   };
